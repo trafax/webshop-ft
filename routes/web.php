@@ -21,4 +21,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     Route::resource('page', 'PageController');
 
+    Route::get('setting', 'SettingController@index')->name('setting.index');
+    Route::post('setting/store', 'SettingController@store')->name('setting.store');
+
 });
