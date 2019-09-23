@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'HomepageController@index');
+
+Auth::routes();
+
+Route::get('admin', 'Auth\LoginController@showLoginForm');
+
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
+
+    Route::resource('page', 'PageController');
+
 });

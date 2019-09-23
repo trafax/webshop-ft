@@ -1,14 +1,20 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Traits\Uuids;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use SoftDeletes;
     use Notifiable;
+    use Uuids;
+
+    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
