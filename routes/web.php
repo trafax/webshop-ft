@@ -25,6 +25,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('webshop/category/{category}/destroy', 'WebshopCategoryController@destroy')->name('category.destroy');
     Route::post('webshop/category/sort', 'WebshopCategoryController@sort')->name('category.sort');
 
+    Route::resource('webshop/product', 'WebshopProductController');
+
     Route::get('setting', 'SettingController@index')->name('setting.index');
     Route::post('setting/store', 'SettingController@store')->name('setting.store');
 

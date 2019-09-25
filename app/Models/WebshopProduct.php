@@ -6,22 +6,20 @@ use App\Traits\Uuids;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Kalnoy\Nestedset\NodeTrait;
 
-class WebshopCategory extends Model
+class WebshopProduct extends Model
 {
     use Uuids;
     use SoftDeletes;
 
-    use Sluggable, NodeTrait {
-        NodeTrait::replicate as replicateNode;
+    use Sluggable {
         Sluggable::replicate as replicateSlug;
     }
 
     public $incrementing = false;
 
     public $fillable = [
-        'parent_id', 'title', 'seo', 'slug', 'image', '_lft', '_rgt'
+        'title', 'seo', 'slug', 'image'
     ];
 
     public $casts =[
@@ -35,13 +33,5 @@ class WebshopCategory extends Model
                 'source' => 'title'
             ]
         ];
-    }
-
-    public function replicate(array $except = null)
-    {
-        $instance = $this->replicateNode($except);
-        (new SlugService())->slug($instance, true);
-
-        return $instance;
     }
 }

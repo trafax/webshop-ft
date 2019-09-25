@@ -37638,19 +37638,24 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./resources/js/app.js":
-/*!*****************************!*\
-  !*** ./resources/js/app.js ***!
-  \*****************************/
+/***/ "./resources/js/admin.js":
+/*!*******************************!*\
+  !*** ./resources/js/admin.js ***!
+  \*******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+
+try {
+  window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
+  window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+
+  __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
+
+  window.sortable = __webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
+  window.filemanager = __webpack_require__(/*! ../../vendor/unisharp/laravel-filemanager/public/js/lfm.js */ "./vendor/unisharp/laravel-filemanager/public/js/lfm.js");
+} catch (e) {}
 
 $(function () {
   $('.sortable').sortable({
@@ -37680,35 +37685,10 @@ $(function () {
 
 /***/ }),
 
-/***/ "./resources/js/bootstrap.js":
+/***/ "./resources/sass/admin.scss":
 /*!***********************************!*\
-  !*** ./resources/js/bootstrap.js ***!
+  !*** ./resources/sass/admin.scss ***!
   \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-try {
-  window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
-  window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-
-  __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
-
-  window.sortable = __webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
-} catch (e) {}
-
-/***/ }),
-
-/***/ "./resources/sass/app.scss":
-/*!*********************************!*\
-  !*** ./resources/sass/app.scss ***!
-  \*********************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -37716,15 +37696,59 @@ try {
 
 /***/ }),
 
+/***/ "./resources/sass/website.scss":
+/*!*************************************!*\
+  !*** ./resources/sass/website.scss ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./vendor/unisharp/laravel-filemanager/public/js/lfm.js":
+/*!**************************************************************!*\
+  !*** ./vendor/unisharp/laravel-filemanager/public/js/lfm.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function ($) {
+  $.fn.filemanager = function (type, options) {
+    type = type || 'file';
+    this.on('click', function (e) {
+      var route_prefix = options && options.prefix ? options.prefix : '/laravel-filemanager';
+      localStorage.setItem('target_input', $(this).data('input'));
+      localStorage.setItem('target_preview', $(this).data('preview'));
+      window.open(route_prefix + '?type=' + type, 'FileManager', 'width=900,height=600');
+
+      window.SetUrl = function (url, file_path) {
+        //set the value of the desired input to image url
+        var target_input = $('#' + localStorage.getItem('target_input'));
+        target_input.val(file_path).trigger('change'); //set or change the preview image src
+
+        var target_preview = $('#' + localStorage.getItem('target_preview'));
+        target_preview.attr('src', url).trigger('change');
+      };
+
+      return false;
+    });
+  };
+})(jQuery);
+
+/***/ }),
+
 /***/ 0:
-/*!*************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
-  \*************************************************************/
+/*!***********************************************************************************************!*\
+  !*** multi ./resources/js/admin.js ./resources/sass/admin.scss ./resources/sass/website.scss ***!
+  \***********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/svanspelden/Documents/Webserver/floratuin.com/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/svanspelden/Documents/Webserver/floratuin.com/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/svanspelden/Documents/Webserver/floratuin.com/resources/js/admin.js */"./resources/js/admin.js");
+__webpack_require__(/*! /Users/svanspelden/Documents/Webserver/floratuin.com/resources/sass/admin.scss */"./resources/sass/admin.scss");
+module.exports = __webpack_require__(/*! /Users/svanspelden/Documents/Webserver/floratuin.com/resources/sass/website.scss */"./resources/sass/website.scss");
 
 
 /***/ })
