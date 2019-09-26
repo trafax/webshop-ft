@@ -7,7 +7,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class WebshopProduct extends Model
+class Product extends Model
 {
     use Uuids;
     use SoftDeletes;
@@ -33,5 +33,15 @@ class WebshopProduct extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany('App\Models\Category');
+    }
+
+    public function assets()
+    {
+        return $this->hasMany('App\Models\Asset', 'parent_id', 'id');
     }
 }

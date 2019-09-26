@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kalnoy\Nestedset\NodeTrait;
 
-class WebshopCategory extends Model
+class Category extends Model
 {
     use Uuids;
     use SoftDeletes;
@@ -43,5 +43,10 @@ class WebshopCategory extends Model
         (new SlugService())->slug($instance, true);
 
         return $instance;
+    }
+
+    public function products()
+    {
+        return $this->hasMany('App\Product');
     }
 }

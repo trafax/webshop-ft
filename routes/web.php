@@ -21,13 +21,16 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     Route::resource('page', 'PageController');
 
-    Route::resource('webshop/category', 'WebshopCategoryController');
-    Route::get('webshop/category/{category}/destroy', 'WebshopCategoryController@destroy')->name('category.destroy');
-    Route::post('webshop/category/sort', 'WebshopCategoryController@sort')->name('category.sort');
+    Route::resource('webshop/category', 'CategoryController');
+    Route::get('webshop/category/{category}/destroy', 'CategoryController@destroy')->name('category.destroy');
+    Route::post('webshop/category/sort', 'CategoryController@sort')->name('category.sort');
 
-    Route::resource('webshop/product', 'WebshopProductController');
+    Route::resource('webshop/product', 'ProductController');
 
     Route::get('setting', 'SettingController@index')->name('setting.index');
     Route::post('setting/store', 'SettingController@store')->name('setting.store');
+
+    Route::post('asset/upload', 'AssetController@upload')->name('asset.upload');
+    Route::get('asset/delete/{asset}/{hash?}', 'AssetController@delete')->name('asset.delete');
 
 });

@@ -6,3 +6,39 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import '~dropzone/dist/min/dropzone.min.css';
+
+.dropzone {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    background: rgba(0, 0, 0, 0.03);
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.image-container {
+    .thumb {
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 120px;
+        a {
+            display: block;
+            opacity: 0;
+            padding: 35px 0;
+            text-align: center;
+            background-color: rgba(0,0,0,0.5);
+            text-decoration: none;
+            color: #FFF;
+            font-size: 30px;
+            height: 100%;
+            width: 100%;
+            transition: opacity ease-in-out 200ms;
+        }
+        &:hover {
+            a {
+                opacity: 1;
+            }
+        }
+    }
+}

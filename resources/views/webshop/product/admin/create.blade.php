@@ -33,7 +33,6 @@
                                 <div class="form-group">
                                     <label>Plaats in</label>
                                     <select class="form-control" name="parent_id[]" multiple size="20">
-                                        <option value="">Hoofdcategorie</option>
                                         @php
                                             $tree = function ($categories, $prefix = '') use (&$tree)
                                             {

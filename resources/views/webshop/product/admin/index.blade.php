@@ -21,7 +21,7 @@
                         <tbody>
                             @foreach ($products as $product)
                                 <tr>
-                                    <td><a href="{{ route('category.edit', $product) }}">{{ $product->title }}</a></td>
+                                    <td><a href="{{ route('product.edit', $product) }}">{{ $product->title }}</a></td>
                                     <td class="small">product/{{ $product->slug }}</td>
                                     <td>
                                         <a href="{{ route('category.destroy', $product) }}" onclick="return confirm('Product verwijderen?')">verwijder</a>
