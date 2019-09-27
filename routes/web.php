@@ -32,5 +32,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
     Route::post('asset/upload', 'AssetController@upload')->name('asset.upload');
     Route::get('asset/delete/{asset}/{hash?}', 'AssetController@delete')->name('asset.delete');
+    Route::post('asset/sort', 'AssetController@sort')->name('asset.sort');
 
 });

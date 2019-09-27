@@ -42,6 +42,6 @@ class Product extends Model
 
     public function assets()
     {
-        return $this->hasMany('App\Models\Asset', 'parent_id', 'id');
+        return $this->hasMany('App\Models\Asset', 'parent_id', 'id')->orderBy('sort');
     }
 }

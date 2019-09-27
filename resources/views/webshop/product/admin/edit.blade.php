@@ -56,11 +56,33 @@
                                 <div class="row">
                                     <div class="col-md-6 image-wrapper">
                                         <div class="image-container">
-                                            <div class="row">
+                                                <script>
+                                                    function delFile(action)
+                                                    {
+                                                        if (confirm('Afbeelding verwijderen?'))
+                                                        {
+                                                            $.ajax({
+                                                                headers: {
+                                                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                                },
+                                                                url: action,
+                                                                type: 'GET',
+                                                                success: function(){
+                                                                    $('.image-wrapper').load('{{ route('product.edit', $product) }} .image-container', function(){
+                                                                        window.sort();
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
+
+                                                        return false;
+                                                    }
+                                                </script>
+                                            <div class="row sortable" data-action="{{ route('asset.sort') }}">
                                                 @forelse ($product->assets as $asset)
-                                                    <div class="col-md-3 mb-3">
+                                                    <div class="col-md-3 mb-3" id="{{ $asset->id }}">
                                                         <div class="thumb" style="background-image: url('/storage/{{ $asset->file }}');">
-                                                            <a href="{{ route('asset.delete', $asset) }}" class="stretched-link">X</a>
+                                                            <a href="javascript:;" onclick="return delFile('{{ route('asset.delete', $asset) }}')" class="stretched-link">X</a>
                                                         </div>
                                                     </div>
                                                 @empty
@@ -83,7 +105,9 @@
                                                     });
                                                     this.on("complete", function (file) {
                                                         if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-                                                            $('.image-wrapper').load('{{ route('product.edit', $product) }} .image-container');
+                                                            $('.image-wrapper').load('{{ route('product.edit', $product) }} .image-container', function(){
+                                                                window.sort();
+                                                            });
                                                         }
                                                     });
                                                 }

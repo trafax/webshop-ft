@@ -13,9 +13,6 @@ class AssetController extends Controller
     public function upload(Request $request)
     {
         $path = $request->file('file')->store('assets', 'public');
-        // $image = $request->file('file');
-        // Image::make($image)->fit(2000)->save();
-        // $path = $image->store('assets', 'public');
 
         $data = array_merge($request->all(), ['file' => $path]);
 
@@ -24,6 +21,16 @@ class AssetController extends Controller
         $asset->save();
 
         return $path;
+    }
+
+    public function sort(Request $request)
+    {
+        foreach ($request->get('items') as $key => $id)
+        {
+            $asset = Asset::find($id);
+            $asset->sort = $key;
+            $asset->save();
+        }
     }
 
     public function delete(Asset $asset, $hash = 'images')
