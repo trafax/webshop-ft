@@ -43,8 +43,8 @@ class ProductController extends Controller
                 $option = explode(',', $row);
 
                 $title = isset($option[0]) ? $option[0] : '';
-                $fixed_price = isset($option[1]) && $option[1] > 0 ? money_format('%.2n', $option[1]) : 0;
-                $adding_price = isset($option[2]) && $option[2] > 0 ? money_format('%.2n', $option[2]) : 0;
+                $fixed_price = isset($option[1]) && $option[1] > 0 ? number_format($option[1], 2) : 0;
+                $adding_price = isset($option[2]) && $option[2] > 0 ? number_format($option[2], 2) : 0;
 
                 if ($title)
                 {
@@ -88,8 +88,8 @@ class ProductController extends Controller
                 $option = explode(',', $row);
 
                 $title = isset($option[0]) ? $option[0] : '';
-                $fixed_price = isset($option[1]) && $option[1] > 0 ? money_format('%.2n', $option[1]) : 0;
-                $adding_price = isset($option[2]) && $option[2] > 0 ? money_format('%.2n', $option[2]) : 0;
+                $fixed_price = isset($option[1]) && $option[1] > 0 ? number_format($option[1], 2) : 0;
+                $adding_price = isset($option[2]) && $option[2] > 0 ? number_format($option[2], 2) : 0;
 
                 if ($title)
                 {
