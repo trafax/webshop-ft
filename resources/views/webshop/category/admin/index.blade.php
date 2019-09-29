@@ -4,6 +4,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+                    <li class="breadcrumb-item active">Categorieën</li>
+                </ol>
+            </nav>
+
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <span>Categorieën</span>
@@ -29,7 +37,7 @@
                                         <tr id="'.$category->id.'">
                                             <td><a href="'. route('category.edit', $category) .'">'. $prefix . ' ' . $category->title .'</a></td>
                                             <td class="small">category/'. $category->slug .'</td>
-                                            <td>0</td>
+                                            <td>'. $category->products()->count() .'</td>
                                             <td>
                                                 <a href="'. route('category.destroy', $category) .'" onclick="return confirm(\'Categorie verwijderen?\')">verwijder</a>
                                             </td>

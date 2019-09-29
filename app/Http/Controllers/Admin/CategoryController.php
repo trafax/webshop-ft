@@ -24,6 +24,8 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate(['title' => 'required']);
+
         $category = new Category();
         $category->fill($request->all());
         $category->save();
@@ -40,6 +42,8 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
+        $request->validate(['title' => 'required']);
+
         $category->fill($request->all());
         $category->save();
 

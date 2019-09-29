@@ -26,6 +26,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::post('webshop/category/sort', 'CategoryController@sort')->name('category.sort');
 
     Route::resource('webshop/product', 'ProductController');
+    Route::get('webshop/product/{product}/destroy', 'ProductController@destroy')->name('product.destroy');
+
+    Route::resource('webshop/variation', 'VariationController');
+    Route::get('webshop/variation/{variation}/destroy', 'VariationController@destroy')->name('variation.destroy');
+    Route::post('webshop/variation/sort', 'VariationController@sort')->name('variation.sort');
 
     Route::get('setting', 'SettingController@index')->name('setting.index');
     Route::post('setting/store', 'SettingController@store')->name('setting.store');

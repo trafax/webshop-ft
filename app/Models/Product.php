@@ -19,7 +19,7 @@ class Product extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'title', 'seo', 'slug', 'image'
+        'title', 'description', 'price', 'seo', 'slug', 'image'
     ];
 
     public $casts =[
@@ -38,6 +38,11 @@ class Product extends Model
     public function categories()
     {
         return $this->belongsToMany('App\Models\Category');
+    }
+
+    public function variations()
+    {
+        return $this->belongsToMany('App\Models\Variation')->withPivot('title', 'fixed_price', 'adding_price');
     }
 
     public function assets()

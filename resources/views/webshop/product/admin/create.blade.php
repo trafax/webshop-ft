@@ -4,6 +4,15 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Producten</a></li>
+                    <li class="breadcrumb-item active">Product toevoegen</li>
+                </ol>
+            </nav>
+
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <span>Product toevoegen</span>
@@ -15,6 +24,7 @@
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="nav-home" aria-selected="true">Basis</a>
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#categories" role="tab" aria-controls="nav-profile" aria-selected="false">Categorieën</a>
+                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#variations" role="tab" aria-controls="nav-profile" aria-selected="false">Variaties</a>
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#google" role="tab" aria-controls="nav-profile" aria-selected="false">Zoekmachine</a>
                             </div>
                         </nav>
@@ -47,6 +57,23 @@
                                             echo $tree($categories);
                                         @endphp
                                     </select>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="variations" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                <p>Opties kunnen op onderstaande manier toegoevoegd worden per variatie. Iedere regel is een nieuwe optie.<br>
+                                <i><strong>naam, vaste prijs, meerprijs</strong></i></p>
+                                <div class="card-group">
+                                    @foreach ($variations as $key => $variation)
+                                        <div class="card mb-4">
+                                            <div class="card-header font-weight-bold">{{ $variation->title }}</div>
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <textarea name="variations[{{ $variation->id }}]" rows="8" class="form-control" placeholder="naam, vaste prijs, meerprijs"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {!! ($key+1) % 3 == 0 ? '</div><div class="card-group mb-4">' : '' !!}
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="google" role="tabpanel" aria-labelledby="nav-profile-tab">

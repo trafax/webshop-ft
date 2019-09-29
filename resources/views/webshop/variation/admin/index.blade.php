@@ -8,33 +8,29 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
-                    <li class="breadcrumb-item active">Producten</li>
+                    <li class="breadcrumb-item active">Variaties</li>
                 </ol>
             </nav>
 
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <span>Producten</span>
-                    <a href="{{ route('product.create') }}">Product toevoegen</a>
+                    <span>Variaties</span>
+                    <a href="{{ route('variation.create') }}">Variatie toevoegen</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                            <th scope="col" class="border-top-0">Productnaam</th>
-                            <th scope="col" class="border-top-0">Link</th>
-                            <th scope="col" class="border-top-0">Prijs</th>
+                            <th scope="col" class="border-top-0">Variatienaam</th>
                             <th scope="col" class="border-top-0">Acties</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($products as $product)
-                                <tr>
-                                    <td><a href="{{ route('product.edit', $product) }}">{{ $product->title }}</a></td>
-                                    <td class="small">product/{{ $product->slug }}</td>
-                                    <td>&euro; {{ $product->price }}</td>
+                        <tbody class="sortable" data-action="{{ route('variation.sort') }}">
+                            @foreach ($variations as $variation)
+                                <tr id={{ $variation->id }}>
+                                    <td><a href="{{ route('variation.edit', $variation) }}">{{ $variation->title }}</a></td>
                                     <td>
-                                        <a href="{{ route('product.destroy', $product) }}" onclick="return confirm('Product verwijderen?')">verwijder</a>
+                                        <a href="{{ route('variation.destroy', $variation) }}" onclick="return confirm('Variatie verwijderen?')">verwijder</a>
                                     </td>
                                 </tr>
                             @endforeach

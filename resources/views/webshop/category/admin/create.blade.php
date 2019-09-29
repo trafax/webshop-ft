@@ -4,6 +4,15 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Categorieën</a></li>
+                    <li class="breadcrumb-item active">Categorie toevoegen</li>
+                </ol>
+            </nav>
+
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <span>Categorie toevoegen</span>
@@ -63,6 +72,7 @@
                             </div>
                         </div>
                         <div>
+                            <hr>
                             <button type="submit" class="btn btn-primary">Opslaan</button>
                         </div>
                     </form>

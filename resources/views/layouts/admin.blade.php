@@ -40,16 +40,23 @@
                                 <a class="nav-link" href="{{ route('page.index') }}">Pagina's</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Webwinkel <span class="caret"></span>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="{{ route('category.index') }}">Categorieën</a>
                                     <a class="dropdown-item" href="{{ route('product.index') }}">Producten</a>
+                                    <a class="dropdown-item" href="{{ route('variation.index') }}">Variaties</a>
                                 </div>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('setting.index') }}">Instellingen</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Instellingen <span class="caret"></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="{{ route('setting.index') }}">Standaard instellingen</a>
+                                    <a class="dropdown-item" href="#">E-mail templates</a>
+                                </div>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -81,6 +88,13 @@
                         @if (session('message'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('message') }}
+                            </div>
+                        @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger" role="alert">
+                                @foreach ($errors->all() as $error)
+                                    {{ $error }}<br>
+                                @endforeach
                             </div>
                         @endif
                     </div>
