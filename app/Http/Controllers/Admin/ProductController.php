@@ -35,7 +35,7 @@ class ProductController extends Controller
 
         $product->categories()->attach($request->get('parent_id'));
 
-        foreach ($request->get('variations') as $variation_id => $variation)
+        foreach ((array) $request->get('variations') as $variation_id => $variation)
         {
             $rows = explode("\r\n", $variation);
             foreach ($rows as $row)
@@ -43,8 +43,8 @@ class ProductController extends Controller
                 $option = explode(',', $row);
 
                 $title = isset($option[0]) ? $option[0] : '';
-                $fixed_price = isset($option[1]) && $option[1] > 0 ? number_format($option[1], 2) : 0;
-                $adding_price = isset($option[2]) && $option[2] > 0 ? number_format($option[2], 2) : 0;
+                $fixed_price = isset($option[1]) && $option[1] > 0 ? round($option[1], 2) : 0;
+                $adding_price = isset($option[2]) && $option[2] > 0 ? round($option[2], 2) : 0;
 
                 if ($title)
                 {
@@ -65,6 +65,8 @@ class ProductController extends Controller
         $categories = Category::get()->toTree();
         $variations = Variation::orderBy('sort')->get();
 
+        //dd($product);
+
         return view('webshop.product.admin.edit', compact('product', 'categories', 'variations'));
     }
 
@@ -80,7 +82,7 @@ class ProductController extends Controller
 
         // Variations
         $product->variations()->detach();
-        foreach ($request->get('variations') as $variation_id => $variation)
+        foreach ((array) $request->get('variations') as $variation_id => $variation)
         {
             $rows = explode("\r\n", $variation);
             foreach ($rows as $row)
@@ -88,8 +90,8 @@ class ProductController extends Controller
                 $option = explode(',', $row);
 
                 $title = isset($option[0]) ? $option[0] : '';
-                $fixed_price = isset($option[1]) && $option[1] > 0 ? number_format($option[1], 2) : 0;
-                $adding_price = isset($option[2]) && $option[2] > 0 ? number_format($option[2], 2) : 0;
+                $fixed_price = isset($option[1]) && $option[1] > 0 ? round($option[1], 2) : 0;
+                $adding_price = isset($option[2]) && $option[2] > 0 ? round($option[2], 2) : 0;
 
                 if ($title)
                 {

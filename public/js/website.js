@@ -37691,7 +37691,7 @@ $(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/svanspelden/Documents/Webserver/floratuin.com/resources/js/website.js */"./resources/js/website.js");
+module.exports = __webpack_require__(/*! C:\Users\sven\Documents\Webserver\floratuin.com\resources\js\website.js */"./resources/js/website.js");
 
 
 /***/ })

@@ -28,32 +28,42 @@
                         </nav>
                         <div class="tab-content pt-4" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                <div class="form-group">
-                                    <label>Categorienaam</label>
-                                    <input type="text" name="title" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Plaats in</label>
-                                    <select class="form-control" name="parent_id">
-                                        <option value="">Hoofdcategorie</option>
-                                        @php
-                                            $tree = function ($categories, $prefix = '') use (&$tree)
-                                            {
-                                                foreach ($categories as $obj)
-                                                {
-                                                    echo '<option value="'.$obj->id.'">'. $prefix.' '.$obj->title . '</option>';
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label>Categorienaam</label>
+                                            <input type="text" name="title" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Plaats in</label>
+                                            <select class="form-control" name="parent_id">
+                                                <option value="">Hoofdcategorie</option>
+                                                @php
+                                                    $tree = function ($categories, $prefix = '') use (&$tree)
+                                                    {
+                                                        foreach ($categories as $obj)
+                                                        {
+                                                            echo '<option value="'.$obj->id.'">'. $prefix.' '.$obj->title . '</option>';
 
-                                                    $tree($obj->children, $prefix.'-');
-                                                }
-                                            };
+                                                            $tree($obj->children, $prefix.'-');
+                                                        }
+                                                    };
 
-                                            echo $tree($categories);
-                                        @endphp
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Link <small>optioneel</small></label>
-                                    <input type="text" name="slug" class="form-control">
+                                                    echo $tree($categories);
+                                                @endphp
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Tekst</label>
+                                            <textarea name="description" class="form-control" rows="6"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Link <small>optioneel</small></label>
+                                            <input type="text" name="slug" class="form-control">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="google" role="tabpanel" aria-labelledby="nav-profile-tab">

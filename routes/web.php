@@ -13,10 +13,12 @@
 
 Route::get('/', 'HomepageController@index');
 
+Route::get('webshop', 'WebshopController@index')->name('webshop');
+Route::get('category/{slug}', 'CategoryController@index')->name('category');
+
 Auth::routes();
 
 Route::get('admin', 'Auth\LoginController@showLoginForm');
-
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
 
     Route::resource('page', 'PageController');

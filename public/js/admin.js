@@ -41302,9 +41302,9 @@ window.sort = function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/svanspelden/Documents/Webserver/floratuin.com/resources/js/admin.js */"./resources/js/admin.js");
-__webpack_require__(/*! /Users/svanspelden/Documents/Webserver/floratuin.com/resources/sass/admin.scss */"./resources/sass/admin.scss");
-module.exports = __webpack_require__(/*! /Users/svanspelden/Documents/Webserver/floratuin.com/resources/sass/website.scss */"./resources/sass/website.scss");
+__webpack_require__(/*! C:\Users\sven\Documents\Webserver\floratuin.com\resources\js\admin.js */"./resources/js/admin.js");
+__webpack_require__(/*! C:\Users\sven\Documents\Webserver\floratuin.com\resources\sass\admin.scss */"./resources/sass/admin.scss");
+module.exports = __webpack_require__(/*! C:\Users\sven\Documents\Webserver\floratuin.com\resources\sass\website.scss */"./resources/sass/website.scss");
 
 
 /***/ })

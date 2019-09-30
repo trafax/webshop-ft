@@ -30,13 +30,27 @@
                         </nav>
                         <div class="tab-content pt-4" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                <div class="form-group">
-                                    <label>Productnaam</label>
-                                    <input type="text" name="title" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Link <small>optioneel</small></label>
-                                    <input type="text" name="slug" class="form-control">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label>Productnaam</label>
+                                            <input type="text" name="title" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Tekst</label>
+                                            <textarea name="description" class="form-control" rows="8"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Prijs</label>
+                                            <input type="text" name="price" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Link <small>optioneel</small></label>
+                                            <input type="text" name="slug" class="form-control">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="nav-profile-tab">

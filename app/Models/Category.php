@@ -21,7 +21,7 @@ class Category extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'parent_id', 'title', 'seo', 'slug', 'image', '_lft', '_rgt'
+        'parent_id', 'title', 'description', 'seo', 'slug', 'image', '_lft', '_rgt'
     ];
 
     public $casts =[
@@ -47,6 +47,6 @@ class Category extends Model
 
     public function products()
     {
-        return $this->belongsToMany('App\Models\Product');
+        return $this->belongsToMany('App\Models\Product')->withPivot('category_id');
     }
 }
