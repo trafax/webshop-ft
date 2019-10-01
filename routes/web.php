@@ -14,7 +14,7 @@
 Route::get('/', 'HomepageController@index');
 
 Route::get('webshop', 'WebshopController@index')->name('webshop');
-Route::get('category/{slug}', 'CategoryController@index')->name('category');
+Route::match(['post', 'get'], 'category/{slug}/{any?}', 'CategoryController@index')->name('category')->where('any', '.*');
 
 Auth::routes();
 

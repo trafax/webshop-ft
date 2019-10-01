@@ -21,16 +21,37 @@
         <div class="row">
 
             <div class="col-md-3">
-                @foreach ($variations as $variation => $values)
-                    <div class="card mb-4">
-                        <div class="card-header font-weight-bold">{{ $variation }}</div>
-                        <div class="card-body pb-2">
-                            @foreach ($values as $value)
-                                <label class="d-block"><input type="checkbox" name=""> {{ $value->pivot->title }}</label>
-                            @endforeach
-                        </div>
-                    </div>
-                @endforeach
+
+                {{-- FILTERS --}}
+
+                <div class="filters">
+                    <form method="post" action="{{ route('category', $category->slug) }}">
+                        @csrf
+                        @foreach ($variations as $variation)
+                            <div class="card mb-4">
+                                <div class="card-header font-weight-bold py-1">{{ $variation->title }}</div>
+                                <div class="card-body pb-2 px-3 pt-2 mb-0">
+                                    @foreach ($variation->values as $value)
+                                        <div class="form-check">
+                                            @php $checked = isset($active_variations[$variation->slug]) && in_array($value->slug, explode(',', $active_variations[$variation->slug])) ? 'checked' : '' @endphp
+                                            <input type="checkbox" {{ $checked }} name="variations[{{ $variation->slug }}][]" class="form-check-input" value="{{ $value->slug }}" id="{{ $value->title }}">
+                                            <label class="form-check-label" for="{{ $value->title }}">{{ $value->title }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    </form>
+                </div>
+
+                <script>
+                $(function(){
+                    $('.filters input[type="checkbox"]').change(function(){
+                        $('.filters form').submit();
+                    });
+                });
+                </script>
+
             </div>
 
             <div class="col-md-9">

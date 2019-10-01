@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Variation;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -50,6 +51,7 @@ class ProductController extends Controller
                 {
                     $product->variations()->attach($variation_id, [
                         'title' => $title,
+                        'slug' => Str::slug($title),
                         'fixed_price' => $fixed_price,
                         'adding_price' => $adding_price
                     ]);
@@ -97,6 +99,7 @@ class ProductController extends Controller
                 {
                     $product->variations()->attach($variation_id, [
                         'title' => $title,
+                        'slug' => Str::slug($title),
                         'fixed_price' => $fixed_price,
                         'adding_price' => $adding_price
                     ]);

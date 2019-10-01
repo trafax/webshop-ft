@@ -42,7 +42,7 @@ class Product extends Model
 
     public function variations()
     {
-        return $this->belongsToMany('App\Models\Variation')->withPivot('title', 'fixed_price', 'adding_price');
+        return $this->belongsToMany('App\Models\Variation')->orderBy('sort')->withPivot('title', 'fixed_price', 'adding_price');
     }
 
     public function assets()
