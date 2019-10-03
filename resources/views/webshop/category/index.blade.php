@@ -25,7 +25,7 @@
                 {{-- FILTERS --}}
 
                 <div class="filters">
-                    <form method="post" action="{{ route('category', $category->slug) }}">
+                    <form method="post" action="{{ route('category.set_variation_filter', $category->slug) }}">
                         @csrf
                         @foreach ($variations as $variation)
                             <div class="card mb-4">
@@ -69,11 +69,16 @@
 
                 {{-- PRODUCTS --}}
 
+                <div class="d-flex border-bottom mb-4">
+                    <div class="pt-1 mb-4">Pagina {{ $products->currentPage() }} van {{ $products->lastPage() }}</div>
+                    <div class="ml-auto">{{ $products->links() }}</div>
+                </div>
+
                 @if ($products->isNotEmpty())
                     <div class="card-deck">
                         @foreach ($products as $key => $product)
                         <div class="card product mb-4">
-                            <img src="..." class="card-img-top" alt="...">
+                            {{-- <img src="..." class="card-img-top" alt="..."> --}}
                             <div class="card-body">
                                 <h5 class="card-title">{{ $product->title }}</h5>
                                 <p class="card-text">{!! $product->description !!}</p>

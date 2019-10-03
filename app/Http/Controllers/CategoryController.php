@@ -3,57 +3,116 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\ProductVariation;
 use App\Models\Variation;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request, $slug, $url_variations = '')
+public function index(Request $request, $slug, $url_variations = null)
+{
+    // Read variations out of URL
+    $active_variations = [];
+    $url_variations_explode = explode('/', $url_variations);
+    if ($url_variations_explode)
+    foreach ($url_variations_explode as $url_variation)
     {
-        $active_variations = [];
-        $url_variations = explode('/', $url_variations);
-        if ($url_variations)
-        foreach ($url_variations as $url_variation)
+        if ($url_variation)
         {
-            if ($url_variation)
-            {
-                $row_url_variation = explode(':', $url_variation);
-                $active_variations[$row_url_variation[0]] = $row_url_variation[1];
-            }
+            $row_url_variation = explode(':', $url_variation);
+            $active_variations[$row_url_variation[0]] = $row_url_variation[1];
         }
+    }
 
-        //dd($active_variations);
+    $category = Category::where('slug', $slug)->firstOrFail();
+
+    $variations = [];
+    $all_products_ids = $category->products()->select('id')->get()->pluck('id');
+    $all_variation_ids = ProductVariation::select('variation_id')->whereIn('product_id', $all_products_ids)->groupBy('variation_id')->get()->pluck('variation_id');
+    $variations_tmp = Variation::orderBy('sort')->findMany($all_variation_ids);
+
+    foreach ($variations_tmp as $variation)
+    {
+        $values = ProductVariation::where('variation_id', $variation->id)->whereIn('product_id', $all_products_ids)->groupBy('title')->orderBy('title', 'asc')->get(['title', 'slug']);
+        $variation->values = $values;
+        $variations[] = $variation;
+    }
+
+    // Select filtered products
+    $product_ids = $this->filter_products([
+        'product_ids' => $all_products_ids,
+        'variations' => $url_variations
+    ]);
+
+    if ($url_variations)
+    {
+        $products = Product::whereIn('id', $product_ids)->paginate(setting('products_pp'));
+    }
+    else
+    {
+        $products = $category->products()->paginate(setting('products_pp'));
+    }
+
+    $breadcrumbs = Category::whereAncestorOf($category)->get();
+
+    return view('webshop.category.index', compact('category', 'products', 'breadcrumbs', 'variations', 'active_variations'));
+}
+
+    public function filter_products($variations = [])
+    {
+        $product_ids = [];
+
+        $variation_slugs = [];
+        if (isset($variations['product_ids']) && isset($variations['variations']))
+        {
+            $explode = explode('/', $variations['variations']);
+            foreach ($explode as $variation_exploded)
+            {
+                $variation_slugs = explode(',', last(explode(':', $variation_exploded)));
+                $ids = ProductVariation::slugs($variation_slugs)->get();
+                $product_ids[] = $ids->toArray();
+            }
+
+            $temp_ids = [];
+            foreach ($explode as $key => $variation_exploded)
+            {
+                foreach ($variations['product_ids'] as $product_id)
+                {
+                    $count_value = array_count_values(array_column($product_ids[$key], 'product_id'));
+                    if (isset($count_value[$product_id]) && $count_value[$product_id] > 0)
+                    {
+                        $temp_ids[] = $product_id;
+                    }
+                }
+            }
+
+            $product_ids = [];
+            foreach ($variations['product_ids'] as $product_id)
+            {
+                $count_value = array_count_values($temp_ids);
+                if (isset($count_value[$product_id]) && $count_value[$product_id] >= count($explode))
+                {
+                    $product_ids[] = $product_id;
+                }
+            }
+
+            return $product_ids;
+        }
+    }
+
+    public function set_variations_filter(Request $request, $slug)
+    {
+        $variation_arguments = [];
 
         if ($request->get('variations'))
         {
-            $variation_arguments = [];
             foreach ($request->get('variations') as $variation => $values)
             {
-                $variation_argument[] = $variation . ':' . implode(',', $values);
+                $variation_arguments[] = $variation . ':' . implode(',', $values);
             }
-
-            return redirect()->route('category', [$slug, implode('/', $variation_argument)]);
         }
 
-        $category = Category::where('slug', $slug)->firstOrFail();
-
-        $variations = [];
-        $all_products = $category->products()->select('id')->get()->pluck('id');
-        $all_variation_ids = ProductVariation::select('variation_id')->whereIn('product_id', $all_products)->groupBy('variation_id')->get()->pluck('variation_id');
-        $variations_tmp = Variation::orderBy('sort')->findMany($all_variation_ids);
-
-        foreach ($variations_tmp as $variation)
-        {
-            $values = ProductVariation::where('variation_id', $variation->id)->whereIn('product_id', $all_products)->groupBy('title')->get(['title', 'slug']);
-            $variation->values = $values;
-            $variations[] = $variation;
-        }
-
-        $products = $category->products()->paginate(10);
-
-        $breadcrumbs = Category::whereAncestorOf($category)->get();
-
-        return view('webshop.category.index', compact('category', 'products', 'breadcrumbs', 'variations', 'active_variations'));
+        return redirect()->route('category', [$slug, implode('/', $variation_arguments)]);
     }
 }

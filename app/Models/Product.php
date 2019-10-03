@@ -45,6 +45,11 @@ class Product extends Model
         return $this->belongsToMany('App\Models\Variation')->orderBy('sort')->withPivot('title', 'fixed_price', 'adding_price');
     }
 
+    public function filtered()
+    {
+        return 1;
+    }
+
     public function assets()
     {
         return $this->hasMany('App\Models\Asset', 'parent_id', 'id')->orderBy('sort');

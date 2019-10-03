@@ -11,4 +11,9 @@ class ProductVariation extends Model
     public $fillable = [
         'product_id', 'variation_id', 'title', 'slug'
     ];
+
+    public function scopeSlugs($query, $slugs)
+    {
+        return $query->whereIn('slug', $slugs)->groupBy('product_id');
+    }
 }

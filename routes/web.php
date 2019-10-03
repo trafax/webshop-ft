@@ -14,7 +14,8 @@
 Route::get('/', 'HomepageController@index');
 
 Route::get('webshop', 'WebshopController@index')->name('webshop');
-Route::match(['post', 'get'], 'category/{slug}/{any?}', 'CategoryController@index')->name('category')->where('any', '.*');
+Route::get('category/{slug}/{any?}', 'CategoryController@index')->name('category')->where('any', '.*');
+Route::post('category/set_filter/{any?}', 'CategoryController@set_variations_filter')->name('category.set_variation_filter')->where('any', '.*');
 
 Auth::routes();
 
