@@ -15,7 +15,7 @@
                 <div class="card">
                     <div class="card-header">Instellingen</div>
                     <div class="card-body">
-                        <form method="post" action="{{ route('setting.store') }}">
+                        <form method="post" action="{{ route('admin.setting.store') }}">
                             @csrf
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">

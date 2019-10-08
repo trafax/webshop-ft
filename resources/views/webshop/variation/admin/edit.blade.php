@@ -8,7 +8,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('variation.index') }}">Variaties</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.variation.index') }}">Variaties</a></li>
                     <li class="breadcrumb-item active">Variatie bewerken</li>
                 </ol>
             </nav>
@@ -18,7 +18,7 @@
                     <span>Variatie bewerken</span>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ route('variation.update', $variation) }}">
+                    <form method="post" action="{{ route('admin.variation.update', $variation) }}">
                         @method('PUT')
                         @csrf
                         <nav>

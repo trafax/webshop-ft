@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <span>Producten</span>
-                    <a href="{{ route('product.create') }}">Product toevoegen</a>
+                    <a href="{{ route('admin.product.create') }}">Product toevoegen</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover">
@@ -30,11 +30,11 @@
                         <tbody>
                             @foreach ($products as $product)
                                 <tr>
-                                    <td><a href="{{ route('product.edit', $product) }}">{{ $product->title }}</a></td>
+                                    <td><a href="{{ route('admin.product.edit', $product) }}">{{ $product->title }}</a></td>
                                     <td class="small">product/{{ $product->slug }}</td>
                                     <td>&euro; {{ $product->price }}</td>
                                     <td>
-                                        <a href="{{ route('product.destroy', $product) }}" onclick="return confirm('Product verwijderen?')">verwijder</a>
+                                        <a href="{{ route('admin.product.destroy', $product) }}" onclick="return confirm('Product verwijderen?')">verwijder</a>
                                     </td>
                                 </tr>
                             @endforeach

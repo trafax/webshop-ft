@@ -30,7 +30,7 @@ class CategoryController extends Controller
         $category->fill($request->all());
         $category->save();
 
-        return redirect()->route('category.index')->with('message', 'Categorie succesvol toegevoegd.');
+        return redirect()->route('admin.category.index')->with('message', 'Categorie succesvol toegevoegd.');
     }
 
     public function edit(Category $category)
@@ -47,14 +47,14 @@ class CategoryController extends Controller
         $category->fill($request->all());
         $category->save();
 
-        return redirect()->route('category.index')->with('message', 'Categorie succesvol aangepast.');
+        return redirect()->route('admin.category.index')->with('message', 'Categorie succesvol aangepast.');
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
 
-        return redirect()->route('category.index')->with('message', 'Categorie succesvol verwijderd.');
+        return redirect()->route('admin.category.index')->with('message', 'Categorie succesvol verwijderd.');
     }
 
     public function sort(Request $request)

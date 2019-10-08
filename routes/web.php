@@ -20,7 +20,7 @@ Route::post('category/set_filter/{any?}', 'CategoryController@set_variations_fil
 Auth::routes();
 
 Route::get('admin', 'Auth\LoginController@showLoginForm');
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
 
     Route::resource('page', 'PageController');
 
@@ -42,4 +42,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::get('asset/delete/{asset}/{hash?}', 'AssetController@delete')->name('asset.delete');
     Route::post('asset/sort', 'AssetController@sort')->name('asset.sort');
 
+    Route::resource('language', 'LanguageController');
+    Route::get('language/{language}/destroy', 'LanguageController@destroy')->name('language.destroy');
+    Route::post('language/sort', 'LanguageController@sort')->name('language.sort');
 });

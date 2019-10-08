@@ -37,16 +37,16 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('page.index') }}">Pagina's</a>
+                                <a class="nav-link" href="{{ route('admin.page.index') }}">Pagina's</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 Webwinkel <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="{{ route('category.index') }}">Categorieën</a>
-                                    <a class="dropdown-item" href="{{ route('product.index') }}">Producten</a>
-                                    <a class="dropdown-item" href="{{ route('variation.index') }}">Variaties</a>
+                                    <a class="dropdown-item" href="{{ route('admin.category.index') }}">Categorieën</a>
+                                    <a class="dropdown-item" href="{{ route('admin.product.index') }}">Producten</a>
+                                    <a class="dropdown-item" href="{{ route('admin.variation.index') }}">Variaties</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -54,8 +54,9 @@
                                 Instellingen <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="{{ route('setting.index') }}">Standaard instellingen</a>
+                                    <a class="dropdown-item" href="{{ route('admin.setting.index') }}">Standaard instellingen</a>
                                     <a class="dropdown-item" href="#">E-mail templates</a>
+                                    <a class="dropdown-item" href="{{ route('admin.language.index') }}">Talen</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">

@@ -70,7 +70,7 @@
                 {{-- PRODUCTS --}}
 
                 <div class="d-flex border-bottom mb-4">
-                    <div class="pt-1 mb-4">Pagina {{ $products->currentPage() }} van {{ $products->lastPage() }}</div>
+                    <div class="pt-1 mb-4">Pagina {{ $products->currentPage() }} van {{ $products->lastPage() }} - ({{ $products->count() }} producten)</div>
                     <div class="ml-auto">{{ $products->links() }}</div>
                 </div>
 

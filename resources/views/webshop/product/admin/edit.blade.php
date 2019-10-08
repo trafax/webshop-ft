@@ -8,7 +8,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Producten</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.product.index') }}">Producten</a></li>
                     <li class="breadcrumb-item active">Product bewerken</li>
                 </ol>
             </nav>
@@ -18,7 +18,7 @@
                     <span>Product bewerken</span>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ route('product.update', $product) }}">
+                    <form method="post" action="{{ route('admin.product.update', $product) }}">
                         @method('PUT')
                         @csrf
                         <nav>
@@ -94,7 +94,7 @@
                                                                 url: action,
                                                                 type: 'GET',
                                                                 success: function(){
-                                                                    $('.image-wrapper').load('{{ route('product.edit', $product) }} .image-container', function(){
+                                                                    $('.image-wrapper').load('{{ route('admin.product.edit', $product) }} .image-container', function(){
                                                                         window.sort();
                                                                     });
                                                                 }
@@ -104,11 +104,11 @@
                                                         return false;
                                                     }
                                                 </script>
-                                            <div class="row sortable" data-action="{{ route('asset.sort') }}">
+                                            <div class="row sortable" data-action="{{ route('admin.asset.sort') }}">
                                                 @forelse ($product->assets as $asset)
                                                     <div class="col-md-3 mb-3" id="{{ $asset->id }}">
                                                         <div class="thumb" style="background-image: url('/storage/{{ $asset->file }}');">
-                                                            <a href="javascript:;" onclick="return delFile('{{ route('asset.delete', $asset) }}')" class="stretched-link">X</a>
+                                                            <a href="javascript:;" onclick="return delFile('{{ route('admin.asset.delete', $asset) }}')" class="stretched-link">X</a>
                                                         </div>
                                                     </div>
                                                 @empty
@@ -120,7 +120,7 @@
                                     <div class="col-md-6">
                                         <script type="text/javascript">
                                             Dropzone.options.customDropzone = {
-                                                url: '{{ route('asset.upload') }}',
+                                                url: '{{ route('admin.asset.upload') }}',
                                                 dictDefaultMessage: '- Sleep uw bestanden hierin om deze to uploaden -',
                                                 headers: {
                                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -131,7 +131,7 @@
                                                     });
                                                     this.on("complete", function (file) {
                                                         if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-                                                            $('.image-wrapper').load('{{ route('product.edit', $product) }} .image-container', function(){
+                                                            $('.image-wrapper').load('{{ route('admin.product.edit', $product) }} .image-container', function(){
                                                                 window.sort();
                                                             });
                                                         }

@@ -28,7 +28,7 @@ class VariationController extends Controller
         $variation->fill($request->all());
         $variation->save();
 
-        return redirect()->route('variation.index')->with('message', 'Variatie succesvol toegevoegd.');
+        return redirect()->route('admin.variation.index')->with('message', 'Variatie succesvol toegevoegd.');
     }
 
     public function edit(Variation $variation)
@@ -43,7 +43,7 @@ class VariationController extends Controller
         $variation->fill($request->all());
         $variation->save();
 
-        return redirect()->route('variation.index')->with('message', 'Variatie succesvol aangepast.');
+        return redirect()->route('admin.variation.index')->with('message', 'Variatie succesvol aangepast.');
     }
 
     public function destroy(Variation $variation)

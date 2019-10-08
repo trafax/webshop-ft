@@ -8,7 +8,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Categorieën</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.category.index') }}">Categorieën</a></li>
                     <li class="breadcrumb-item active">Categorie toevoegen</li>
                 </ol>
             </nav>
@@ -18,7 +18,7 @@
                     <span>Categorie toevoegen</span>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ route('category.store') }}">
+                    <form method="post" action="{{ route('admin.category.store') }}">
                         @csrf
                         <nav>
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">

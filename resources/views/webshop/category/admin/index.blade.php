@@ -15,7 +15,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <span>Categorieën</span>
-                    <a href="{{ route('category.create') }}">Categorie toevoegen</a>
+                    <a href="{{ route('admin.category.create') }}">Categorie toevoegen</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover">
@@ -27,7 +27,7 @@
                             <th scope="col" class="border-top-0">Acties</th>
                             </tr>
                         </thead>
-                        <tbody class="sortable" data-action="{{ route('category.sort') }}">
+                        <tbody class="sortable" data-action="{{ route('admin.category.sort') }}">
                             @php
                                 $tree = function ($categories, $prefix = '') use (&$tree)
                                 {
@@ -35,11 +35,11 @@
                                     {
                                         echo '
                                         <tr id="'.$category->id.'">
-                                            <td><a href="'. route('category.edit', $category) .'">'. $prefix . ' ' . $category->title .'</a></td>
+                                            <td><a href="'. route('admin.category.edit', $category) .'">'. $prefix . ' ' . $category->title .'</a></td>
                                             <td class="small">category/'. $category->slug .'</td>
                                             <td>'. $category->products()->count() .'</td>
                                             <td>
-                                                <a href="'. route('category.destroy', $category) .'" onclick="return confirm(\'Categorie verwijderen?\')">verwijder</a>
+                                                <a href="'. route('admin.category.destroy', $category) .'" onclick="return confirm(\'Categorie verwijderen?\')">verwijder</a>
                                             </td>
                                         </tr>';
 
