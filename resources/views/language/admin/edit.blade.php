@@ -25,7 +25,10 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label>Titel</label>
-                                    <input type="text" name="title" class="form-control" value="{{ $language->title }}" required placeholder="bv. Nederlands">
+                                    <div class="input-group">
+                                        <input type="text" name="title" class="form-control" value="{{ $language->title }}" required placeholder="bv. Nederlands">
+                                        @include('language.admin.partials.translate', ['field' => 'title', 'parent_id' => $language->id])
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Taal</label>

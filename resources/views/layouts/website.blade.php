@@ -11,6 +11,13 @@
     <link href="{{ mix('css/website.css') }}" rel="stylesheet">
 </head>
 <body>
+    <div class="language-selector">
+        <select name="language" onchange="window.location.href = '/' + this.value">
+            @foreach (\App\Models\Language::orderBy('sort')->get() as $language)
+                <option {{ config('app.locale') == $language->language_key ? 'selected' : '' }} value="{{ $language->is_default == 0 ? $language->language_key : '' }}">{{ t($language, 'title') }}</option>
+            @endforeach
+        </select>
+    </div>
     @yield('content')
 </body>
 </html>
