@@ -34,7 +34,10 @@
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label>Categorienaam</label>
-                                            <input type="text" name="title" value="{{ $category->title }}" class="form-control" required>
+                                            <div class="input-group">
+                                                <input type="text" name="title" class="form-control" value="{{ $category->title }}" required placeholder="bv. Nederlands">
+                                                @include('language.admin.partials.translate', ['field' => 'title', 'parent_id' => $category->id])
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <label>Plaats in</label>

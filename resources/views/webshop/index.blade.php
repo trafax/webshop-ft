@@ -7,7 +7,7 @@
 
         <nav>
             <ol class="breadcrumb bg-transparent p-0">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('homepage') }}">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Webshop</li>
             </ol>
         </nav>
@@ -17,7 +17,7 @@
                 <div class="card category mb-4">
                     <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $category->title }}</h5>
+                        <h5 class="card-title">{{ t($category, 'title') }}</h5>
                         <p class="card-text">{!! $category->description !!}</p>
                         <a href="{{ route('category', $category->slug) }}" class="stretched-link"></a>
                     </div>

@@ -31,7 +31,10 @@
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="nav-home-tab">
                                 <div class="form-group">
                                     <label>Variatienaam</label>
-                                    <input type="text" name="title" value="{{ $variation->title }}" class="form-control" required>
+                                    <div class="input-group">
+                                        <input type="text" name="title" value="{{ $variation->title }}" class="form-control" required>
+                                        @include('language.admin.partials.translate', ['field' => 'title', 'parent_id' => $variation->id])
+                                    </div>
                                 </div>
                             </div>
                             {{-- <div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="nav-home-tab">

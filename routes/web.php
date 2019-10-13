@@ -12,11 +12,15 @@
 */
 
 Route::localized(function () {
-    Route::get('/', 'HomepageController@index');
+    Route::get('/', 'HomepageController@index')->name('homepage');
+
+    Route::get('language/set/{language}', 'LanguageController@set_language')->name('language.set');
 
     Route::get('webshop', 'WebshopController@index')->name('webshop');
     Route::get('category/{slug}/{any?}', 'CategoryController@index')->name('category')->where('any', '.*');
     Route::post('category/set_filter/{any?}', 'CategoryController@set_variations_filter')->name('category.set_variation_filter')->where('any', '.*');
+
+    Route::get('product/{slug}', 'ProductController@index')->name('product');
 });
 
 

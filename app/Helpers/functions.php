@@ -49,3 +49,11 @@ if (! function_exists('t'))
         }
     }
 }
+
+if (! function_exists('price'))
+{
+    function price($price)
+    {
+        return number_format($price, 2, ',', '.');
+    }
+}
