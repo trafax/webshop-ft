@@ -12,6 +12,7 @@
         "codezero/laravel-localized-routes": "^1.3",
         "cviebrock/eloquent-sluggable": "^4.8",
         "fideloper/proxy": "^4.0",
+        "hardevine/shoppingcart": "^2.7",
         "kalnoy/nestedset": "^5.0",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",

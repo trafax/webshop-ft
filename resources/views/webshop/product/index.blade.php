@@ -50,13 +50,16 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="description">{!! nl2br($product->description) !!}</div>
-                <div class="price mt-4">&euro; {{ price($product->price) }}</div>
-                <div class="form-group">
-                    <label>Aantal</label>
-                    <input type="text" name="qty" value="1" class="form-control col-md-3">
-                </div>
-                <button type="submit" class="btn btn-green">Plaats in winkelwagen</button>
+                <form method="post" action="{{ route('cart.store', $product) }}">
+                    @csrf
+                    <div class="description">{!! nl2br(t($product, 'description')) !!}</div>
+                    <div class="price mt-4 mb-2">&euro; {{ price($product->price) }}</div>
+                    <div class="form-group">
+                        <label>Aantal</label>
+                        <input type="text" name="qty" value="1" class="form-control col-md-3">
+                    </div>
+                    <button type="submit" class="btn btn-green">Plaats in winkelwagen</button>
+                </form>
             </div>
         </div>
     </div>

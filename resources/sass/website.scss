@@ -1,5 +1,6 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
 
 // Variables
 @import 'variables';
@@ -64,5 +65,38 @@
     }
     &.product {
         max-width: 253px;
+    }
+}
+
+.nav-shopping-cart {
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.5);
+    position: relative;
+    top: 1px;
+    &:hover {
+        color: rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+    }
+}
+
+.language-selector {
+    img {
+        margin-right: 10px;
+        height: 30px;
+    }
+}
+
+.shopping-cart {
+    .product {
+        .image {
+            width: 100px;
+            height: 80px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+        .name {
+            font-weight: bold;
+        }
     }
 }
