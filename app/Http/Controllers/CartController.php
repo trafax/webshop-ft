@@ -35,8 +35,10 @@ class CartController extends Controller
 
     }
 
-    public function delete()
+    public function delete($row_id)
     {
+        Cart::remove($row_id);
 
+        return redirect()->back();
     }
 }

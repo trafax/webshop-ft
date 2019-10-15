@@ -24,6 +24,12 @@ Route::localized(function () {
 
     Route::get('cart', 'CartController@index')->name('cart');
     Route::post('cart/store/{product}', 'CartController@store')->name('cart.store');
+    Route::get('cart/delete/{row_id}', 'CartController@delete')->name('cart.delete');
+
+    Route::get('checkout', 'CheckoutController@index')->name('checkout');
+
+    Route::get('customer', 'CustomerController@index')->name('customer');
+    Route::get('customer/logout', 'CustomerController@logout')->name('customer.logout');
 });
 
 
@@ -31,7 +37,7 @@ Route::localized(function () {
 Auth::routes();
 
 Route::get('admin', 'Auth\LoginController@showLoginForm');
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('page', 'PageController');
 
