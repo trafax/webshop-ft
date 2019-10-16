@@ -12,6 +12,23 @@ class CustomerController extends Controller
         return view('customer.index');
     }
 
+    public function edit()
+    {
+        $user = Auth::user();
+
+        return view('customer.edit', compact('user'));
+    }
+
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+        $user->fill($request->all());
+        $user->customer()->updateOrCreate(['user_id' => $user->id], $request->all());
+        $user->save();
+
+        return redirect()->route('customer.edit')->with('message', 'Uw gegevens zijn succesvol aangepast.');
+    }
+
     public function logout()
     {
         Auth::logout();

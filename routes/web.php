@@ -30,6 +30,9 @@ Route::localized(function () {
 
     Route::get('customer', 'CustomerController@index')->name('customer');
     Route::get('customer/logout', 'CustomerController@logout')->name('customer.logout');
+
+    Route::get('customer/edit', 'CustomerController@edit')->name('customer.edit');
+    Route::post('customer/update', 'CustomerController@update')->name('customer.update');
 });
 
 

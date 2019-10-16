@@ -16,7 +16,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h2>Inloggen bestaande klanten</h2>
+                        <h2>Inloggen bestaande klant</h2>
                         <form method="post" action="{{ route('login') }}">
                             @csrf
                             <div class="form-group">
@@ -39,7 +39,7 @@
                     <div class="card-body">
                         <h2>Aanmelden nieuwe klant</h2>
                         <p>Ik ben nog niet in het bezit van inloggegevens. Deze zou ik graag aan willen maken.</p>
-                        <p><a href="#" class="btn btn-green">Aanmelden</a></p>
+                        <p><a href="{{ route('register') }}" class="btn btn-green">Aanmelden</a></p>
                     </div>
                 </div>
             </div>

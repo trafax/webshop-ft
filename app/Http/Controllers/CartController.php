@@ -10,12 +10,7 @@ class CartController extends Controller
 {
     public function index()
     {
-        //Cart::destroy();
-        $items = Cart::content();
-
-        //dd($items);
-
-        return view('webshop.cart.index', compact('items'));
+        return view('webshop.cart.index');
     }
 
     public function store(Request $request, Product $product)

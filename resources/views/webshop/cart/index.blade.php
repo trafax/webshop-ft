@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($items as $item)
+                    @foreach (Cart::content() as $item)
                         <tr class="product border-bottom">
                             <td valign="top align-middle">
                                 <div class="d-flex">
@@ -46,6 +46,12 @@
                         <td></td>
                         <td>Sub-totaal</td>
                         <td>&euro; {{ Cart::subtotal() }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Verzendkosten</td>
+                        <td>&euro; 0,00</td>
                         <td></td>
                     </tr>
                     <tr>

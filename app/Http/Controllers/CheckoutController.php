@@ -14,6 +14,15 @@ class CheckoutController extends Controller
             return redirect()->route('customer');
         }
 
-        return view('webshop.checkout.index');
+        $mollie = new \Mollie\Api\MollieApiClient();
+        $mollie->setApiKey(env('MOLLIE_API_KEY'));
+        $payment_methods = $mollie->methods->all();
+
+        return view('webshop.checkout.index', compact('payment_methods'));
+    }
+
+    public function place_order(Request $request)
+    {
+        dump($request->all());
     }
 }
