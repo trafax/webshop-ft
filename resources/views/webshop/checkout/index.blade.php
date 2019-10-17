@@ -16,7 +16,7 @@
             @csrf
             <div class="row">
                 <div class="col-md-4">
-                    <h2 class="h4">Klantgegevens</h2>
+                    <h2 class="h4">Factuur / Afleveradres</h2>
                     <hr>
                     <div class="form-group">
                         <label class="font-weight-bold">Naam</label>
@@ -38,6 +38,31 @@
                         <label class="font-weight-bold">Telefoonnummer</label>
                         <span class="d-block">{{ Auth::user()->customer->telephone }}</span>
                     </div>
+                    <label class="bg-light d-block py-2 px-3">
+                        <input type="radio" name="deliver" value="invoice_address" onclick="$('#deliver_address').addClass('d-none')" class="mr-2" checked> Verzend naar dit adres
+                    </label>
+                    <label class="bg-light d-block py-2 px-3">
+                        <input type="radio" name="deliver" value="deliver_address" onclick="$('#deliver_address').removeClass('d-none')" class="mr-2"> Verzend naar ander adres
+                    </label>
+                    <div class="mt-2 d-none" id="deliver_address">
+                        <div class="form-group">
+                            <label class="font-weight-bold">Adres</label>
+                            <input type="text" name="delivery_address" value="" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Postcode + woonplaats</label>
+                            <div class="row">
+                                <div class="col-md-4"><input type="text" name="delivery_zipcode" value="" class="form-control"></div>
+                                <div class="col-md-8"><input type="text" name="delivery_city" value="" class="form-control"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-weight-bold">Land</label>
+                            <input type="text" name="delivery_country" value="" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Opslaan</button>
+                    </div>
+                    <hr>
                     <p>
                         Kloppen uw gegevens niet?<br><a href="{{ route('customer.edit') }}">Pas ze hier aan.</a>
                     </p>
@@ -72,23 +97,23 @@
                     <div class="mb-2 mt-4 ">
                         <div class="d-flex border-bottom py-1">
                             <span>Sub-totaal</span>
-                            <span class="ml-auto">&euro; {{ Cart::subtotal() }}</span>
+                            <span class="ml-auto">&euro; {{ App\Libraries\Cart::subtotal() }}</span>
                         </div>
                         <div class="d-flex border-bottom py-1">
                             <span>Verzendkosten</span>
-                            <span class="ml-auto">&euro; 0,00</span>
+                            <span class="ml-auto">&euro; {{ App\Libraries\Cart::shipping(true) }}</span>
                         </div>
                         <div class="d-flex border-bottom py-1">
                             <span>BTW (9%)</span>
-                            <span class="ml-auto">&euro; {{ Cart::tax() }}</span>
+                            <span class="ml-auto">&euro; {{ App\Libraries\Cart::tax() }}</span>
                         </div>
                         <div class="d-flex py-1">
                             <span>Totaal</span>
-                            <span class="ml-auto">&euro; {{ Cart::total() }}</span>
+                            <span class="ml-auto">&euro; {{ App\Libraries\Cart::total() }}</span>
                         </div>
                     </div>
 
-                    <p class="mt-3"><label><input type="checkbox" name="agreed" value="1"> Ik plaats een bestelling met betaalplicht en ga akkoord met de <a href="#">algemene voorwaarden</a></label></p>
+                    <p class="mt-3"><label><input type="checkbox" name="agreed" value="1"> Ik plaats een bestelling en ga akkoord met de <a href="/algemene-voorwaarden">algemene voorwaarden</a></label></p>
                     <button type="submit" class="btn btn-green mt-3 float-right">Afrekenen</button>
                 </div>
             </div>

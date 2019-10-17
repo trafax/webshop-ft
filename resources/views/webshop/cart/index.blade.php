@@ -45,25 +45,25 @@
                     <tr>
                         <td></td>
                         <td>Sub-totaal</td>
-                        <td>&euro; {{ Cart::subtotal() }}</td>
+                        <td>&euro; {{ App\Libraries\Cart::subtotal() }}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td>Verzendkosten</td>
-                        <td>&euro; 0,00</td>
+                        <td>&euro; {{ App\Libraries\Cart::shipping(true) }}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td></td>
                         <td>BTW (9%)</td>
-                        <td>&euro; {{ Cart::tax() }}</td>
+                        <td>&euro; {{ App\Libraries\Cart::tax() }}</td>
                         <td></td>
                     </tr>
                     <tr class="font-weight-bold">
                         <td></td>
                         <td>Totaal</td>
-                        <td>&euro; {{ Cart::total() }}</td>
+                        <td>&euro; {{ App\Libraries\Cart::total() }}</td>
                         <td></td>
                     </tr>
                     <tr>
@@ -80,6 +80,7 @@
         @else
 
             <p class="text-center font-weight-bold">Er zit niks in je winkelmandje</p>
+            <p class="text-center"><a href="{{ route('webshop') }}" class="btn btn-green">Ga naar webshop</a></p>
 
         @endif
 

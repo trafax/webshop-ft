@@ -21,11 +21,11 @@
                             @csrf
                             <div class="form-group">
                                 <label>E-mailadres</label>
-                                <input type="email" name="email" class="form-control">
+                                <input type="email" name="email" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label>Wachtwoord</label>
-                                <input type="password" name="password" class="form-control">
+                                <input type="password" name="password" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-green">Inloggen</button>

@@ -68,4 +68,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     Route::get('translate', 'TranslateController@modal')->name('translate');
     Route::post('translate/store', 'TranslateController@store')->name('translate.store');
+
+    Route::resource('country', 'CountryController');
+    Route::get('country/{country}/destroy', 'CountryController@destroy')->name('country.destroy');
 });
