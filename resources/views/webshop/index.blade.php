@@ -15,7 +15,9 @@
         <div class="card-deck">
             @foreach ($categories as $key => $category)
                 <div class="card category mb-4">
-                    <img src="..." class="card-img-top" alt="...">
+                    @if ($category->image)
+                        <div class="image" style="background-image: url('{{ $category->image }}')"></div>
+                    @endif
                     <div class="card-body">
                         <h5 class="card-title">{{ t($category, 'title') }}</h5>
                         <p class="card-text">{!! $category->description !!}</p>

@@ -34,7 +34,7 @@ public function index(Request $request, $slug, $url_variations = null)
 
     foreach ($variations_tmp as $variation)
     {
-        $values = ProductVariation::where('variation_id', $variation->id)->whereIn('product_id', $all_products_ids)->groupBy('title')->orderBy('title', 'asc')->get(['title', 'slug']);
+        $values = ProductVariation::where('variation_id', $variation->id)->whereIn('product_id', $all_products_ids)->groupBy('title')->orderBy('fixed_price')->orderBy('title', 'asc')->get(['title', 'slug']);
         $variation->values = $values;
         $variations[] = $variation;
     }
@@ -47,7 +47,7 @@ public function index(Request $request, $slug, $url_variations = null)
 
     if ($url_variations)
     {
-        $products = Product::whereIn('id', $product_ids)->paginate(setting('products_pp'));
+        $products = Product::whereIn('id', $product_ids)->orderBy('price')->orderBy('title')->paginate(setting('products_pp'));
     }
     else
     {

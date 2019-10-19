@@ -47,6 +47,6 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Models\Customer', 'user_id', 'id')->withDefault(function() {
             return new Customer();
-        });;
+        });
     }
 }

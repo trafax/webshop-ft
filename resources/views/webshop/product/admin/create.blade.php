@@ -43,6 +43,10 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
+                                            <label>Artikelnummer</label>
+                                            <input type="text" name="sku" class="form-control">
+                                        </div>
+                                        <div class="form-group">
                                             <label>Prijs</label>
                                             <input type="text" name="price" class="form-control">
                                         </div>

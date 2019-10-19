@@ -19,7 +19,7 @@ class Product extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'title', 'description', 'price', 'seo', 'slug', 'image'
+        'sku', 'title', 'description', 'price', 'seo', 'slug', 'image'
     ];
 
     public $casts =[
@@ -42,7 +42,7 @@ class Product extends Model
 
     public function variations()
     {
-        return $this->belongsToMany('App\Models\Variation')->orderBy('sort')->withPivot('title', 'fixed_price', 'adding_price');
+        return $this->belongsToMany('App\Models\Variation')->orderBy('sort')->withPivot('title', 'fixed_price', 'adding_price')->orderBy('pivot_fixed_price')->orderBy('pivot_title');
     }
 
     public function filtered()

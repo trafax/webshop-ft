@@ -46,6 +46,10 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
+                                            <label>Artikelnummer</label>
+                                            <input type="text" name="sku" value="{{ $product->sku }}" class="form-control">
+                                        </div>
+                                        <div class="form-group">
                                             <label>Prijs</label>
                                             <input type="text" name="price" value="{{ $product->price }}" class="form-control">
                                         </div>

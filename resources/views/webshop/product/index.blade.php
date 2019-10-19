@@ -41,19 +41,24 @@
                     </a>
                 </div>
 
-                <div class="thumbs row mt-4 pb-4">
-                    @foreach($product->assets()->limit(3)->get() as $key => $asset)
-                        <div class="col">
-                            <a class="thumb d-block" href="javascript:;" data-target="#carousel" data-slide-to="{{ $key }}" style="background-image: url('{{ asset('storage/'.$asset->file) }}')"></a>
-                        </div>
-                    @endforeach
-                </div>
+                @if ($product->assets()->count() > 1)
+                    <div class="thumbs row mt-4 pb-4">
+                        @foreach($product->assets()->limit(3)->get() as $key => $asset)
+                            <div class="col">
+                                <a class="thumb d-block" href="javascript:;" data-target="#carousel" data-slide-to="{{ $key }}" style="background-image: url('{{ asset('storage/'.$asset->file) }}')"></a>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             </div>
             <div class="col-md-6">
                 <form method="post" action="{{ route('cart.store', $product) }}">
                     @csrf
                     <div class="description">{!! nl2br(t($product, 'description')) !!}</div>
-                    <div class="price mt-4 mb-2">&euro; {{ price($product->price) }}</div>
+                    @if ($product->sku)
+                        <div class="description mt-2 font-weight-bold">Artikelnummer: {{ $product->sku }}</div>
+                    @endif
+                    <div class="price mt-2 mb-2">&euro; {{ price($product->price) }}</div>
                     <div class="form-group">
                         <label>Aantal</label>
                         <input type="text" name="qty" value="1" class="form-control col-md-3">

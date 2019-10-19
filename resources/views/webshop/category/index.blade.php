@@ -78,7 +78,9 @@
                     <div class="card-deck products">
                         @foreach ($products as $key => $product)
                         <div class="card product mb-4">
-                            <div class="image" style="background-image: url('/storage/{{ $product->assets()->get()->first()->file }}')"></div>
+                            @if ($product->assets()->get()->first())
+                                <div class="image" style="background-image: url('/storage/{{ $product->assets()->get()->first()->file }}')"></div>
+                            @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{ t($product, 'title') }}</h5>
                                 <a href="{{ route('product', $product->slug) }}" class="stretched-link"></a>
