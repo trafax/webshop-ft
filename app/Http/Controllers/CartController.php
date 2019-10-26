@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductVariation;
 use Gloudemans\Shoppingcart\Facades\Cart as Cart;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,29 @@ class CartController extends Controller
 
     public function store(Request $request, Product $product)
     {
-        Cart::add($product, t($product, 'title'), $request->get('qty'), $product->price);
+        $price = $product->price;
+        $option = [];
+
+        if (is_array($request->get('options')))
+        {
+            foreach ($request->get('options') as $option_slug)
+            {
+                $variation = ProductVariation::where(['product_id' => $product->id, 'slug' => $option_slug])->first();
+
+                if ($variation->fixed_price > 0)
+                {
+                    $price = $variation->fixed_price;
+                }
+                if ($variation->adding_price > 0)
+                {
+                    $price = $price + $variation->adding_price;
+                }
+
+                $option[t($variation->variation, 'title')] = $variation->title;
+            }
+        }
+
+        Cart::add($product, t($product, 'title'), $request->get('qty'), $price, $option);
 
         return redirect()->back()->with('modal', [
             'title' => 'Winkelwagen',

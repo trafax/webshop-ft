@@ -16,7 +16,7 @@ class Variation extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'title', 'sort'
+        'title', 'selectable', 'hide', 'sort'
     ];
 
     public function sluggable()

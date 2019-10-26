@@ -28,18 +28,20 @@
                     <form method="post" action="{{ route('category.set_variation_filter', $category->slug) }}">
                         @csrf
                         @foreach ($variations as $variation)
-                            <div class="card mb-4">
-                                <div class="card-header font-weight-bold py-1">{{ t($variation, 'title') }}</div>
-                                <div class="card-body pb-2 px-3 pt-2 mb-0">
-                                    @foreach ($variation->values as $value)
-                                        <div class="form-check">
-                                            @php $checked = isset($active_variations[$variation->slug]) && in_array($value->slug, explode(',', $active_variations[$variation->slug])) ? 'checked' : '' @endphp
-                                            <input type="checkbox" {{ $checked }} name="variations[{{ $variation->slug }}][]" class="form-check-input" value="{{ $value->slug }}" id="{{ $value->title }}">
-                                            <label class="form-check-label" for="{{ $value->title }}">{{ $value->title }}</label>
-                                        </div>
-                                    @endforeach
+                            @if ($variation->hide == 0)
+                                <div class="card mb-4">
+                                    <div class="card-header font-weight-bold py-1">{{ t($variation, 'title') }}</div>
+                                    <div class="card-body pb-2 px-3 pt-2 mb-0">
+                                        @foreach ($variation->values as $value)
+                                            <div class="form-check">
+                                                @php $checked = isset($active_variations[$variation->slug]) && in_array($value->slug, explode(',', $active_variations[$variation->slug])) ? 'checked' : '' @endphp
+                                                <input type="checkbox" {{ $checked }} name="variations[{{ $variation->slug }}][]" class="form-check-input" value="{{ $value->slug }}" id="{{ $value->title }}">
+                                                <label class="form-check-label" for="{{ $value->title }}">{{ $value->title }}</label>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         @endforeach
                     </form>
                 </div>
@@ -86,7 +88,7 @@
                                 <a href="{{ route('product', $product->slug) }}" class="stretched-link"></a>
                             </div>
                         </div>
-                        {!! ($key+1) == 4 ? '</div><div class="card-deck">' : '' !!}
+                        {!! ($key+1) == 3 ? '</div><div class="card-deck products">' : '' !!}
                         @endforeach
                     </div>
                 @endif

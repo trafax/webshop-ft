@@ -16,10 +16,22 @@ class Cart extends GloudemansCart
     {
         $content = GloudemansCart::content();
         $total = $content->reduce(function ($total, CartItem $cartItem) {
-            return $total + ($cartItem->qty * $cartItem->priceTax);
+            return $total + ($cartItem->qty * $cartItem->price);
         }, 0);
 
         $total += self::shipping();
+
+        return self::numberFormat($total, $decimals, $decimalPoint, $thousandSeperator);
+    }
+
+    public static function tax($decimals = null, $decimalPoint = null, $thousandSeperator = null)
+    {
+        $content = GloudemansCart::content();
+        $total = $content->reduce(function ($total, CartItem $cartItem) {
+            return $total + ($cartItem->qty * $cartItem->price);
+        }, 0);
+
+        $total = ($total / 100) * 9;
 
         return self::numberFormat($total, $decimals, $decimalPoint, $thousandSeperator);
     }

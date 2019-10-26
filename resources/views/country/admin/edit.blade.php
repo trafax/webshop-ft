@@ -23,7 +23,10 @@
                         @csrf
                         <div class="form-group">
                             <label>Titel</label>
-                            <input type="text" name="title" class="form-control" value="{{ $country->title }}" required>
+                            <div class="input-group">
+                                <input type="text" name="title" class="form-control" value="{{ $country->title }}" required>
+                                @include('language.admin.partials.translate', ['field' => 'title', 'parent_id' => $country->id])
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Korte naam</label>

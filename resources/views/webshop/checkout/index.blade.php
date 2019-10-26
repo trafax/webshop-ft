@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold">Adres</label>
-                        <span class="d-block">{{ Auth::user()->customer->address }}</span>
+                        <span class="d-block">{{ Auth::user()->customer->street }} {{ Auth::user()->customer->number }}</span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold">Postcode + Plaats</label>
@@ -32,35 +32,30 @@
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold">Land</label>
-                        <span class="d-block">{{ Auth::user()->customer->country }}</span>
+                        <span class="d-block">{{ t(Auth::user()->customer->country()->first(), 'title') }}</span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold">Telefoonnummer</label>
                         <span class="d-block">{{ Auth::user()->customer->telephone }}</span>
                     </div>
-                    <label class="bg-light d-block py-2 px-3">
-                        <input type="radio" name="deliver" value="invoice_address" onclick="$('#deliver_address').addClass('d-none')" class="mr-2" checked> Verzend naar dit adres
-                    </label>
-                    <label class="bg-light d-block py-2 px-3">
-                        <input type="radio" name="deliver" value="deliver_address" onclick="$('#deliver_address').removeClass('d-none')" class="mr-2"> Verzend naar ander adres
-                    </label>
-                    <div class="mt-2 d-none" id="deliver_address">
-                        <div class="form-group">
-                            <label class="font-weight-bold">Adres</label>
-                            <input type="text" name="delivery_address" value="" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Postcode + woonplaats</label>
-                            <div class="row">
-                                <div class="col-md-4"><input type="text" name="delivery_zipcode" value="" class="form-control"></div>
-                                <div class="col-md-8"><input type="text" name="delivery_city" value="" class="form-control"></div>
+
+                    <div class="mt-2 {!! Auth::user()->customer->other_delivery == 0 ? 'd-none' : '' !!}" id="deliver_address">
+                        <h2 class="h4 mt-4">Afwijkend afleveradres</h2>
+                        <hr>
+                        <div class="bg-light p-3">
+                            <div class="form-group">
+                                <label class="font-weight-bold">Adres</label>
+                                <span class="d-block">{{ Auth::user()->customer->delivery_street }} {{ Auth::user()->customer->delivery_number }}</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Postcode + woonplaats</label>
+                                <span class="d-block">{{ Auth::user()->customer->delivery_zipcode }} {{ Auth::user()->customer->delivery_city }}</span>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Land</label>
+                                <span class="d-block">{{ t(Auth::user()->customer->delivery_country()->first(),'title') }}</span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Land</label>
-                            <input type="text" name="delivery_country" value="" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Opslaan</button>
                     </div>
                     <hr>
                     <p>

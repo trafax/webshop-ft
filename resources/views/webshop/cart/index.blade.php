@@ -31,12 +31,15 @@
                         <tr class="product border-bottom">
                             <td valign="top align-middle">
                                 <div class="d-flex">
-                                    <div class="image mr-3" style="background-image: url('/storage/{{ $item->id->assets()->get()->first()->file }}')"></div>
+                                    <div class="image mr-3" style="background-image: url('/storage/{{ @$item->id->assets()->get()->first()->file }}')"></div>
                                     <div class="name mt-3">
                                         {{ t($item->id, 'title') }}
                                         @if ($item->id->sku)
                                             <span class="d-block small">Artikelnummer: {{ $item->id->sku }}</span>
                                         @endif
+                                        @foreach ($item->options as $option => $value)
+                                            <span class="d-block small">{{ $option }}: {{ $value }}</span>
+                                        @endforeach
                                     </div>
                                 </div>
                             </td>

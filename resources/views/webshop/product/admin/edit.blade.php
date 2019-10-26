@@ -159,8 +159,8 @@
                                                     @php $text = ''; @endphp
                                                     @foreach ($product->variations->where('title', $variation->title) as $row)
                                                         @php $text .= $row->pivot->title .
-                                                        ($row->pivot->fixed_price > 0 ? ', '. $row->pivot->fixed_price : '') .
-                                                        ($row->pivot->adding_price > 0 ? ', '. $row->pivot->adding_price : '') . "\n"
+                                                        ($row->pivot->fixed_price ? ', '. $row->pivot->fixed_price : '') .
+                                                        ($row->pivot->adding_price ? ', '. $row->pivot->adding_price : '') . "\n"
                                                         @endphp
                                                     @endforeach
                                                     <textarea name="variations[{{ $variation->id }}]" rows="8" class="form-control" placeholder="naam, vaste prijs, meerprijs">{{ $text }}</textarea>

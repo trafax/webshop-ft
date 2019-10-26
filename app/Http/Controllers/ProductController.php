@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Variation;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -15,8 +16,11 @@ class ProductController extends Controller
         $category = last($product->categories()->get()->toArray());
         $category = (object) $category;
 
-        $breadcrumbs = Category::whereAncestorOf($category->id)->get();
+        if (! isset($category->id)) $category = new Category();
 
-        return view('webshop.product.index', compact('product', 'category', 'breadcrumbs'));
+        $breadcrumbs = Category::whereAncestorOf($category->id)->get();
+        $variations = Variation::where('selectable', 1)->orderBy('sort')->get();
+
+        return view('webshop.product.index', compact('product', 'category', 'breadcrumbs', 'variations'));
     }
 }

@@ -11,7 +11,9 @@
                 @foreach($breadcrumbs as $item)
                     <li class="breadcrumb-item"><a href="{{ route('category', $item->slug) }}">{{ t($item, 'title') }}</a></li>
                 @endforeach
-                <li class="breadcrumb-item"><a href="{{ route('category', $category->slug) }}">{{ t($category, 'title') }}</a></li>
+                @if ($category->slug)
+                    <li class="breadcrumb-item"><a href="{{ route('category', $category->slug) }}">{{ t($category, 'title') }}</a></li>
+                @endif
                 <li class="breadcrumb-item active" aria-current="page">{{ t($product, 'title') }}</li>
             </ol>
         </nav>
@@ -58,7 +60,38 @@
                     @if ($product->sku)
                         <div class="description mt-2 font-weight-bold">Artikelnummer: {{ $product->sku }}</div>
                     @endif
-                    <div class="price mt-2 mb-2">&euro; {{ price($product->price) }}</div>
+                    <div class="mt-2 mb-2 default_price" data-default_price="{{ $product->price }}">
+                        <span class="price">&euro; {{ price($product->price) }}</span>
+                    </div>
+
+                    @foreach ($variations as $key => $variation)
+                        @php $rows = $product->variations->where('title', $variation->title); @endphp
+                        @if ($rows->count() > 0)
+                            <div class="form-group">
+                                <label>{{ t($variation, 'title') }}</label>
+                                <select class="form-control option_select" name="options[{{ $variation->slug }}]">
+                                @foreach ($rows as $row)
+                                    @php
+                                        $data_attr = '';
+                                        $price = '';
+                                        if ($row->pivot->fixed_price > 0)
+                                        {
+                                            $data_attr = 'data-fixed_price="'. $row->pivot->fixed_price .'"';
+                                            $price = '(&euro; '.price($row->pivot->fixed_price).')';
+                                        }
+                                        else if ($row->pivot->adding_price > 0)
+                                        {
+                                            $data_attr = 'data-adding_price="'. $row->pivot->adding_price .'"';
+                                            $price = '+ (&euro; '.$row->pivot->adding_price.')';
+                                        }
+                                    @endphp
+                                    <option value="{{ $row->pivot->slug }}" {!! $data_attr !!}>{{ $row->pivot->title }} {!! $price !!}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        @endif
+                    @endforeach
+
                     <div class="form-group">
                         <label>Aantal</label>
                         <input type="text" name="qty" value="1" class="form-control col-md-3">

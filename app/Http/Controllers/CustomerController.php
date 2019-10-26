@@ -23,7 +23,8 @@ class CustomerController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'address' => 'required',
+            'street' => 'required',
+            'number' => 'required',
             'zipcode' => 'required',
             'city' => 'required',
             'country' => 'required',

@@ -37680,6 +37680,19 @@ $(function () {
       });
     }
   });
+  $('.option_select').change(function () {
+    var total = parseFloat($('.default_price').data('default_price'));
+    $('.option_select').each(function () {
+      if ($(this).find(':selected').data('fixed_price')) {
+        total = parseFloat($(this).find(':selected').data('fixed_price'));
+      } else if (parseFloat($(this).find(':selected').data('adding_price'))) {
+        total = total + parseFloat($(this).find(':selected').data('adding_price'));
+      }
+    });
+    $('.price').html('&euro; ' + Number(total).toLocaleString("nl-NL", {
+      minimumFractionDigits: 2
+    }));
+  });
 });
 
 /***/ }),

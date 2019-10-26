@@ -39,7 +39,7 @@ class ProductController extends Controller
         foreach ((array) $request->get('variations') as $variation_id => $variation)
         {
             $rows = explode("\r\n", $variation);
-            foreach ($rows as $row)
+            foreach ($rows as $key => $row)
             {
                 $option = explode(',', $row);
 
@@ -50,6 +50,7 @@ class ProductController extends Controller
                 if ($title)
                 {
                     $product->variations()->attach($variation_id, [
+                        'sort' => $key,
                         'title' => $title,
                         'slug' => Str::slug($title),
                         'fixed_price' => $fixed_price,
@@ -87,17 +88,18 @@ class ProductController extends Controller
         foreach ((array) $request->get('variations') as $variation_id => $variation)
         {
             $rows = explode("\r\n", $variation);
-            foreach ($rows as $row)
+            foreach ($rows as $key => $row)
             {
                 $option = explode(',', $row);
 
                 $title = isset($option[0]) ? $option[0] : '';
-                $fixed_price = isset($option[1]) && $option[1] > 0 ? round($option[1], 2) : 0;
-                $adding_price = isset($option[2]) && $option[2] > 0 ? round($option[2], 2) : 0;
+                $fixed_price = isset($option[1]) ? round($option[1], 2) : 0;
+                $adding_price = isset($option[2]) ? round($option[2], 2) : 0;
 
                 if ($title)
                 {
                     $product->variations()->attach($variation_id, [
+                        'sort' => $key,
                         'title' => $title,
                         'slug' => Str::slug($title),
                         'fixed_price' => $fixed_price,

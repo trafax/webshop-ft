@@ -31,6 +31,20 @@
                                     <label>Variatienaam</label>
                                     <input type="text" name="title" class="form-control" required>
                                 </div>
+                                <div class="form-group">
+                                    <label>Kiesbaar</label>
+                                    <div class="d-block">
+                                        <label><input type="radio" name="selectable" value="0" checked> Nee</label>
+                                        <label class="ml-1"><input type="radio" name="selectable" value="1"> Ja</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Zichtbaar in categorie pagina</label>
+                                    <div class="d-block">
+                                        <label><input type="radio" name="hide" value="0" checked> Ja</label>
+                                        <label class="ml-1"><input type="radio" name="hide"> Nee</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div>
