@@ -56,10 +56,10 @@
             <div class="col-md-6">
                 <form method="post" action="{{ route('cart.store', $product) }}">
                     @csrf
-                    <div class="description">{!! nl2br(t($product, 'description')) !!}</div>
                     @if ($product->sku)
-                        <div class="description mt-2 font-weight-bold">Artikelnummer: {{ $product->sku }}</div>
+                        <div class="description mb-2 font-weight-bold">Artikelnummer: {{ $product->sku }}</div>
                     @endif
+                    <div class="description">{!! nl2br(t($product, 'description')) !!}</div>
                     <div class="mt-2 mb-2 default_price" data-default_price="{{ $product->price }}">
                         <span class="price">&euro; {{ price($product->price) }}</span>
                     </div>

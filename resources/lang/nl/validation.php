@@ -131,6 +131,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'agreed' => [
+            'required' => 'U dient akkoord te gaan met de algemene voorwaarden.'
+        ]
     ],
 
     /*

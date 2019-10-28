@@ -26,13 +26,16 @@ Route::localized(function () {
     Route::post('cart/store/{product}', 'CartController@store')->name('cart.store');
     Route::get('cart/delete/{row_id}', 'CartController@delete')->name('cart.delete');
 
-    Route::get('checkout', 'CheckoutController@index')->name('checkout');
-
     Route::get('customer', 'CustomerController@index')->name('customer');
     Route::get('customer/logout', 'CustomerController@logout')->name('customer.logout');
 
     Route::get('customer/edit', 'CustomerController@edit')->name('customer.edit');
     Route::post('customer/update', 'CustomerController@update')->name('customer.update');
+
+    Route::get('checkout', 'CheckoutController@index')->name('checkout');
+    Route::post('checkout/place_order', 'CheckoutController@place_order')->name('checkout.place_order');
+    Route::post('checkout/webhook', 'CheckoutController@webhook_payment')->name('checkout.webhook_payment');
+    Route::get('checkout/return/{order}', 'CheckoutController@return_payment')->name('checkout.return_payment');
 });
 
 

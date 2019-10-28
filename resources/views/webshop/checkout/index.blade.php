@@ -12,7 +12,7 @@
 
         <hr>
 
-        <form method="post" action="">
+        <form method="post" action="{{ route('checkout.place_order') }}">
             @csrf
             <div class="row">
                 <div class="col-md-4">
@@ -108,8 +108,22 @@
                         </div>
                     </div>
 
-                    <p class="mt-3"><label><input type="checkbox" name="agreed" value="1"> Ik plaats een bestelling en ga akkoord met de <a href="/algemene-voorwaarden">algemene voorwaarden</a></label></p>
-                    <button type="submit" class="btn btn-green mt-3 float-right">Afrekenen</button>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            @foreach ($errors->all() as $error)
+                                {{ $error }}
+                            @endforeach
+                        </div>
+                    @endif
+
+                    @if (session('order_id'))
+                        <input type="hidden" name="agreed" value="1">
+                        <p class="text-warning">De bestelling is al geplaatst. Deze dient enkel nog betaald te worden.</p>
+                        <button type="submit" class="btn btn-green mt-3 float-right">Afrekenen</button>
+                    @else
+                        <p class="mt-3"><label><input type="checkbox" name="agreed" value="1"> Ik plaats een bestelling en ga akkoord met de <a href="/algemene-voorwaarden">algemene voorwaarden</a></label></p>
+                        <button type="submit" class="btn btn-green mt-3 float-right">Afrekenen</button>
+                    @endif
                 </div>
             </div>
         </form>
