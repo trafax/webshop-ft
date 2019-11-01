@@ -12,6 +12,8 @@ class OrderCustomer extends Model
 
     public $incrementing = false;
 
+    public $primaryKey = 'order_id';
+
     public $fillable = [
         'order_id', 'user_id', 'name', 'email', 'street', 'number', 'zipcode', 'city', 'country', 'telephone', 'other_delivery', 'delivery_street', 'delivery_number', 'delivery_country', 'delivery_zipcode', 'delivery_city', 'delivery_country'
     ];

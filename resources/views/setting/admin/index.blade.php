@@ -46,6 +46,10 @@
                                                 <label>Aantal artikelen per pagina</label>
                                                 <input type="text" name="products_pp" class="form-control" value="{{ setting('products_pp') }}">
                                             </div>
+                                            <div class="form-group">
+                                                <label>Verstuur bestellingen naar</label>
+                                                <input type="text" name="send_orders_to" class="form-control" value="{{ setting('send_orders_to') }}">
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">

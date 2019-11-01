@@ -11,8 +11,14 @@ class OrderRule extends Model
 
     public $incrementing = false;
 
+    public $timestamps = false;
+
     public $fillable = [
-        'product_id', 'sku', 'title', 'qty', 'price'
+        'order_id', 'product_id', 'sku', 'title', 'qty', 'price', 'options'
+    ];
+
+    public $casts = [
+        'options' => 'array'
     ];
 
     public function order()

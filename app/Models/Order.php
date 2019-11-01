@@ -19,11 +19,11 @@ class Order extends Model
 
     public function rules()
     {
-        return $this->belongsToMany('App\Models\OrderRule', 'order_rules', '', 'order_id');
+        return $this->hasMany('App\Models\OrderRule', 'order_id', 'id');
     }
 
     public function customer()
     {
-        return $this->belongsTo('App\Models\OrderCustomer', 'order_customer', '', 'customer_id');
+        return $this->hasOne('App\Models\OrderCustomer', 'order_id', 'id');
     }
 }
