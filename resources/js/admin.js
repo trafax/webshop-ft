@@ -6,11 +6,41 @@ try {
 
     require('bootstrap');
 
+    require('tinymce');
+    require('tinymce/themes/silver');
+    require('tinymce/plugins/link');
+    require('tinymce/plugins/media');
+    require('tinymce/plugins/image');
+
     window.sortable = require('jquery-ui/ui/widgets/sortable');
 
     window.filemanager = require('../../vendor/unisharp/laravel-filemanager/public/js/lfm.js');
 
     window.Dropzone = require('dropzone');
+
+    tinymce.init({
+        selector: '.editor',
+        //inline: true,
+        skin: false,
+        plugins: "link image media",
+        convert_urls: 0, toolbar: 'formatselect | fontsizeselect | bold italic strikethrough | link image media',
+        // setup: function (editor) {
+        //     editor.on('blur', function (e) {
+        //         var content = editor.getContent();
+        //         var object = $($(e)[0].target.bodyElement);
+        //         var identifier = $(object).data('identifier');
+
+        //         $.ajax({
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //             },
+        //             data: $.extend($(object).data(), {'content': content, 'identifier' : identifier}),
+        //             //url: $(object).data('action') ? $(object).data('action') : '/admin/page/update_content',
+        //             type: 'POST'
+        //         });
+        //     });
+        // }
+    });
 
 } catch (e) {}
 

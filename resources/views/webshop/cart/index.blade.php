@@ -32,7 +32,7 @@
                             <td valign="top align-middle">
                                 <div class="d-flex">
                                     <div class="image mr-3" style="background-image: url('/storage/{{ @$item->id->assets()->get()->first()->file }}')"></div>
-                                    <div class="name mt-3">
+                                    <div class="name">
                                         {{ t($item->id, 'title') }}
                                         @if ($item->id->sku)
                                             <span class="d-block small">Artikelnummer: {{ $item->id->sku }}</span>
@@ -78,7 +78,11 @@
                         <td colspan="4">
                             <div class="d-flex">
                                 <a href="{{ route('webshop') }}" class="btn btn-light">Verder winkelen</a>
-                                <a href="{{ route('checkout') }}" class="btn btn-green ml-auto">Afrekenen</a>
+                                @if (App\Libraries\Cart::total() >= setting('minimum_order_taking'))
+                                    <a href="{{ route('checkout') }}" class="btn btn-green ml-auto">Afrekenen</a>
+                                @else
+                                    <p class="ml-auto text-warning">Minimaal order afname € {{ price(setting('minimum_order_taking')) }}</p>
+                                @endif
                             </div>
                         </td>
                     </tr>

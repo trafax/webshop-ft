@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group">
                             <label>Korte naam</label>
-                            <input type="text" name="language_key" class="form-control"s required>
+                            <input type="text" name="language_key" class="form-control" required>
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary">Opslaan</button>

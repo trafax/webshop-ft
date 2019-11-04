@@ -47,7 +47,7 @@
                                 <a class="dropdown-item" href="{{ route('admin.product.index') }}">Producten</a>
                                 <a class="dropdown-item" href="{{ route('admin.variation.index') }}">Variaties</a>
                                 <a class="dropdown-item" href="{{ route('admin.country.index') }}">Landen</a>
-                                <a class="dropdown-item" href="#">Verzendkosten</a>
+                                <a class="dropdown-item" href="{{ route('admin.shipping.index') }}">Verzendkosten</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -56,7 +56,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="{{ route('admin.setting.index') }}">Standaard instellingen</a>
-                                <a class="dropdown-item" href="#">E-mail templates</a>
+                                <a class="dropdown-item" href="{{ route('admin.emailTemplate.index') }}">E-mail templates</a>
                                 <a class="dropdown-item" href="{{ route('admin.language.index') }}">Talen</a>
                             </div>
                         </li>

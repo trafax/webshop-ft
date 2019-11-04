@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\EmailTemplate;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -30,13 +31,23 @@ class Invoice extends Mailable
      */
     public function build()
     {
-        $pdf = PDF::loadView('webshop.emails.order', ['order' => $this->order]);
+        $data = new \App\Mail\Order($this->order);
+        $pdf = PDF::loadHTML($data->build()->html);
         $pdf = $pdf->stream();
 
-        return $this->from('bestellingen@floratuin.com')
-            ->attachData($pdf, 'Factuur'.$this->order->nr.'.pdf', [
+        $orderText = EmailTemplate::find('de158cc0-fcf1-11e9-b369-fb192d37d9d2')->content;
+
+        $html = str_replace('##naam##', $this->order->customer->name, $orderText);
+
+        $template_html = view('webshop.emails.invoice')->with([
+            'html' => $html,
+            'order' => $this->order
+            ])->render();
+
+        return $this->html($template_html)->from('bestellingen@floratuin.com')
+            ->subject('Factuur '. $this->order->nr)
+            ->attachData($pdf, 'Factuur '.$this->order->nr.'.pdf', [
                 'mime' => 'application/pdf',
-            ])
-            ->view('webshop.emails.invoice')->subject('Betaling voltooid')->with('order', $this->order);
+            ]);
     }
 }

@@ -38,8 +38,6 @@ Route::localized(function () {
     Route::get('checkout/return/{order}', 'CheckoutController@return_payment')->name('checkout.return_payment');
 });
 
-
-
 Auth::routes();
 
 Route::get('admin', 'Auth\LoginController@showLoginForm');
@@ -74,4 +72,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     Route::resource('country', 'CountryController');
     Route::get('country/{country}/destroy', 'CountryController@destroy')->name('country.destroy');
+
+    Route::resource('shipping', 'ShippingController');
+    Route::get('shipping/{shipping}/destroy', 'ShippingController@destroy')->name('shipping.destroy');
+
+    Route::resource('shipping/rule', 'ShippingRuleController');
+    Route::get('shipping/rule/{rule}/destroy', 'ShippingRuleController@destroy')->name('rule.destroy');
+
+    Route::resource('emailTemplate', 'EmailTemplateController');
 });

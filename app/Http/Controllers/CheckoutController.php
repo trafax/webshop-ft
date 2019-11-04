@@ -32,6 +32,11 @@ class CheckoutController extends Controller
             return redirect()->route('customer.edit')->with('error', 'U heeft nog niet alle gegevens ingevoerd.');
         }
 
+        if (Cart::total() <= setting('minimum_order_taking'))
+        {
+            return redirect()->route('cart');
+        }
+
         $mollie = new \Mollie\Api\MollieApiClient();
         $mollie->setApiKey(env('MOLLIE_API_KEY'));
         $payment_methods = $mollie->methods->all();
