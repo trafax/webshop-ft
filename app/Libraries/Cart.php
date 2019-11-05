@@ -2,8 +2,13 @@
 
 namespace App\Libraries;
 
+use App\Models\Country;
+use App\Models\Language;
+use App\Models\Shipping;
+use App\Models\ShippingRule;
 use Gloudemans\Shoppingcart\CartItem;
 use Gloudemans\Shoppingcart\Facades\Cart as GloudemansCart;
+use Illuminate\Support\Facades\Auth;
 
 class Cart extends GloudemansCart
 {
@@ -38,7 +43,20 @@ class Cart extends GloudemansCart
 
     public static function shipping($display = false)
     {
-        $price = 0;
+        $shipping = Shipping::find('bc0cac10-fee5-11e9-8fe9-01a4a7e73204');
+        $price = $shipping->default_price;
+
+        if (Auth::user())
+        {
+            $language_key = Auth::user()->customer->other_delivery == 1 ? Auth::user()->customer->delivery_country : Auth::user()->customer->country;
+            $country = Country::where('language_key', $language_key)->first();
+            $shippingRule = ShippingRule::where('country_id', $country->id)->first();
+
+            if ($shippingRule)
+            {
+                $price = $shippingRule->price;
+            }
+        }
 
         return $display == true ? self::numberFormat($price, null, null, null) : $price;
     }

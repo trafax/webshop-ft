@@ -14,7 +14,7 @@ class Order extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'nr', 'sub_total', 'tax', 'shipping', 'total', 'payment_method', 'status', 'date'
+        'nr', 'sub_total', 'tax', 'shipping', 'total', 'payment_method', 'status', 'comment'
     ];
 
     public function rules()

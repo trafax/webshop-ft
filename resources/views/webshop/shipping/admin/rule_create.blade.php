@@ -33,7 +33,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" name="shipping_id" value="{{ $shipping->id }}">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluit</button>
                     <button type="submit" class="btn btn-primary">Voeg toe</button>
                 </div>
             </form>

@@ -22,10 +22,14 @@ class Authenticate extends Middleware
 
     public function handle($request, Closure $next, ...$guards)
     {
-        if ($request->user()->role != $guards[0]) {
+        if($request->user()) {
+            if ($request->user()->role != $guards[0]) {
+                return redirect()->to('/');
+            }
+            return $next($request);
+        }
+        else {
             return redirect()->to('/');
         }
-
-        return $next($request);
     }
 }

@@ -34,6 +34,10 @@
                                             <label>Titel</label>
                                             <input type="text" name="title" class="form-control" required>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Standaard prijs</label>
+                                            <input type="text" name="default_price" class="form-control" value="0.00" required>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -65,6 +65,7 @@ class CheckoutController extends Controller
             $order->total = AppCart::total(2, '.');
             $order->status = 'pending';
             $order->payment_method = $request->get('payment_method');
+            $order->comment = $request->get('comment');
             $order->save();
 
             // Artikelen van bestelling opslaan

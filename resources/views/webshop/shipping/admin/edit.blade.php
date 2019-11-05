@@ -35,6 +35,10 @@
                                             <label>Titel</label>
                                             <input type="text" name="title" class="form-control" value="{{ $shipping->title }}" required>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Standaard prijs</label>
+                                            <input type="text" name="default_price" class="form-control" value="{{ $shipping->default_price }}" required>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

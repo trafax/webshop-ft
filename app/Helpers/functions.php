@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Country;
 use App\Models\Setting;
 use App\Models\Translation;
 
@@ -13,6 +14,16 @@ if (! function_exists('setting'))
         {
             return $settings[$field];
         }
+    }
+}
+
+if (! function_exists('get_country_by_key'))
+{
+    function get_country_by_key($language_key)
+    {
+        $country = Country::where('language_key', $language_key)->first();
+
+        return t($country, 'title');
     }
 }
 

@@ -75,6 +75,12 @@
                             </label>
                         </div>
                     @endforeach
+
+                    <div class="form-group mt-4">
+                        <label class="font-weight-bold">Opmerkingen</label>
+                        <p>Vul hier uw eventuele opmerking in</p>
+                        <textarea name="comment" class="form-control"></textarea>
+                    </div>
                 </div>
 
                 <div class="col-md-4">
@@ -122,7 +128,7 @@
                         <button type="submit" class="btn btn-green mt-3 float-right">Afrekenen</button>
                     @else
                         <p class="mt-3"><label><input type="checkbox" name="agreed" value="1"> Ik plaats een bestelling en ga akkoord met de <a href="/algemene-voorwaarden">algemene voorwaarden</a></label></p>
-                        <button type="submit" class="btn btn-green mt-3 float-right">Afrekenen</button>
+                        <button type="submit" class="btn btn-green mt-3 float-right mb-4">Afrekenen</button>
                     @endif
                 </div>
             </div>

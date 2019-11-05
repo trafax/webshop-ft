@@ -17,6 +17,7 @@ class CreateShippingsTable extends Migration
             $table->uuid('id');
             $table->primary('id');
             $table->string('title');
+            $table->decimal('default_price')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

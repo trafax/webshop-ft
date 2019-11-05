@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('total')->default(0);
             $table->string('payment_method')->nullable();
             $table->string('status')->default('pending');
+            $table->longText('comment')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

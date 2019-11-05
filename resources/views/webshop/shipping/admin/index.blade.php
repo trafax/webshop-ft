@@ -15,14 +15,14 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <span>Producten</span>
-                    <a href="{{ route('admin.shipping.create') }}">Verzendkosten toevoegen</a>
+                    {{-- <a href="{{ route('admin.shipping.create') }}">Verzendkosten toevoegen</a> --}}
                 </div>
                 <div class="card-body">
                     <table class="table table-hover">
                         <thead>
                             <tr>
                             <th scope="col" class="border-top-0">Titel</th>
-                            <th scope="col" class="border-top-0">Acties</th>
+                            {{-- <th scope="col" class="border-top-0">Acties</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -30,7 +30,7 @@
                                 <tr>
                                     <td><a href="{{ route('admin.shipping.edit', $shipping) }}">{{ $shipping->title }}</a></td>
                                     <td>
-                                        <a href="{{ route('admin.shipping.destroy', $shipping) }}" onclick="return confirm('Verzendkosten verwijderen?')">verwijder</a>
+                                        {{-- <a href="{{ route('admin.shipping.destroy', $shipping) }}" onclick="return confirm('Verzendkosten verwijderen?')">verwijder</a> --}}
                                     </td>
                                 </tr>
                             @endforeach
