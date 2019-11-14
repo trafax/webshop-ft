@@ -41,7 +41,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Tekst</label>
-                                            <textarea name="description" class="form-control" rows="8">{{ $product->description }}</textarea>
+                                            <textarea name="description" class="form-control editor" rows="8">{{ $product->description }}</textarea>
                                         </div>
                                     </div>
                                     <div class="col-md-4">

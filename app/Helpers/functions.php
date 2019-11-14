@@ -93,7 +93,8 @@ if (! function_exists('it'))
 
         if (setting('translate') && Auth::user() && Auth::user()->role == 'admin')
         {
-            $return = '<label class="m-0 p-0 translate-wrapper">'. $return . '<span class="translate-field ml-2" data-editor="'.$editor.'" data-parent_id="'.$parent_id.'"><i class="fas fa-globe-europe"></i></span></label>';
+            $return = '<div class="m-0 p-0 translate-wrapper display-inline"><span class="translate-field ml-2" data-editor="'.$editor.'" data-enable_default="1" data-parent_id="'.$parent_id.'"><i class="fas fa-globe-europe"></i></span>'. $return . '</div>';
+            //$return = '<div class="m-0 p-0 translate-wrapper display-inline translate-field" data-editor="'.$editor.'" data-enable_default="1" data-parent_id="'.$parent_id.'">'. $return . '</div>';
         }
 
         return $return;

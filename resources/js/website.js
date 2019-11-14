@@ -8,6 +8,12 @@ try {
 
     window.sortable = require('jquery-ui/ui/widgets/sortable');
 
+    require('tinymce');
+    require('tinymce/themes/silver');
+    require('tinymce/plugins/link');
+    require('tinymce/plugins/media');
+    require('tinymce/plugins/image');
+
 } catch (e) {}
 
 $(function(){
@@ -57,10 +63,11 @@ $(function(){
      $('.translate-field').on('click', function(){
         var $parent_id = $(this).data('parent_id');
         var $editor = $(this).data('editor');
+        var $enable_default = $(this).data('enable_default');
         $.ajax({
             url: '/admin/translate',
             type: "get",
-            data: {parent_id: $parent_id, field: $parent_id, editor: $editor},
+            data: {parent_id: $parent_id, field: $parent_id, editor: $editor, enable_default: $enable_default},
             success: function(data) {
                 $('body').append(data);
                 $('.modal').modal('show');

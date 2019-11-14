@@ -23,8 +23,8 @@
                 </div>
                 <div class="col-md-9">
 
-                    <h2>Afleveradres</h2>
-                    <p>Selecteer wanneer u uw bestelling op een ander adres wilt laten afleveren.</p>
+                    <h2>{!! it('delivery-address', 'Afleveradres') !!}</h2>
+                    {!! it('select-when-delivery', '<p>Selecteer wanneer u uw bestelling op een ander adres wilt laten afleveren.</p>', true) !!}
                     <hr>
 
                     <label class="bg-light d-block py-2 px-3">

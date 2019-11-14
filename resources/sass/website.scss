@@ -113,12 +113,13 @@
 
 .translate-wrapper {
     position: relative;
+    border: #DD0000 dotted 1px;
 }
 
 .translate-field {
     cursor: pointer;
-    color: forestgreen;
     position: absolute;
     top: 0;
-    right:-20px;
+    right: 0;
+    font-size: 0.9rem;
 }
