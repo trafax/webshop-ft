@@ -28,6 +28,7 @@
                         <div class="form-group">
                             <label>Tekst</label>
                             <textarea name="content" class="editor form-control" rows="20">{{ $emailTemplate->content }}</textarea>
+                            @include('language.admin.partials.translate', ['field' => 'content', 'parent_id' => $emailTemplate->id, 'editor' => true])
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary">Opslaan</button>

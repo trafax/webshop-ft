@@ -61,6 +61,7 @@
                                         <div class="form-group">
                                             <label>Tekst</label>
                                             <textarea name="description" class="form-control editor" rows="6">{{ $category->description }}</textarea>
+                                            @include('language.admin.partials.translate', ['field' => 'description', 'parent_id' => $category->id, 'editor' => true])
                                         </div>
                                     </div>
                                     <div class="col-md-4">

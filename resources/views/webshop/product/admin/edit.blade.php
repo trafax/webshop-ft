@@ -37,11 +37,15 @@
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label>Productnaam</label>
-                                            <input type="text" name="title" value="{{ $product->title }}" class="form-control" required>
+                                            <div class="input-group">
+                                                <input type="text" name="title" value="{{ $product->title }}" class="form-control" required>
+                                                @include('language.admin.partials.translate', ['field' => 'title', 'parent_id' => $product->id])
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <label>Tekst</label>
                                             <textarea name="description" class="form-control editor" rows="8">{{ $product->description }}</textarea>
+                                            @include('language.admin.partials.translate', ['field' => 'description', 'parent_id' => $product->id, 'editor' => true])
                                         </div>
                                     </div>
                                     <div class="col-md-4">
