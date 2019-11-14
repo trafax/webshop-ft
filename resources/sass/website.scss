@@ -8,6 +8,10 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+body {
+    background: red;
+}
+
 .header {
     .logo {
         max-width: 250px;
