@@ -4,82 +4,62 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Page;
 
 class PageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return view('page.admin.index');
+        $pages = Page::where('parent_id', '0')->orderBy('sort')->get();
+
+        return view('page.admin.index', compact('pages'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $pages = Page::where('parent_id', 0)->orderBy('sort')->get();
+
+        return view('page.admin.create', compact('pages'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $page = new Page();
+        $page->fill($request->all());
+        $page->save();
+
+        return redirect()->route('admin.page.edit', $page)->with('message', 'Pagina succesvol toegevoegd.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(Page $page)
     {
-        //
+        $pages = Page::where('id','!=',$page->id)->where('parent_id', '0')->orderBy('sort')->get();
+
+        return view('page.admin.edit', compact('page', 'pages'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(Request $request, Page $page)
     {
-        //
+        $page->fill($request->all());
+        $page->save();
+
+        return redirect()->route('admin.page.index')->with('message', 'Pagina succesvol aangepast.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function destroy(Page $page)
     {
-        //
+        $page->delete();
+
+        return redirect()->route('admin.page.index')->with('message', 'Pagina succesvol verwijderd.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function sort(Request $request)
     {
-        //
+        foreach ($request->get('items') as $key => $id)
+        {
+            $page = Page::find($id);
+            $page->sort = $key;
+            $page->save();
+        }
     }
 }

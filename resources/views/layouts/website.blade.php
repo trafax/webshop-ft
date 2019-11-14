@@ -62,25 +62,23 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbar">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ route('homepage') }}">Home <span class="sr-only">(current)</span></a>
-                        </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('webshop') }}">Webshop</a>
+                            <a href="{{ route('homepage') }}" class="nav-link">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown link
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
+                        @foreach ($menu_items as $menu_item)
+                            <li class="nav-item {{ $menu_item->children()->count() > 0 ? 'dropdown' : '' }}">
+                                @if ($menu_item->children()->count() > 0)
+                                    <a class="nav-link dropdown-toggle" href="#" id="dropdown_{{ $menu_item->id }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ t($menu_item, 'title') }}</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown_{{ $menu_item->id }}">
+                                        @foreach ($menu_item->children as $child)
+                                            <a class="dropdown-item" href="{{ route('page', $child->slug) }}">{{ t($child, 'title') }}</a>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <a class="nav-link" href="{{ route('page', $menu_item->slug) }}">{{ t($menu_item, 'title') }}</a>
+                                @endif
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </nav>

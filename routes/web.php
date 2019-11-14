@@ -11,8 +11,11 @@
 |
 */
 
+use Illuminate\Support\Facades\Lang;
+
 Route::localized(function () {
     Route::get('/', 'HomepageController@index')->name('homepage');
+    //Route::get('{language?}', 'HomepageController@index')->where('language', '[a-z]{2}');
 
     Route::get('language/set/{language}', 'LanguageController@set_language')->name('language.set');
 
@@ -40,6 +43,8 @@ Route::localized(function () {
     Route::get('order', 'OrderController@index')->name('order.index')->middleware('auth');
     Route::get('order/{id}/show', 'OrderController@show')->name('order.show')->middleware('auth');
     Route::get('order/{id}/download_invoice', 'OrderController@download_invoice')->name('order.download_invoice')->middleware('auth');
+
+    Route::any('{slug?}', 'PageController@index')->name('page')->where('slug', '[a-z]{3,}');
 });
 
 Auth::routes();
@@ -48,6 +53,8 @@ Route::get('admin', 'Auth\LoginController@showLoginForm');
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'auth:admin'], function () {
 
     Route::resource('page', 'PageController');
+    Route::get('page/{page}/destroy', 'PageController@destroy')->name('page.destroy');
+    Route::post('page/sort', 'PageController@sort')->name('page.sort');
 
     Route::resource('webshop/category', 'CategoryController');
     Route::get('webshop/category/{category}/destroy', 'CategoryController@destroy')->name('category.destroy');
