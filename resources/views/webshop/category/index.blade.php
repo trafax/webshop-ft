@@ -7,8 +7,8 @@
 
         <nav>
             <ol class="breadcrumb bg-transparent p-0">
-                <li class="breadcrumb-item"><a href="{{ route('homepage') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('webshop') }}">Webshop</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('homepage') }}">{!! it('breadcrumbs_home', 'Home') !!}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('webshop') }}">{!! it('breadcrumbs_webshop', 'Webshop') !!}</a></li>
                 @foreach($breadcrumbs as $item)
                     <li class="breadcrumb-item"><a href="{{ route('category', $item->slug) }}">{{ t($item, 'title') }}</a></li>
                 @endforeach
@@ -72,7 +72,7 @@
                 {{-- PRODUCTS --}}
 
                 <div class="d-flex border-bottom mb-4">
-                    <div class="pt-1 mb-4">Pagina {{ $products->currentPage() }} van {{ $products->lastPage() }} - ({{ $products->count() }} producten)</div>
+                    <div class="pt-1 mb-4">{!! it('pagination-page', 'Pagina') !!} {{ $products->currentPage() }} {!! it('pagination-page-from', 'van') !!} {{ $products->lastPage() }} - ({{ $products->count() }} {!! it('pagination-page-products', 'producten') !!})</div>
                     <div class="ml-auto">{{ $products->links() }}</div>
                 </div>
 

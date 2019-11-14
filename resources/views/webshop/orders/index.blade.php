@@ -4,9 +4,9 @@
     <div class="container">
         <nav class="mt-4">
             <ol class="breadcrumb bg-transparent p-0">
-                <li class="breadcrumb-item"><a href="{{ route('homepage') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('webshop') }}">Webshop</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Mijn bestellingen</li>
+                <li class="breadcrumb-item"><a href="{{ route('homepage') }}">{!! it('breadcrumbs_home', 'Home') !!}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('webshop') }}">{!! it('breadcrumbs_webshop', 'Webshop') !!}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{!! it('breadcrumbs_my_orders', 'Mijn bestellingen') !!}</li>
             </ol>
         </nav>
 
@@ -14,8 +14,8 @@
 
         <div class="row">
             <div class="col-md-12">
-                <h2>Mijn bestellingen</h2>
-                <p>Onderstaand uw geplaatste bestellingen.</p>
+                <h2>{!! it('my_orders', 'Mijn bestellingen') !!}</h2>
+                {!! it('my_orders_description', '<p>Onderstaand uw geplaatste bestellingen.</p>', true) !!}
                 <hr>
                 <div class="row">
                     <div class="col-md-3">
@@ -30,7 +30,7 @@
                                         <div class="col">{{ $order->created_at->format('d-m-Y \o\m H:i') }}</div>
                                         <div class="col-md-2">€ {{ price($order->total) }}</div>
                                         <div class="col-md-1">{{ $order->status }}</div>
-                                        <div class="col text-right"><a href="{{ route('order.show', $order) }}">Bekijk bestelling</a></div>
+                                        <div class="col text-right"><a href="{{ route('order.show', $order) }}">{!! it('show_order', 'Bekijk bestelling') !!}</a></div>
                                     </div>
                                 </li>
                             @endforeach

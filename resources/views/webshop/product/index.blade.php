@@ -6,8 +6,8 @@
 
         <nav>
             <ol class="breadcrumb bg-transparent p-0">
-                <li class="breadcrumb-item"><a href="{{ route('homepage') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('webshop') }}">Webshop</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('homepage') }}">{!! it('breadcrumbs_home', 'Home') !!}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('webshop') }}">{!! it('breadcrumbs_webshop', 'Webshop') !!}</a></li>
                 @foreach($breadcrumbs as $item)
                     <li class="breadcrumb-item"><a href="{{ route('category', $item->slug) }}">{{ t($item, 'title') }}</a></li>
                 @endforeach
@@ -57,7 +57,7 @@
                 <form method="post" action="{{ route('cart.store', $product) }}">
                     @csrf
                     @if ($product->sku)
-                        <div class="description mb-2 font-weight-bold">Artikelnummer: {{ $product->sku }}</div>
+                        <div class="description mb-2 font-weight-bold">{!! it('webshop-product-sku', 'Artikelnummer') !!}: {{ $product->sku }}</div>
                     @endif
                     <div class="description">{!! nl2br(t($product, 'description')) !!}</div>
                     <div class="mt-2 mb-2 default_price" data-default_price="{{ $product->price }}">
@@ -93,10 +93,10 @@
                     @endforeach
 
                     <div class="form-group">
-                        <label>Aantal</label>
+                        <label>{!! it('webshop-product-qty', 'Aantal') !!}</label>
                         <input type="text" name="qty" value="1" class="form-control col-md-3">
                     </div>
-                    <button type="submit" class="btn btn-green">Plaats in winkelwagen</button>
+                    <button type="submit" class="btn btn-green">{!! it('webshop-product-add-to-cart', 'Plaats in winkelwagen') !!}</button>
                 </form>
             </div>
         </div>

@@ -10744,6 +10744,7 @@ a.text-dark:focus {
 
 .translate-wrapper {
   position: relative;
+  display: inline-block;
   border: #DD0000 dotted 1px;
 }
 

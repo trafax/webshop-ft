@@ -1,20 +1,20 @@
 <div class="modal" tabindex="-1" role="dialog">
     <script>
     $(function(){
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        //$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             // e.target // newly activated tab
             // e.relatedTarget // previous active tab
             tinymce.init({
                 selector: '.editor',
-                //inline: true,
+                language: 'nl',
                 skin: 'oxide',
                 plugins: "link image media",
                 convert_urls: 0, toolbar: 'formatselect | fontsizeselect | bold italic strikethrough | link image media'
             });
-        });
+        //});
     });
     </script>
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog {{ request()->get('editor') == 1 ? 'modal-lg' : '' }}" role="document">
         <div class="modal-content">
             <form method="post" action="{{ route('admin.translate.store') }}">
                 @csrf
@@ -51,9 +51,10 @@
                             <div class="tab-pane fade show {{ $key == 0 ? 'active' : '' }}" id="{{ $language->language }}" role="tabpanel" aria-labelledby="nav-home-tab">
 
                                 @if (request()->get('editor') == true)
-                                    <textarea name="translate[{{ $language['language_key'] }}]" class="editor form-control mt-4" placeholder="{{ $language->title }}">{{ t(request()->get('parent_id'), request()->get('field'), $language->language_key) }}</textarea>
+                                    <br>
+                                    <textarea name="translate[{{ $language['language_key'] }}]" class="editor form-control" placeholder="{{ $language->title }}">{{ t(request()->get('parent_id'), request()->get('field'), $language->language_key) }}</textarea>
                                 @else
-                                    <input type="text" name="translate[{{ $language['language_key'] }}]" value="{{ t(request()->get('parent_id'), request()->get('field'), $language->language_key) }}" class="form-control mt-4" placeholder="{{ $language->title }}">
+                                    <input type="text" name="translate[{{ $language['language_key'] }}]" value="{{ t(request()->get('parent_id'), request()->get('field'), $language->language_key) }}" class="form-control mt-4">
                                 @endif
 
                             </div>

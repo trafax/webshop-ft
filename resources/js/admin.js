@@ -22,7 +22,7 @@ try {
         selector: '.editor',
         //inline: true,
         skin: false,
-        language: 'nl_NL',
+        language: 'nl',
         plugins: "link image media",
         convert_urls: 0, toolbar: 'formatselect | fontsizeselect | bold italic strikethrough | link image media',
         // setup: function (editor) {

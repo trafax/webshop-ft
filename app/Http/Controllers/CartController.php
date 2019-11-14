@@ -41,10 +41,10 @@ class CartController extends Controller
         Cart::add($product, t($product, 'title'), $request->get('qty'), $price, $option);
 
         return redirect()->back()->with('modal', [
-            'title' => 'Winkelwagen',
-            'content' => 'Het artikel is succesvol toegevoegd in de winkelwagen.',
-            'buttons' => '<button type="button" class="btn btn-primary" data-dismiss="modal">Verder winkelen</button>
-            <a class="btn btn-green" href="'.route('cart').'">Afrekenen</a>'
+            'title' => it('cart-modal-title', 'Winkelwagen'),
+            'content' => it('cart-modal-description', 'Het artikel is succesvol toegevoegd in de winkelwagen.'),
+            'buttons' => '<button type="button" class="btn btn-primary" data-dismiss="modal">'. it('cart-modal-continue', 'Verder winkelen') .'</button>
+            <a class="btn btn-green" href="'.route('cart').'">'. it('cart-modal-pay', 'Afrekenen') .'</a>'
             ]);
     }
 

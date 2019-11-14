@@ -7,9 +7,9 @@
 
         <nav>
             <ol class="breadcrumb bg-transparent p-0">
-                <li class="breadcrumb-item"><a href="{{ route('homepage') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('webshop') }}">Webshop</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Winkelwagen</li>
+                <li class="breadcrumb-item"><a href="{{ route('homepage') }}">{!! it('breadcrumbs_home', 'Home') !!}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('webshop') }}">{!! it('breadcrumbs_webshop', 'Webshop') !!}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{!! it('breadcrumbs_shopping_cart', 'Winkelwagen') !!}</li>
             </ol>
         </nav>
 
@@ -20,9 +20,9 @@
             <table class="table table-borderless shopping-cart border">
                 <thead class="bg-light">
                     <tr>
-                        <th>Artikel</th>
-                        <th>Aantal</th>
-                        <th>Prijs</th>
+                        <th>{!! it('cart-product', 'Artikel') !!}</th>
+                        <th>{!! it('cart-qty', 'Aantal') !!}</th>
+                        <th>{!! it('cart-price', 'Prijs') !!}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -35,7 +35,7 @@
                                     <div class="name">
                                         {{ t($item->id, 'title') }}
                                         @if ($item->id->sku)
-                                            <span class="d-block small">Artikelnummer: {{ $item->id->sku }}</span>
+                                            <span class="d-block small">{!! it('webshop-product-sku', 'Artikelnummer') !!}: {{ $item->id->sku }}</span>
                                         @endif
                                         @foreach ($item->options as $option => $value)
                                             <span class="d-block small">{{ $option }}: {{ $value }}</span>
@@ -52,36 +52,36 @@
                 <tfoot>
                     <tr>
                         <td></td>
-                        <td>Sub-totaal</td>
+                        <td>{!! it('cart-sub-total', 'Sub-totaal') !!}</td>
                         <td>&euro; {{ App\Libraries\Cart::subtotal() }}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>Verzendkosten</td>
+                        <td>{!! it('cart-shipping', 'Verzendkosten') !!}</td>
                         <td>&euro; {{ App\Libraries\Cart::shipping(true) }}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>BTW (9%)</td>
+                        <td>{!! it('cart-tax', 'BTW (9%)') !!}</td>
                         <td>&euro; {{ App\Libraries\Cart::tax() }}</td>
                         <td></td>
                     </tr>
                     <tr class="font-weight-bold">
                         <td></td>
-                        <td>Totaal</td>
+                        <td>{!! it('cart-total', 'Totaal') !!}</td>
                         <td>&euro; {{ App\Libraries\Cart::total() }}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td colspan="4">
                             <div class="d-flex">
-                                <a href="{{ route('webshop') }}" class="btn btn-light">Verder winkelen</a>
+                                <a href="{{ route('webshop') }}" class="btn btn-light">{!! it('cart-continue-shopping', 'Verder winkelen') !!}</a>
                                 @if (App\Libraries\Cart::total() >= setting('minimum_order_taking'))
-                                    <a href="{{ route('checkout') }}" class="btn btn-green ml-auto">Afrekenen</a>
+                                    <a href="{{ route('checkout') }}" class="btn btn-green ml-auto">{!! it('cart-to-pay', 'Afrekenen') !!}</a>
                                 @else
-                                    <p class="ml-auto text-warning">Minimaal order afname € {{ price(setting('minimum_order_taking')) }}</p>
+                                    <p class="ml-auto text-warning">{!! it('cart-minimum', 'Minimaal order afname €') !!} {{ price(setting('minimum_order_taking')) }}</p>
                                 @endif
                             </div>
                         </td>
@@ -91,8 +91,8 @@
 
         @else
 
-            <p class="text-center font-weight-bold">Er zit niks in je winkelmandje</p>
-            <p class="text-center"><a href="{{ route('webshop') }}" class="btn btn-green">Ga naar webshop</a></p>
+            <p class="text-center font-weight-bold">{!! it('cart-is-empty', 'Er zit niks in je winkelmandje') !!}</p>
+            <p class="text-center"><a href="{{ route('webshop') }}" class="btn btn-green">{!! it('cart-return-to-webshop', 'Ga naar webshop') !!}</a></p>
 
         @endif
 
