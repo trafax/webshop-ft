@@ -10648,10 +10648,6 @@ a.text-dark:focus {
   }
 }
 
-body {
-  background: red;
-}
-
 .header .logo {
   max-width: 250px;
 }
