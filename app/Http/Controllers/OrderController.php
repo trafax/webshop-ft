@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\Order as AppOrder;
 use App\Models\Order;
 use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
