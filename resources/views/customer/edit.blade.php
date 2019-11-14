@@ -14,58 +14,14 @@
 
 
         <form method="post" action="{{ route('customer.update') }}">
+                <h2>{!! it('my-details', 'Mijn gegevens') !!}</h2>
+                {!! it('my-details-description', '<p>Vul onderstaand uw persoonlijke gegevens in.</p>') !!}
+                <hr>
             <div class="row">
-                <div class="col-md-6">
-                    <h2>Factuurgegevens</h2>
-                    <p>Vul onderstaand uw persoonlijke adresgegevens in.</p>
-                    <hr>
-                    <div class="card">
-                        <div class="card-body">
-                            @csrf
-                            <div class="form-group">
-                                <label class="font-weight-bold">Naam *</label>
-                                <input type="text" name="name" value="{{ $user->name }}" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold">Straatnaam *</label>
-                                <input type="text" name="street" value="{{ $user->customer->street }}" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold">Huisnummer *</label>
-                                <input type="text" name="number" value="{{ $user->customer->number }}" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold">Postcode *</label>
-                                <input type="text" name="zipcode" value="{{ $user->customer->zipcode }}" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold">Plaats *</label>
-                                <input type="text" name="city" value="{{ $user->customer->city }}" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold">Land *</label>
-                                <select name="country" class="form-control">
-                                    @foreach (App\Models\Country::get() as $country)
-                                        <option value="{{ $country->language_key }}" {!! $user->customer->country == $country->language_key ? 'selected' : '' !!}>{{ t($country, 'title') }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold">Telefoonnummer</label>
-                                <input type="text" name="telephone" value="{{ $user->customer->telephone }}" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold">E-mailadres *</label>
-                                <input type="email" name="email" value="{{ $user->email }}" class="form-control" required>
-                            </div>
-                            {{-- <div class="form-group">
-                                <label>Wachtwoord</label>
-                                <input type="password" name="password" class="form-control">
-                            </div> --}}
-                        </div>
-                    </div>
+                <div class="col-md-3">
+                    @include('webshop.partials.fast_menu')
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-9">
 
                     <h2>Afleveradres</h2>
                     <p>Selecteer wanneer u uw bestelling op een ander adres wilt laten afleveren.</p>
@@ -95,14 +51,67 @@
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Land *</label>
-                                <select name="delivery_country" class="form-control">
+                                <select name="delivery_language_key" class="form-control">
                                     @foreach (App\Models\Country::get() as $country)
-                                        <option value="{{ $country->language_key }}" {!! $user->customer->delivery_country == $country->language_key ? 'selected' : '' !!}>{{ t($country, 'title') }}</option>
+                                        <option value="{{ $country->language_key }}" {!! $user->customer->delivery_language_key == $country->language_key ? 'selected' : '' !!}>{{ t($country, 'title') }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
+
+
+                    <h2 class="mt-4">Factuurgegevens</h2>
+                    <p>Vul onderstaand uw persoonlijke adresgegevens in.</p>
+                    <hr>
+
+                    <div class="card">
+                        <div class="card-body">
+                            @csrf
+                            <div class="form-group">
+                                <label class="font-weight-bold">Naam *</label>
+                                <input type="text" name="name" value="{{ $user->name }}" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Straatnaam *</label>
+                                <input type="text" name="street" value="{{ $user->customer->street }}" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Huisnummer *</label>
+                                <input type="text" name="number" value="{{ $user->customer->number }}" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Postcode *</label>
+                                <input type="text" name="zipcode" value="{{ $user->customer->zipcode }}" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Plaats *</label>
+                                <input type="text" name="city" value="{{ $user->customer->city }}" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Land *</label>
+                                <select name="language_key" class="form-control">
+                                    @foreach (App\Models\Country::get() as $country)
+                                        <option value="{{ $country->language_key }}" {!! $user->customer->language_key == $country->language_key ? 'selected' : '' !!}>{{ t($country, 'title') }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Telefoonnummer</label>
+                                <input type="text" name="telephone" value="{{ $user->customer->telephone }}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">E-mailadres *</label>
+                                <input type="email" name="email" value="{{ $user->email }}" class="form-control" required>
+                            </div>
+                            {{-- <div class="form-group">
+                                <label>Wachtwoord</label>
+                                <input type="password" name="password" class="form-control">
+                            </div> --}}
+                        </div>
+                    </div>
+
+
 
 
                     @if (session('message'))

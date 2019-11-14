@@ -41,24 +41,28 @@ class Cart extends GloudemansCart
         return self::numberFormat($total, $decimals, $decimalPoint, $thousandSeperator);
     }
 
-    public static function shipping($display = false)
+    public static function shipping($display = false, $decimals = null, $decimalPoint = null, $thousandSeperator = null)
     {
         $shipping = Shipping::find('bc0cac10-fee5-11e9-8fe9-01a4a7e73204');
         $price = $shipping->default_price;
 
         if (Auth::user())
         {
-            $language_key = Auth::user()->customer->other_delivery == 1 ? Auth::user()->customer->delivery_country : Auth::user()->customer->country;
+            $language_key = Auth::user()->customer->other_delivery == 1 ? Auth::user()->customer->delivery_language_key : Auth::user()->customer->language_key;
             $country = Country::where('language_key', $language_key)->first();
-            $shippingRule = ShippingRule::where('country_id', $country->id)->first();
 
-            if ($shippingRule)
+            if ($country)
             {
-                $price = $shippingRule->price;
+                $shippingRule = ShippingRule::where('country_id', $country->id)->first();
+
+                if ($shippingRule)
+                {
+                    $price = $shippingRule->price;
+                }
             }
         }
 
-        return $display == true ? self::numberFormat($price, null, null, null) : $price;
+        return $display == true ? self::numberFormat($price, $decimals, $decimalPoint, $thousandSeperator) : $price;
     }
 
     private static function numberFormat($value, $decimals, $decimalPoint, $thousandSeperator)

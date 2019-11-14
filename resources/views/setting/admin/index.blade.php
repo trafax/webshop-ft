@@ -19,8 +19,9 @@
                             @csrf
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+                                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="nav-home" aria-selected="true">Basis</a>
                                     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#webshop" role="tab" aria-controls="nav-profile" aria-selected="false">Webwinkel</a>
+                                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#translations" role="tab" aria-controls="nav-profile" aria-selected="false">Vertalingen</a>
                                     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#google" role="tab" aria-controls="nav-profile" aria-selected="false">Google</a>
                                 </div>
                             </nav>
@@ -56,6 +57,19 @@
                                                 <label>Minimale orderafname (0.00)</label>
                                                 <p class="small">Wanneer het winkelwagen bedrag onder het opgegeven prijs is kan de klant niet de bestelling plaatsen.</p>
                                                 <input type="number" name="minimum_order_taking" class="form-control" value="{{ setting('minimum_order_taking') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="translations" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Activeer inline vertalen</label>
+                                                <select class="form-control col-md-4" name="translate">
+                                                    <option value="0">Nee</option>
+                                                    <option value="1" {{ setting('translate') == 1 ? 'selected' : '' }}>Ja</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>

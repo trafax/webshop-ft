@@ -110,3 +110,15 @@
         }
     }
 }
+
+.translate-wrapper {
+    position: relative;
+}
+
+.translate-field {
+    cursor: pointer;
+    color: forestgreen;
+    position: absolute;
+    top: 0;
+    right:-20px;
+}

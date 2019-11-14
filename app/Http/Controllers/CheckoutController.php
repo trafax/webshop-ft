@@ -61,7 +61,7 @@ class CheckoutController extends Controller
             $order->nr = $order_nr;
             $order->sub_total = AppCart::subtotal(2, '.');
             $order->tax = AppCart::tax(2, '.');
-            $order->shipping = AppCart::shipping(2, '.');
+            $order->shipping = AppCart::shipping(false, 2, '.');
             $order->total = AppCart::total(2, '.');
             $order->status = 'pending';
             $order->payment_method = $request->get('payment_method');

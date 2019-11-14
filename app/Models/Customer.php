@@ -11,7 +11,7 @@ class Customer extends Model
     protected $primaryKey = 'user_id';
 
     public $fillable = [
-        'user_id', 'street', 'number', 'zipcode', 'city', 'country', 'telephone', 'other_delivery', 'delivery_street', 'delivery_number', 'delivery_country', 'delivery_zipcode', 'delivery_city', 'delivery_country'
+        'user_id', 'street', 'number', 'zipcode', 'city', 'language_key', 'telephone', 'other_delivery', 'delivery_street', 'delivery_number', 'delivery_language_key', 'delivery_zipcode', 'delivery_city', 'delivery_country'
     ];
 
     public function user()
@@ -21,11 +21,13 @@ class Customer extends Model
 
     public function country()
     {
-        return $this->hasOne('App\Models\Country', 'language_key', 'country');
+        return $this->hasOne('App\Models\Country', 'language_key', 'language_key')->withDefault(function() {
+            return new Country();
+        });
     }
 
     public function delivery_country()
     {
-        return $this->hasOne('App\Models\Country', 'language_key', 'delivery_country');
+        return $this->hasOne('App\Models\Country', 'language_key', 'delivery_language_key');
     }
 }

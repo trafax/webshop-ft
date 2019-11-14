@@ -27,7 +27,7 @@ class CustomerController extends Controller
             'number' => 'required',
             'zipcode' => 'required',
             'city' => 'required',
-            'country' => 'required',
+            'language_key' => 'required',
             'email' => 'required'
         ]);
 

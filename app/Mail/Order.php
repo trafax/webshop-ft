@@ -13,6 +13,8 @@ class Order extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $html;
+
     /**
      * Create a new message instance.
      *

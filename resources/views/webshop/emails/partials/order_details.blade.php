@@ -1,4 +1,4 @@
-<table  style="width: 700px !important; margin-top: 10px;">
+<table width="700" style="width: 100% !important; margin-top: 10px;">
     <tr>
         <td valign="top" style="width: 50%  !important;">
             <h2>Factuurgegevens</h2>
@@ -34,7 +34,10 @@
                     <td>{{ $order->customer->zipcode }} {{ $order->customer->city }}</td>
                 </tr>
                 <tr>
-                    <td>{{ get_country_by_key($order->customer->country) }}</td>
+                    <td>{{ get_country_by_key($order->customer->language_key) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ $order->customer->email }}</td>
                 </tr>
             </table>
             @if ($order->customer->other_delivery == 1)
@@ -47,7 +50,7 @@
                         <td>{{ $order->customer->delivery_zipcode }} {{ $order->customer->delivery_city }}</td>
                     </tr>
                     <tr>
-                        <td>{{ get_country_by_key($order->customer->delivery_country) }}</td>
+                        <td>{{ get_country_by_key($order->customer->delivery_language_key) }}</td>
                     </tr>
                 </table>
             @endif
@@ -55,7 +58,7 @@
     </tr>
     @if ($order->comment)
         <tr>
-            <td valign="top" colspan="2" style="width: 100%  !important;">
+            <td valign="top" colspan="2" style="width: 100% !important;">
                 <h4 style="margin-top: 10px; margin-bottom: 0;">Opmerkingen</h4>
                 <p style="color: red; margin: 0; padding: 0;">{{ strip_tags(nl2br($order->comment)) }}</p>
             </td>
@@ -63,9 +66,9 @@
     @endif
 </table>
 
-<div style="border-top: #CCC solid 1px; width: 100%; margin: 20px 0px; width: 700px;"></div>
+<div style="border-top: #CCC solid 1px; width: 100%; margin: 20px 0px; width: 100%;"></div>
 
-<table width="700" cellpadding="5" style="width: 700px !important;">
+<table width="700" cellpadding="5" style="width: 100% !important;">
 
     @foreach ($order->rules as $rule)
         <tr>

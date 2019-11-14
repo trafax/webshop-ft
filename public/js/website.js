@@ -37693,6 +37693,27 @@ $(function () {
       minimumFractionDigits: 2
     }));
   });
+  $('.translate-field').on('click', function () {
+    var $parent_id = $(this).data('parent_id');
+    var $editor = $(this).data('editor');
+    $.ajax({
+      url: '/admin/translate',
+      type: "get",
+      data: {
+        parent_id: $parent_id,
+        field: $parent_id,
+        editor: $editor
+      },
+      success: function success(data) {
+        $('body').append(data);
+        $('.modal').modal('show');
+        $('.modal').on('hidden.bs.modal', function (e) {
+          $('.modal').remove();
+        });
+      }
+    });
+    return false;
+  });
 });
 
 /***/ }),

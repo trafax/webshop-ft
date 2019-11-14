@@ -34,7 +34,7 @@
 
                 <div style="border-top: #CCC solid 1px; width: 100%; margin-top: 60px; width: 700px;"></div>
 
-                <table style="width: 700px !important;">
+                <table width="700" style="width: 700px !important;">
                     <tr>
                         <td style="text-align: center; padding: 10px 0;">
                             Floratuin B.V. - Rijksweg 85, 1787 PK Julianadorp - info@floratuin.com - +316-10694149

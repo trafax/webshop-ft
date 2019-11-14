@@ -68,3 +68,34 @@ if (! function_exists('price'))
         return @number_format($price, 2, ',', '.');
     }
 }
+
+if (! function_exists('it'))
+{
+    function it($parent_id, $value, $editor = false)
+    {
+        $locale = config('app.locale');
+
+        $translation = Translation::where([
+            'parent_id' => $parent_id,
+            'field' => $parent_id
+        ]);
+
+        $translation->where('language_key', $locale);
+
+        if (isset($translation->first()->value))
+        {
+            $return = $translation->first()->value;
+        }
+        else
+        {
+            $return = $value;
+        }
+
+        if (setting('translate') && Auth::user() && Auth::user()->role == 'admin')
+        {
+            $return = '<label class="m-0 p-0 translate-wrapper">'. $return . '<span class="translate-field ml-2" data-editor="'.$editor.'" data-parent_id="'.$parent_id.'"><i class="fas fa-globe-europe"></i></span></label>';
+        }
+
+        return $return;
+    }
+}

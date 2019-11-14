@@ -25,11 +25,12 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                             @if (Auth::user())
-                                <a href="{{ route('customer.edit') }}" class="dropdown-item">Mijn gegevens</a>
+                                <a href="{{ route('customer.edit') }}" class="dropdown-item">{!! it('my-details', 'Mijn gegevens') !!}</a>
+                                <a href="{{ route('order.index') }}" class="dropdown-item">{!! it('my-orders', 'Mijn bestellingen') !!}</a>
                                 <div class="dropdown-divider"></div>
-                                <a href="{{ route('customer.logout') }}" class="dropdown-item">Uitloggen</a>
+                                <a href="{{ route('customer.logout') }}" class="dropdown-item">{!! it('logout', 'Uitloggen') !!}</a>
                             @else
-                                <a href="{{ route('customer') }}" class="dropdown-item">Inloggen</a>
+                                <a href="{{ route('customer') }}" class="dropdown-item">{!! it('login', 'Inloggen') !!}</a>
                             @endif
                         </div>
                     </div>

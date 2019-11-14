@@ -15,8 +15,13 @@ class OrderCustomer extends Model
     public $primaryKey = 'order_id';
 
     public $fillable = [
-        'order_id', 'user_id', 'name', 'email', 'street', 'number', 'zipcode', 'city', 'country', 'telephone', 'other_delivery', 'delivery_street', 'delivery_number', 'delivery_country', 'delivery_zipcode', 'delivery_city', 'delivery_country'
+        'order_id', 'user_id', 'name', 'email', 'street', 'number', 'zipcode', 'city', 'language_key', 'telephone', 'other_delivery', 'delivery_street', 'delivery_number', 'delivery_language_key', 'delivery_zipcode', 'delivery_city', 'delivery_language_key'
     ];
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\User', 'user_id', 'id');
+    }
 
     public function orders()
     {

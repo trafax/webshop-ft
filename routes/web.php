@@ -36,6 +36,10 @@ Route::localized(function () {
     Route::post('checkout/place_order', 'CheckoutController@place_order')->name('checkout.place_order');
     Route::post('checkout/webhook', 'CheckoutController@webhook_payment')->name('checkout.webhook_payment');
     Route::get('checkout/return/{order}', 'CheckoutController@return_payment')->name('checkout.return_payment');
+
+    Route::get('order', 'OrderController@index')->name('order.index')->middleware('auth');
+    Route::get('order/{id}/show', 'OrderController@show')->name('order.show')->middleware('auth');
+    Route::get('order/{id}/download_invoice', 'OrderController@download_invoice')->name('order.download_invoice')->middleware('auth');
 });
 
 Auth::routes();
@@ -80,4 +84,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('shipping/rule/{rule}/destroy', 'ShippingRuleController@destroy')->name('rule.destroy');
 
     Route::resource('emailTemplate', 'EmailTemplateController');
+
+    Route::get('order', 'OrderController@index')->name('order.index');
+    Route::get('order/{order}/show', 'OrderController@show')->name('order.show');
+    Route::get('order/{order}/destroy', 'OrderController@destroy')->name('order.destroy');
+    Route::get('order/{order}/download_invoice', 'OrderController@download_invoice')->name('order.download_invoice');
 });
