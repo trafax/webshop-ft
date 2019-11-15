@@ -21,6 +21,12 @@ class ProductController extends Controller
         $breadcrumbs = Category::whereAncestorOf($category->id)->get();
         $variations = Variation::where('selectable', 1)->orderBy('sort')->get();
 
-        return view('webshop.product.index', compact('product', 'category', 'breadcrumbs', 'variations'));
+        $seo = [
+            'title' => t($product, 'seo[title]') ? t($product, 'seo[title]') : t($product, 'title'),
+            'keywords' => t($product, 'seo[keywords]'),
+            'description' => t($product, 'seo[description]')
+        ];
+
+        return view('webshop.product.index', compact('product', 'category', 'breadcrumbs', 'variations', 'seo'));
     }
 }

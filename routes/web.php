@@ -13,40 +13,6 @@
 
 use Illuminate\Support\Facades\Lang;
 
-Route::localized(function () {
-    Route::get('/', 'HomepageController@index')->name('homepage');
-    //Route::get('{language?}', 'HomepageController@index')->where('language', '[a-z]{2}');
-
-    Route::get('language/set/{language}', 'LanguageController@set_language')->name('language.set');
-
-    Route::get('webshop', 'WebshopController@index')->name('webshop');
-    Route::get('category/{slug}/{any?}', 'CategoryController@index')->name('category')->where('any', '.*');
-    Route::post('category/set_filter/{any?}', 'CategoryController@set_variations_filter')->name('category.set_variation_filter')->where('any', '.*');
-
-    Route::get('product/{slug}', 'ProductController@index')->name('product');
-
-    Route::get('cart', 'CartController@index')->name('cart');
-    Route::post('cart/store/{product}', 'CartController@store')->name('cart.store');
-    Route::get('cart/delete/{row_id}', 'CartController@delete')->name('cart.delete');
-
-    Route::get('customer', 'CustomerController@index')->name('customer');
-    Route::get('customer/logout', 'CustomerController@logout')->name('customer.logout');
-
-    Route::get('customer/edit', 'CustomerController@edit')->name('customer.edit');
-    Route::post('customer/update', 'CustomerController@update')->name('customer.update');
-
-    Route::get('checkout', 'CheckoutController@index')->name('checkout');
-    Route::post('checkout/place_order', 'CheckoutController@place_order')->name('checkout.place_order');
-    Route::post('checkout/webhook', 'CheckoutController@webhook_payment')->name('checkout.webhook_payment');
-    Route::get('checkout/return/{order}', 'CheckoutController@return_payment')->name('checkout.return_payment');
-
-    Route::get('order', 'OrderController@index')->name('order.index')->middleware('auth');
-    Route::get('order/{id}/show', 'OrderController@show')->name('order.show')->middleware('auth');
-    Route::get('order/{id}/download_invoice', 'OrderController@download_invoice')->name('order.download_invoice')->middleware('auth');
-
-    Route::any('{slug?}', 'PageController@index')->name('page')->where('slug', '[a-z]{3,}');
-});
-
 Auth::routes();
 
 Route::get('admin', 'Auth\LoginController@showLoginForm');
@@ -96,4 +62,38 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('order/{order}/show', 'OrderController@show')->name('order.show');
     Route::get('order/{order}/destroy', 'OrderController@destroy')->name('order.destroy');
     Route::get('order/{order}/download_invoice', 'OrderController@download_invoice')->name('order.download_invoice');
+});
+
+Route::localized(function () {
+    Route::get('/', 'HomepageController@index')->name('homepage');
+    //Route::get('{language?}', 'HomepageController@index')->where('language', '[a-z]{2}');
+
+    Route::get('language/set/{language}', 'LanguageController@set_language')->name('language.set');
+
+    Route::get('webshop', 'WebshopController@index')->name('webshop');
+    Route::get('category/{slug}/{any?}', 'CategoryController@index')->name('category')->where('any', '.*');
+    Route::post('category/set_filter/{any?}', 'CategoryController@set_variations_filter')->name('category.set_variation_filter')->where('any', '.*');
+
+    Route::get('product/{slug}', 'ProductController@index')->name('product');
+
+    Route::get('cart', 'CartController@index')->name('cart');
+    Route::post('cart/store/{product}', 'CartController@store')->name('cart.store');
+    Route::get('cart/delete/{row_id}', 'CartController@delete')->name('cart.delete');
+
+    Route::get('customer', 'CustomerController@index')->name('customer');
+    Route::get('customer/logout', 'CustomerController@logout')->name('customer.logout');
+
+    Route::get('customer/edit', 'CustomerController@edit')->name('customer.edit');
+    Route::post('customer/update', 'CustomerController@update')->name('customer.update');
+
+    Route::get('checkout', 'CheckoutController@index')->name('checkout');
+    Route::post('checkout/place_order', 'CheckoutController@place_order')->name('checkout.place_order');
+    Route::post('checkout/webhook', 'CheckoutController@webhook_payment')->name('checkout.webhook_payment');
+    Route::get('checkout/return/{order}', 'CheckoutController@return_payment')->name('checkout.return_payment');
+
+    Route::get('order', 'OrderController@index')->name('order.index')->middleware('auth');
+    Route::get('order/{id}/show', 'OrderController@show')->name('order.show')->middleware('auth');
+    Route::get('order/{id}/download_invoice', 'OrderController@download_invoice')->name('order.download_invoice')->middleware('auth');
+
+    Route::any('{slug?}', 'PageController@index')->name('page')->where('slug', '[a-z]{3,}');
 });

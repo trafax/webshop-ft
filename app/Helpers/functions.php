@@ -51,7 +51,15 @@ if (! function_exists('t'))
         {
             if (is_object($parent_id))
             {
-                return $parent_id->$field;
+                // Meertalige SEO velden
+                if (preg_match('/seo\[/i', $field))
+                {
+                    return $parent_id['seo'][str_replace(array('seo', '[', ']'),'',$field)];
+                }
+                else
+                {
+                    return $parent_id->$field;
+                }
             }
             else
             {
@@ -94,7 +102,6 @@ if (! function_exists('it'))
         if (setting('translate') && Auth::user() && Auth::user()->role == 'admin')
         {
             $return = '<div class="m-0 p-0 translate-wrapper display-inline"><span class="translate-field ml-2" data-editor="'.$editor.'" data-enable_default="1" data-parent_id="'.$parent_id.'"><i class="fas fa-globe-europe"></i></span>'. $return . '</div>';
-            //$return = '<div class="m-0 p-0 translate-wrapper display-inline translate-field" data-editor="'.$editor.'" data-enable_default="1" data-parent_id="'.$parent_id.'">'. $return . '</div>';
         }
 
         return $return;

@@ -56,7 +56,13 @@ public function index(Request $request, $slug, $url_variations = null)
 
     $breadcrumbs = Category::whereAncestorOf($category)->get();
 
-    return view('webshop.category.index', compact('category', 'products', 'breadcrumbs', 'variations', 'active_variations'));
+    $seo = [
+        'title' => t($category, 'seo[title]') ? t($category, 'seo[title]') : t($category, 'title'),
+        'keywords' => t($category, 'seo[keywords]'),
+        'description' => t($category, 'seo[description]')
+    ];
+
+    return view('webshop.category.index', compact('category', 'products', 'breadcrumbs', 'variations', 'active_variations', 'seo'));
 }
 
     public function filter_products($variations = [])

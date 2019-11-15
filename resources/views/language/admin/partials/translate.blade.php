@@ -1,9 +1,13 @@
+@php
+$function = uniqid('_1');
+@endphp
+
 <div class="input-group-append">
-    <span class="input-group-text"><a href="javascript:;" onclick="return window.translate()"><i class="far fa-flag"></i></a></span>
+    <span class="input-group-text"><a href="javascript:;" onclick="return window.translate_{{ $function }}()"><i class="far fa-flag"></i></a></span>
 </div>
 
 <script type="text/javascript">
-window.translate = function(){
+window.translate_{{ $function }} = function(){
     $.ajax({
         url: '{{ route('admin.translate') }}',
         method: 'GET',

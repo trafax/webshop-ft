@@ -178,15 +178,24 @@
                             <div class="tab-pane fade" id="google" role="tabpanel" aria-labelledby="nav-profile-tab">
                                 <div class="form-group">
                                     <label>Titel</label>
-                                    <input type="text" name="seo[title]" value="{{ $product->seo['title'] }}" class="form-control" value="">
+                                    <div class="input-group">
+                                        <input type="text" name="seo[title]" value="{{ $product->seo['title'] }}" class="form-control" value="">
+                                        @include('language.admin.partials.translate', ['field' => 'seo[title]', 'parent_id' => $product->id])
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Pagina zoekwoorden</label>
-                                    <textarea name="seo[keywords]" class="form-control">{{ $product->seo['keywords'] }}</textarea>
+                                    <div class="input-group">
+                                        <textarea name="seo[keywords]" class="form-control">{{ $product->seo['keywords'] }}</textarea>
+                                        @include('language.admin.partials.translate', ['field' => 'seo[keywords]', 'parent_id' => $product->id])
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Pagina omschrijving</label>
-                                    <textarea name="seo[description]" class="form-control">{{ $product->seo['description'] }}</textarea>
+                                    <div class="input-group">
+                                        <textarea name="seo[description]" class="form-control">{{ $product->seo['description'] }}</textarea>
+                                        @include('language.admin.partials.translate', ['field' => 'seo[description]', 'parent_id' => $product->id])
+                                    </div>
                                 </div>
                             </div>
                         </div>

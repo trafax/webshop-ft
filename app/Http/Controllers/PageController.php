@@ -11,6 +11,12 @@ class PageController extends Controller
     {
         $page = Page::where('slug', $slug)->firstOrFail();
 
-        return view('page.index');
+        $seo = [
+            'title' => t($page, 'seo[title]') ? t($page, 'seo[title]') : t($page, 'title'),
+            'keywords' => t($page, 'seo[keywords]'),
+            'description' => t($page, 'seo[description]')
+        ];
+
+        return view('page.index', compact('page', 'seo'));
     }
 }
