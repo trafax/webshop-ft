@@ -95,5 +95,5 @@ Route::localized(function () {
     Route::get('order/{id}/show', 'OrderController@show')->name('order.show')->middleware('auth');
     Route::get('order/{id}/download_invoice', 'OrderController@download_invoice')->name('order.download_invoice')->middleware('auth');
 
-    Route::any('{slug?}', 'PageController@index')->name('page')->where('slug', '[a-z]{3,}');
+    Route::any('{slug?}', 'PageController@index')->name('page')->where('slug', '[a-z-]{3,}');
 });
