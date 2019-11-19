@@ -72,6 +72,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('text/{block}/edit', 'TextController@edit')->name('text.edit');
     Route::put('text/{block}/update', 'TextController@update')->name('text.update');
     Route::put('text/{block}/save_text', 'TextController@save_text')->name('text.save_text');
+
+    Route::get('parallax/{block}/edit', 'ParallaxController@edit')->name('parallax.edit');
+    Route::put('parallax/{block}/update', 'ParallaxController@update')->name('parallax.update');
 });
 
 Route::localized(function () {
