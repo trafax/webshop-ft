@@ -17,36 +17,11 @@ try {
     require('tinymce/plugins/lists');
     require('tinymce/plugins/advlist');
 
-} catch (e) {}
+    window.simpleParallax = require('simple-parallax-js');
 
-$(function(){
-    $('.sortable').sortable({
-        delay: 300,
-        handle: '.handle',
-        update: function( event, ui ) {
+    window.Dropzone = require('dropzone');
 
-           var action = $(this).data('action');
-           var data = $(this).sortable('toArray');
-
-           $.ajax({
-              headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              },
-              data: {'items' : data},
-              url: action,
-              type: 'POST',
-              success: function(response)
-              {
-                  if (response.reload) {
-                    window.location.reload();
-                  }
-              },
-              dataType: 'json'
-           });
-        }
-     });
-
-     tinymce.init({
+    tinymce.init({
         selector: '.inline-editor',
         inline: true,
         language: 'nl',
@@ -62,24 +37,24 @@ $(function(){
             xhr.open('POST', '/admin/asset/upload_tinymce');
             xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
             xhr.onload = function() {
-              var json;
+                var json;
 
-              if (xhr.status != 200) {
+                if (xhr.status != 200) {
                 failure('HTTP Error: ' + xhr.status);
                 return;
-              }
-              json = JSON.parse(xhr.responseText);
+                }
+                json = JSON.parse(xhr.responseText);
 
-              if (!json || typeof json.location != 'string') {
+                if (!json || typeof json.location != 'string') {
                 failure('Invalid JSON: ' + xhr.responseText);
                 return;
-              }
-              success(json.location);
+                }
+                success(json.location);
             };
             formData = new FormData();
             formData.append('file', blobInfo.blob(), blobInfo.filename);
             xhr.send(formData);
-          },
+            },
         convert_urls: 0,
         toolbar: 'formatselect | fontsizeselect | bold italic strikethrough | numlist bullist | link image media',
         setup: function (editor) {
@@ -101,7 +76,37 @@ $(function(){
         }
     });
 
-     $('.option_select').change(function(){
+} catch (e) {}
+
+$(function(){
+
+    $('.sortable').sortable({
+        delay: 300,
+        handle: '.handle',
+        update: function( event, ui ) {
+
+            var action = $(this).data('action');
+            var data = $(this).sortable('toArray');
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {'items' : data},
+                url: action,
+                type: 'POST',
+                success: function(response)
+                {
+                    if (response.reload) {
+                    window.location.reload();
+                    }
+                },
+                dataType: 'json'
+            });
+        }
+    });
+
+    $('.option_select').change(function(){
 
         var total = parseFloat($('.default_price').data('default_price'));
 
@@ -115,9 +120,9 @@ $(function(){
         });
 
         $('.price').html('&euro; ' + Number(total).toLocaleString("nl-NL", {minimumFractionDigits: 2}));
-     });
+    });
 
-     $('.translate-field').on('click', function(){
+    $('.translate-field').on('click', function(){
         var $parent_id = $(this).data('parent_id');
         var $editor = $(this).data('editor');
         var $enable_default = $(this).data('enable_default');
@@ -134,5 +139,5 @@ $(function(){
             }
         });
         return false;
-     });
+    });
 });

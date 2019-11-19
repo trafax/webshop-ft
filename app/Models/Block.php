@@ -23,4 +23,11 @@ class Block extends Model
     {
         return $this->hasMany('App\Models\Text', 'parent_id', 'id');
     }
+
+    public function asset()
+    {
+        return $this->hasOne('App\Models\Asset', 'parent_id', 'id')->withDefault(function() {
+            return new Asset();
+        });;
+    }
 }

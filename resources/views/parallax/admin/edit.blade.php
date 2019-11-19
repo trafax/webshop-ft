@@ -40,7 +40,38 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <script type="text/javascript">
+                                    $("div.dropzone").dropzone({
+                                            url: '{{ route('admin.asset.upload') }}',
+                                            dictDefaultMessage: '- Sleep uw bestanden hierin om deze to uploaden -',
+                                            headers: {
+                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                            },
+                                            init: function() {
+                                                this.on("sending", function(file, xhr, formData){
+                                                    formData.append('parent_id', '{{ $block->id }}');
+                                                });
+                                                this.on("complete", function (file) {
+                                                    if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
 
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    </script>
+                                    <div class="dropzone" id="customDropzone"></div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    @if ($block->asset->file)
+                                        <img src="{{ asset('/storage/'.$block->asset->file) }}" width="100%">
+
+                                        <a href="{{ route('admin.asset.delete', $block->asset) }}" class="btn btn-danger float-right mt-4">Verwijder afbeelding</a>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
+@import '~dropzone/dist/min/dropzone.min.css';
 
 // Variables
 @import 'variables';
@@ -142,4 +143,12 @@
             }
         }
     }
+}
+
+.dropzone {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    background: rgba(0, 0, 0, 0.03);
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
 }
