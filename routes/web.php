@@ -18,6 +18,7 @@ Auth::routes();
 Route::get('admin', 'Auth\LoginController@showLoginForm');
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'auth:admin'], function () {
 
+    Route::get('page/tinymce', 'PageController@tinymce_links');
     Route::resource('page', 'PageController');
     Route::get('page/{page}/destroy', 'PageController@destroy')->name('page.destroy');
     Route::post('page/sort', 'PageController@sort')->name('page.sort');
@@ -37,6 +38,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('setting/store', 'SettingController@store')->name('setting.store');
 
     Route::post('asset/upload', 'AssetController@upload')->name('asset.upload');
+    Route::post('asset/upload_tinymce', 'AssetController@upload_tinymce')->name('asset.upload_tinymce');
     Route::get('asset/delete/{asset}/{hash?}', 'AssetController@delete')->name('asset.delete');
     Route::post('asset/sort', 'AssetController@sort')->name('asset.sort');
 
@@ -62,6 +64,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('order/{order}/show', 'OrderController@show')->name('order.show');
     Route::get('order/{order}/destroy', 'OrderController@destroy')->name('order.destroy');
     Route::get('order/{order}/download_invoice', 'OrderController@download_invoice')->name('order.download_invoice');
+
+    Route::resource('block', 'BlockController');
+    Route::post('block/sort', 'BlockController@sort')->name('block.sort');
+    Route::get('block/{block}/destroy', 'BlockController@destroy')->name('block.destroy');
+
+    Route::get('text/{block}/edit', 'TextController@edit')->name('text.edit');
+    Route::put('text/{block}/update', 'TextController@update')->name('text.update');
+    Route::put('text/{block}/save_text', 'TextController@save_text')->name('text.save_text');
 });
 
 Route::localized(function () {

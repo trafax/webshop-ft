@@ -39,4 +39,9 @@ class Page extends Model
     {
         return $this->hasMany('App\Models\Page', 'parent_id', 'id');
     }
+
+    public function blocks()
+    {
+        return $this->hasMany('App\Models\Block', 'parent_id', 'id')->orderBy('sort');
+    }
 }

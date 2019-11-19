@@ -37574,6 +37574,331 @@ Popper.Defaults = Defaults;
 
 /***/ }),
 
+/***/ "./node_modules/tinymce/plugins/advlist/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/tinymce/plugins/advlist/index.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Exports the "advlist" plugin for usage with module loaders
+// Usage:
+//   CommonJS:
+//     require('tinymce/plugins/advlist')
+//   ES2015:
+//     import 'tinymce/plugins/advlist'
+__webpack_require__(/*! ./plugin.js */ "./node_modules/tinymce/plugins/advlist/plugin.js");
+
+/***/ }),
+
+/***/ "./node_modules/tinymce/plugins/advlist/plugin.js":
+/*!********************************************************!*\
+  !*** ./node_modules/tinymce/plugins/advlist/plugin.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ * For commercial licenses see https://www.tiny.cloud/
+ *
+ * Version: 5.1.1 (2019-10-28)
+ */
+(function () {
+    'use strict';
+
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
+
+    var global$1 = tinymce.util.Tools.resolve('tinymce.util.Tools');
+
+    var applyListFormat = function (editor, listName, styleValue) {
+      var cmd = listName === 'UL' ? 'InsertUnorderedList' : 'InsertOrderedList';
+      editor.execCommand(cmd, false, styleValue === false ? null : { 'list-style-type': styleValue });
+    };
+    var Actions = { applyListFormat: applyListFormat };
+
+    var register = function (editor) {
+      editor.addCommand('ApplyUnorderedListStyle', function (ui, value) {
+        Actions.applyListFormat(editor, 'UL', value['list-style-type']);
+      });
+      editor.addCommand('ApplyOrderedListStyle', function (ui, value) {
+        Actions.applyListFormat(editor, 'OL', value['list-style-type']);
+      });
+    };
+    var Commands = { register: register };
+
+    var getNumberStyles = function (editor) {
+      var styles = editor.getParam('advlist_number_styles', 'default,lower-alpha,lower-greek,lower-roman,upper-alpha,upper-roman');
+      return styles ? styles.split(/[ ,]/) : [];
+    };
+    var getBulletStyles = function (editor) {
+      var styles = editor.getParam('advlist_bullet_styles', 'default,circle,square');
+      return styles ? styles.split(/[ ,]/) : [];
+    };
+    var Settings = {
+      getNumberStyles: getNumberStyles,
+      getBulletStyles: getBulletStyles
+    };
+
+    var noop = function () {
+    };
+    var constant = function (value) {
+      return function () {
+        return value;
+      };
+    };
+    var never = constant(false);
+    var always = constant(true);
+
+    var none = function () {
+      return NONE;
+    };
+    var NONE = function () {
+      var eq = function (o) {
+        return o.isNone();
+      };
+      var call = function (thunk) {
+        return thunk();
+      };
+      var id = function (n) {
+        return n;
+      };
+      var me = {
+        fold: function (n, s) {
+          return n();
+        },
+        is: never,
+        isSome: never,
+        isNone: always,
+        getOr: id,
+        getOrThunk: call,
+        getOrDie: function (msg) {
+          throw new Error(msg || 'error: getOrDie called on none.');
+        },
+        getOrNull: constant(null),
+        getOrUndefined: constant(undefined),
+        or: id,
+        orThunk: call,
+        map: none,
+        each: noop,
+        bind: none,
+        exists: never,
+        forall: always,
+        filter: none,
+        equals: eq,
+        equals_: eq,
+        toArray: function () {
+          return [];
+        },
+        toString: constant('none()')
+      };
+      if (Object.freeze) {
+        Object.freeze(me);
+      }
+      return me;
+    }();
+    var some = function (a) {
+      var constant_a = constant(a);
+      var self = function () {
+        return me;
+      };
+      var bind = function (f) {
+        return f(a);
+      };
+      var me = {
+        fold: function (n, s) {
+          return s(a);
+        },
+        is: function (v) {
+          return a === v;
+        },
+        isSome: always,
+        isNone: never,
+        getOr: constant_a,
+        getOrThunk: constant_a,
+        getOrDie: constant_a,
+        getOrNull: constant_a,
+        getOrUndefined: constant_a,
+        or: self,
+        orThunk: self,
+        map: function (f) {
+          return some(f(a));
+        },
+        each: function (f) {
+          f(a);
+        },
+        bind: bind,
+        exists: bind,
+        forall: bind,
+        filter: function (f) {
+          return f(a) ? me : NONE;
+        },
+        toArray: function () {
+          return [a];
+        },
+        toString: function () {
+          return 'some(' + a + ')';
+        },
+        equals: function (o) {
+          return o.is(a);
+        },
+        equals_: function (o, elementEq) {
+          return o.fold(never, function (b) {
+            return elementEq(a, b);
+          });
+        }
+      };
+      return me;
+    };
+    var from = function (value) {
+      return value === null || value === undefined ? NONE : some(value);
+    };
+    var Option = {
+      some: some,
+      none: none,
+      from: from
+    };
+
+    var isChildOfBody = function (editor, elm) {
+      return editor.$.contains(editor.getBody(), elm);
+    };
+    var isTableCellNode = function (node) {
+      return node && /^(TH|TD)$/.test(node.nodeName);
+    };
+    var isListNode = function (editor) {
+      return function (node) {
+        return node && /^(OL|UL|DL)$/.test(node.nodeName) && isChildOfBody(editor, node);
+      };
+    };
+    var getSelectedStyleType = function (editor) {
+      var listElm = editor.dom.getParent(editor.selection.getNode(), 'ol,ul');
+      var style = editor.dom.getStyle(listElm, 'listStyleType');
+      return Option.from(style);
+    };
+    var ListUtils = {
+      isTableCellNode: isTableCellNode,
+      isListNode: isListNode,
+      getSelectedStyleType: getSelectedStyleType
+    };
+
+    var findIndex = function (list, predicate) {
+      for (var index = 0; index < list.length; index++) {
+        var element = list[index];
+        if (predicate(element)) {
+          return index;
+        }
+      }
+      return -1;
+    };
+    var styleValueToText = function (styleValue) {
+      return styleValue.replace(/\-/g, ' ').replace(/\b\w/g, function (chr) {
+        return chr.toUpperCase();
+      });
+    };
+    var isWithinList = function (editor, e, nodeName) {
+      var tableCellIndex = findIndex(e.parents, ListUtils.isTableCellNode);
+      var parents = tableCellIndex !== -1 ? e.parents.slice(0, tableCellIndex) : e.parents;
+      var lists = global$1.grep(parents, ListUtils.isListNode(editor));
+      return lists.length > 0 && lists[0].nodeName === nodeName;
+    };
+    var addSplitButton = function (editor, id, tooltip, cmd, nodeName, styles) {
+      editor.ui.registry.addSplitButton(id, {
+        tooltip: tooltip,
+        icon: nodeName === 'OL' ? 'ordered-list' : 'unordered-list',
+        presets: 'listpreview',
+        columns: 3,
+        fetch: function (callback) {
+          var items = global$1.map(styles, function (styleValue) {
+            var iconStyle = nodeName === 'OL' ? 'num' : 'bull';
+            var iconName = styleValue === 'disc' || styleValue === 'decimal' ? 'default' : styleValue;
+            var itemValue = styleValue === 'default' ? '' : styleValue;
+            var displayText = styleValueToText(styleValue);
+            return {
+              type: 'choiceitem',
+              value: itemValue,
+              icon: 'list-' + iconStyle + '-' + iconName,
+              text: displayText
+            };
+          });
+          callback(items);
+        },
+        onAction: function () {
+          return editor.execCommand(cmd);
+        },
+        onItemAction: function (splitButtonApi, value) {
+          Actions.applyListFormat(editor, nodeName, value);
+        },
+        select: function (value) {
+          var listStyleType = ListUtils.getSelectedStyleType(editor);
+          return listStyleType.map(function (listStyle) {
+            return value === listStyle;
+          }).getOr(false);
+        },
+        onSetup: function (api) {
+          var nodeChangeHandler = function (e) {
+            api.setActive(isWithinList(editor, e, nodeName));
+          };
+          editor.on('NodeChange', nodeChangeHandler);
+          return function () {
+            return editor.off('NodeChange', nodeChangeHandler);
+          };
+        }
+      });
+    };
+    var addButton = function (editor, id, tooltip, cmd, nodeName, styles) {
+      editor.ui.registry.addToggleButton(id, {
+        active: false,
+        tooltip: tooltip,
+        icon: nodeName === 'OL' ? 'ordered-list' : 'unordered-list',
+        onSetup: function (api) {
+          var nodeChangeHandler = function (e) {
+            api.setActive(isWithinList(editor, e, nodeName));
+          };
+          editor.on('NodeChange', nodeChangeHandler);
+          return function () {
+            return editor.off('NodeChange', nodeChangeHandler);
+          };
+        },
+        onAction: function () {
+          return editor.execCommand(cmd);
+        }
+      });
+    };
+    var addControl = function (editor, id, tooltip, cmd, nodeName, styles) {
+      if (styles.length > 0) {
+        addSplitButton(editor, id, tooltip, cmd, nodeName, styles);
+      } else {
+        addButton(editor, id, tooltip, cmd, nodeName);
+      }
+    };
+    var register$1 = function (editor) {
+      addControl(editor, 'numlist', 'Numbered list', 'InsertOrderedList', 'OL', Settings.getNumberStyles(editor));
+      addControl(editor, 'bullist', 'Bullet list', 'InsertUnorderedList', 'UL', Settings.getBulletStyles(editor));
+    };
+    var Buttons = { register: register$1 };
+
+    function Plugin () {
+      global.add('advlist', function (editor) {
+        var hasPlugin = function (editor, plugin) {
+          var plugins = editor.settings.plugins ? editor.settings.plugins : '';
+          return global$1.inArray(plugins.split(/[ ,]/), plugin) !== -1;
+        };
+        if (hasPlugin(editor, 'lists')) {
+          Buttons.register(editor);
+          Commands.register(editor);
+        }
+      });
+    }
+
+    Plugin();
+
+}());
+
+
+/***/ }),
+
 /***/ "./node_modules/tinymce/plugins/image/index.js":
 /*!*****************************************************!*\
   !*** ./node_modules/tinymce/plugins/image/index.js ***!
@@ -41835,6 +42160,2211 @@ __webpack_require__(/*! ./plugin.js */ "./node_modules/tinymce/plugins/link/plug
 
 /***/ }),
 
+/***/ "./node_modules/tinymce/plugins/lists/index.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/tinymce/plugins/lists/index.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Exports the "lists" plugin for usage with module loaders
+// Usage:
+//   CommonJS:
+//     require('tinymce/plugins/lists')
+//   ES2015:
+//     import 'tinymce/plugins/lists'
+__webpack_require__(/*! ./plugin.js */ "./node_modules/tinymce/plugins/lists/plugin.js");
+
+/***/ }),
+
+/***/ "./node_modules/tinymce/plugins/lists/plugin.js":
+/*!******************************************************!*\
+  !*** ./node_modules/tinymce/plugins/lists/plugin.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ * For commercial licenses see https://www.tiny.cloud/
+ *
+ * Version: 5.1.1 (2019-10-28)
+ */
+(function (domGlobals) {
+    'use strict';
+
+    var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
+
+    var noop = function () {
+    };
+    var constant = function (value) {
+      return function () {
+        return value;
+      };
+    };
+    var not = function (f) {
+      return function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          args[_i] = arguments[_i];
+        }
+        return !f.apply(null, args);
+      };
+    };
+    var never = constant(false);
+    var always = constant(true);
+
+    var none = function () {
+      return NONE;
+    };
+    var NONE = function () {
+      var eq = function (o) {
+        return o.isNone();
+      };
+      var call = function (thunk) {
+        return thunk();
+      };
+      var id = function (n) {
+        return n;
+      };
+      var me = {
+        fold: function (n, s) {
+          return n();
+        },
+        is: never,
+        isSome: never,
+        isNone: always,
+        getOr: id,
+        getOrThunk: call,
+        getOrDie: function (msg) {
+          throw new Error(msg || 'error: getOrDie called on none.');
+        },
+        getOrNull: constant(null),
+        getOrUndefined: constant(undefined),
+        or: id,
+        orThunk: call,
+        map: none,
+        each: noop,
+        bind: none,
+        exists: never,
+        forall: always,
+        filter: none,
+        equals: eq,
+        equals_: eq,
+        toArray: function () {
+          return [];
+        },
+        toString: constant('none()')
+      };
+      if (Object.freeze) {
+        Object.freeze(me);
+      }
+      return me;
+    }();
+    var some = function (a) {
+      var constant_a = constant(a);
+      var self = function () {
+        return me;
+      };
+      var bind = function (f) {
+        return f(a);
+      };
+      var me = {
+        fold: function (n, s) {
+          return s(a);
+        },
+        is: function (v) {
+          return a === v;
+        },
+        isSome: always,
+        isNone: never,
+        getOr: constant_a,
+        getOrThunk: constant_a,
+        getOrDie: constant_a,
+        getOrNull: constant_a,
+        getOrUndefined: constant_a,
+        or: self,
+        orThunk: self,
+        map: function (f) {
+          return some(f(a));
+        },
+        each: function (f) {
+          f(a);
+        },
+        bind: bind,
+        exists: bind,
+        forall: bind,
+        filter: function (f) {
+          return f(a) ? me : NONE;
+        },
+        toArray: function () {
+          return [a];
+        },
+        toString: function () {
+          return 'some(' + a + ')';
+        },
+        equals: function (o) {
+          return o.is(a);
+        },
+        equals_: function (o, elementEq) {
+          return o.fold(never, function (b) {
+            return elementEq(a, b);
+          });
+        }
+      };
+      return me;
+    };
+    var from = function (value) {
+      return value === null || value === undefined ? NONE : some(value);
+    };
+    var Option = {
+      some: some,
+      none: none,
+      from: from
+    };
+
+    var typeOf = function (x) {
+      if (x === null) {
+        return 'null';
+      }
+      var t = typeof x;
+      if (t === 'object' && (Array.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'Array')) {
+        return 'array';
+      }
+      if (t === 'object' && (String.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'String')) {
+        return 'string';
+      }
+      return t;
+    };
+    var isType = function (type) {
+      return function (value) {
+        return typeOf(value) === type;
+      };
+    };
+    var isString = isType('string');
+    var isArray = isType('array');
+    var isBoolean = isType('boolean');
+    var isFunction = isType('function');
+    var isNumber = isType('number');
+
+    var nativeSlice = Array.prototype.slice;
+    var nativePush = Array.prototype.push;
+    var map = function (xs, f) {
+      var len = xs.length;
+      var r = new Array(len);
+      for (var i = 0; i < len; i++) {
+        var x = xs[i];
+        r[i] = f(x, i);
+      }
+      return r;
+    };
+    var each = function (xs, f) {
+      for (var i = 0, len = xs.length; i < len; i++) {
+        var x = xs[i];
+        f(x, i);
+      }
+    };
+    var filter = function (xs, pred) {
+      var r = [];
+      for (var i = 0, len = xs.length; i < len; i++) {
+        var x = xs[i];
+        if (pred(x, i)) {
+          r.push(x);
+        }
+      }
+      return r;
+    };
+    var groupBy = function (xs, f) {
+      if (xs.length === 0) {
+        return [];
+      } else {
+        var wasType = f(xs[0]);
+        var r = [];
+        var group = [];
+        for (var i = 0, len = xs.length; i < len; i++) {
+          var x = xs[i];
+          var type = f(x);
+          if (type !== wasType) {
+            r.push(group);
+            group = [];
+          }
+          wasType = type;
+          group.push(x);
+        }
+        if (group.length !== 0) {
+          r.push(group);
+        }
+        return r;
+      }
+    };
+    var foldl = function (xs, f, acc) {
+      each(xs, function (x) {
+        acc = f(acc, x);
+      });
+      return acc;
+    };
+    var find = function (xs, pred) {
+      for (var i = 0, len = xs.length; i < len; i++) {
+        var x = xs[i];
+        if (pred(x, i)) {
+          return Option.some(x);
+        }
+      }
+      return Option.none();
+    };
+    var flatten = function (xs) {
+      var r = [];
+      for (var i = 0, len = xs.length; i < len; ++i) {
+        if (!isArray(xs[i])) {
+          throw new Error('Arr.flatten item ' + i + ' was not an array, input: ' + xs);
+        }
+        nativePush.apply(r, xs[i]);
+      }
+      return r;
+    };
+    var bind = function (xs, f) {
+      var output = map(xs, f);
+      return flatten(output);
+    };
+    var reverse = function (xs) {
+      var r = nativeSlice.call(xs, 0);
+      r.reverse();
+      return r;
+    };
+    var head = function (xs) {
+      return xs.length === 0 ? Option.none() : Option.some(xs[0]);
+    };
+    var last = function (xs) {
+      return xs.length === 0 ? Option.none() : Option.some(xs[xs.length - 1]);
+    };
+    var from$1 = isFunction(Array.from) ? Array.from : function (x) {
+      return nativeSlice.call(x);
+    };
+
+    var compareDocumentPosition = function (a, b, match) {
+      return (a.compareDocumentPosition(b) & match) !== 0;
+    };
+    var documentPositionPreceding = function (a, b) {
+      return compareDocumentPosition(a, b, domGlobals.Node.DOCUMENT_POSITION_PRECEDING);
+    };
+    var documentPositionContainedBy = function (a, b) {
+      return compareDocumentPosition(a, b, domGlobals.Node.DOCUMENT_POSITION_CONTAINED_BY);
+    };
+    var Node = {
+      documentPositionPreceding: documentPositionPreceding,
+      documentPositionContainedBy: documentPositionContainedBy
+    };
+
+    var Cell = function (initial) {
+      var value = initial;
+      var get = function () {
+        return value;
+      };
+      var set = function (v) {
+        value = v;
+      };
+      var clone = function () {
+        return Cell(get());
+      };
+      return {
+        get: get,
+        set: set,
+        clone: clone
+      };
+    };
+
+    var firstMatch = function (regexes, s) {
+      for (var i = 0; i < regexes.length; i++) {
+        var x = regexes[i];
+        if (x.test(s)) {
+          return x;
+        }
+      }
+      return undefined;
+    };
+    var find$1 = function (regexes, agent) {
+      var r = firstMatch(regexes, agent);
+      if (!r) {
+        return {
+          major: 0,
+          minor: 0
+        };
+      }
+      var group = function (i) {
+        return Number(agent.replace(r, '$' + i));
+      };
+      return nu(group(1), group(2));
+    };
+    var detect = function (versionRegexes, agent) {
+      var cleanedAgent = String(agent).toLowerCase();
+      if (versionRegexes.length === 0) {
+        return unknown();
+      }
+      return find$1(versionRegexes, cleanedAgent);
+    };
+    var unknown = function () {
+      return nu(0, 0);
+    };
+    var nu = function (major, minor) {
+      return {
+        major: major,
+        minor: minor
+      };
+    };
+    var Version = {
+      nu: nu,
+      detect: detect,
+      unknown: unknown
+    };
+
+    var edge = 'Edge';
+    var chrome = 'Chrome';
+    var ie = 'IE';
+    var opera = 'Opera';
+    var firefox = 'Firefox';
+    var safari = 'Safari';
+    var isBrowser = function (name, current) {
+      return function () {
+        return current === name;
+      };
+    };
+    var unknown$1 = function () {
+      return nu$1({
+        current: undefined,
+        version: Version.unknown()
+      });
+    };
+    var nu$1 = function (info) {
+      var current = info.current;
+      var version = info.version;
+      return {
+        current: current,
+        version: version,
+        isEdge: isBrowser(edge, current),
+        isChrome: isBrowser(chrome, current),
+        isIE: isBrowser(ie, current),
+        isOpera: isBrowser(opera, current),
+        isFirefox: isBrowser(firefox, current),
+        isSafari: isBrowser(safari, current)
+      };
+    };
+    var Browser = {
+      unknown: unknown$1,
+      nu: nu$1,
+      edge: constant(edge),
+      chrome: constant(chrome),
+      ie: constant(ie),
+      opera: constant(opera),
+      firefox: constant(firefox),
+      safari: constant(safari)
+    };
+
+    var windows = 'Windows';
+    var ios = 'iOS';
+    var android = 'Android';
+    var linux = 'Linux';
+    var osx = 'OSX';
+    var solaris = 'Solaris';
+    var freebsd = 'FreeBSD';
+    var isOS = function (name, current) {
+      return function () {
+        return current === name;
+      };
+    };
+    var unknown$2 = function () {
+      return nu$2({
+        current: undefined,
+        version: Version.unknown()
+      });
+    };
+    var nu$2 = function (info) {
+      var current = info.current;
+      var version = info.version;
+      return {
+        current: current,
+        version: version,
+        isWindows: isOS(windows, current),
+        isiOS: isOS(ios, current),
+        isAndroid: isOS(android, current),
+        isOSX: isOS(osx, current),
+        isLinux: isOS(linux, current),
+        isSolaris: isOS(solaris, current),
+        isFreeBSD: isOS(freebsd, current)
+      };
+    };
+    var OperatingSystem = {
+      unknown: unknown$2,
+      nu: nu$2,
+      windows: constant(windows),
+      ios: constant(ios),
+      android: constant(android),
+      linux: constant(linux),
+      osx: constant(osx),
+      solaris: constant(solaris),
+      freebsd: constant(freebsd)
+    };
+
+    var DeviceType = function (os, browser, userAgent, mediaMatch) {
+      var isiPad = os.isiOS() && /ipad/i.test(userAgent) === true;
+      var isiPhone = os.isiOS() && !isiPad;
+      var isMobile = os.isiOS() || os.isAndroid();
+      var isTouch = isMobile || mediaMatch('(pointer:coarse)');
+      var isTablet = isiPad || !isiPhone && isMobile && mediaMatch('(min-device-width:768px)');
+      var isPhone = isiPhone || isMobile && !isTablet;
+      var iOSwebview = browser.isSafari() && os.isiOS() && /safari/i.test(userAgent) === false;
+      var isDesktop = !isPhone && !isTablet && !iOSwebview;
+      return {
+        isiPad: constant(isiPad),
+        isiPhone: constant(isiPhone),
+        isTablet: constant(isTablet),
+        isPhone: constant(isPhone),
+        isTouch: constant(isTouch),
+        isAndroid: os.isAndroid,
+        isiOS: os.isiOS,
+        isWebView: constant(iOSwebview),
+        isDesktop: constant(isDesktop)
+      };
+    };
+
+    var detect$1 = function (candidates, userAgent) {
+      var agent = String(userAgent).toLowerCase();
+      return find(candidates, function (candidate) {
+        return candidate.search(agent);
+      });
+    };
+    var detectBrowser = function (browsers, userAgent) {
+      return detect$1(browsers, userAgent).map(function (browser) {
+        var version = Version.detect(browser.versionRegexes, userAgent);
+        return {
+          current: browser.name,
+          version: version
+        };
+      });
+    };
+    var detectOs = function (oses, userAgent) {
+      return detect$1(oses, userAgent).map(function (os) {
+        var version = Version.detect(os.versionRegexes, userAgent);
+        return {
+          current: os.name,
+          version: version
+        };
+      });
+    };
+    var UaString = {
+      detectBrowser: detectBrowser,
+      detectOs: detectOs
+    };
+
+    var contains = function (str, substr) {
+      return str.indexOf(substr) !== -1;
+    };
+
+    var normalVersionRegex = /.*?version\/\ ?([0-9]+)\.([0-9]+).*/;
+    var checkContains = function (target) {
+      return function (uastring) {
+        return contains(uastring, target);
+      };
+    };
+    var browsers = [
+      {
+        name: 'Edge',
+        versionRegexes: [/.*?edge\/ ?([0-9]+)\.([0-9]+)$/],
+        search: function (uastring) {
+          return contains(uastring, 'edge/') && contains(uastring, 'chrome') && contains(uastring, 'safari') && contains(uastring, 'applewebkit');
+        }
+      },
+      {
+        name: 'Chrome',
+        versionRegexes: [
+          /.*?chrome\/([0-9]+)\.([0-9]+).*/,
+          normalVersionRegex
+        ],
+        search: function (uastring) {
+          return contains(uastring, 'chrome') && !contains(uastring, 'chromeframe');
+        }
+      },
+      {
+        name: 'IE',
+        versionRegexes: [
+          /.*?msie\ ?([0-9]+)\.([0-9]+).*/,
+          /.*?rv:([0-9]+)\.([0-9]+).*/
+        ],
+        search: function (uastring) {
+          return contains(uastring, 'msie') || contains(uastring, 'trident');
+        }
+      },
+      {
+        name: 'Opera',
+        versionRegexes: [
+          normalVersionRegex,
+          /.*?opera\/([0-9]+)\.([0-9]+).*/
+        ],
+        search: checkContains('opera')
+      },
+      {
+        name: 'Firefox',
+        versionRegexes: [/.*?firefox\/\ ?([0-9]+)\.([0-9]+).*/],
+        search: checkContains('firefox')
+      },
+      {
+        name: 'Safari',
+        versionRegexes: [
+          normalVersionRegex,
+          /.*?cpu os ([0-9]+)_([0-9]+).*/
+        ],
+        search: function (uastring) {
+          return (contains(uastring, 'safari') || contains(uastring, 'mobile/')) && contains(uastring, 'applewebkit');
+        }
+      }
+    ];
+    var oses = [
+      {
+        name: 'Windows',
+        search: checkContains('win'),
+        versionRegexes: [/.*?windows\ nt\ ?([0-9]+)\.([0-9]+).*/]
+      },
+      {
+        name: 'iOS',
+        search: function (uastring) {
+          return contains(uastring, 'iphone') || contains(uastring, 'ipad');
+        },
+        versionRegexes: [
+          /.*?version\/\ ?([0-9]+)\.([0-9]+).*/,
+          /.*cpu os ([0-9]+)_([0-9]+).*/,
+          /.*cpu iphone os ([0-9]+)_([0-9]+).*/
+        ]
+      },
+      {
+        name: 'Android',
+        search: checkContains('android'),
+        versionRegexes: [/.*?android\ ?([0-9]+)\.([0-9]+).*/]
+      },
+      {
+        name: 'OSX',
+        search: checkContains('os x'),
+        versionRegexes: [/.*?os\ x\ ?([0-9]+)_([0-9]+).*/]
+      },
+      {
+        name: 'Linux',
+        search: checkContains('linux'),
+        versionRegexes: []
+      },
+      {
+        name: 'Solaris',
+        search: checkContains('sunos'),
+        versionRegexes: []
+      },
+      {
+        name: 'FreeBSD',
+        search: checkContains('freebsd'),
+        versionRegexes: []
+      }
+    ];
+    var PlatformInfo = {
+      browsers: constant(browsers),
+      oses: constant(oses)
+    };
+
+    var detect$2 = function (userAgent, mediaMatch) {
+      var browsers = PlatformInfo.browsers();
+      var oses = PlatformInfo.oses();
+      var browser = UaString.detectBrowser(browsers, userAgent).fold(Browser.unknown, Browser.nu);
+      var os = UaString.detectOs(oses, userAgent).fold(OperatingSystem.unknown, OperatingSystem.nu);
+      var deviceType = DeviceType(os, browser, userAgent, mediaMatch);
+      return {
+        browser: browser,
+        os: os,
+        deviceType: deviceType
+      };
+    };
+    var PlatformDetection = { detect: detect$2 };
+
+    var mediaMatch = function (query) {
+      return domGlobals.window.matchMedia(query).matches;
+    };
+    var platform = Cell(PlatformDetection.detect(domGlobals.navigator.userAgent, mediaMatch));
+    var detect$3 = function () {
+      return platform.get();
+    };
+
+    var fromHtml = function (html, scope) {
+      var doc = scope || domGlobals.document;
+      var div = doc.createElement('div');
+      div.innerHTML = html;
+      if (!div.hasChildNodes() || div.childNodes.length > 1) {
+        domGlobals.console.error('HTML does not have a single root node', html);
+        throw new Error('HTML must have a single root node');
+      }
+      return fromDom(div.childNodes[0]);
+    };
+    var fromTag = function (tag, scope) {
+      var doc = scope || domGlobals.document;
+      var node = doc.createElement(tag);
+      return fromDom(node);
+    };
+    var fromText = function (text, scope) {
+      var doc = scope || domGlobals.document;
+      var node = doc.createTextNode(text);
+      return fromDom(node);
+    };
+    var fromDom = function (node) {
+      if (node === null || node === undefined) {
+        throw new Error('Node cannot be null or undefined');
+      }
+      return { dom: constant(node) };
+    };
+    var fromPoint = function (docElm, x, y) {
+      var doc = docElm.dom();
+      return Option.from(doc.elementFromPoint(x, y)).map(fromDom);
+    };
+    var Element = {
+      fromHtml: fromHtml,
+      fromTag: fromTag,
+      fromText: fromText,
+      fromDom: fromDom,
+      fromPoint: fromPoint
+    };
+
+    var ATTRIBUTE = domGlobals.Node.ATTRIBUTE_NODE;
+    var CDATA_SECTION = domGlobals.Node.CDATA_SECTION_NODE;
+    var COMMENT = domGlobals.Node.COMMENT_NODE;
+    var DOCUMENT = domGlobals.Node.DOCUMENT_NODE;
+    var DOCUMENT_TYPE = domGlobals.Node.DOCUMENT_TYPE_NODE;
+    var DOCUMENT_FRAGMENT = domGlobals.Node.DOCUMENT_FRAGMENT_NODE;
+    var ELEMENT = domGlobals.Node.ELEMENT_NODE;
+    var TEXT = domGlobals.Node.TEXT_NODE;
+    var PROCESSING_INSTRUCTION = domGlobals.Node.PROCESSING_INSTRUCTION_NODE;
+    var ENTITY_REFERENCE = domGlobals.Node.ENTITY_REFERENCE_NODE;
+    var ENTITY = domGlobals.Node.ENTITY_NODE;
+    var NOTATION = domGlobals.Node.NOTATION_NODE;
+
+    var ELEMENT$1 = ELEMENT;
+    var is = function (element, selector) {
+      var dom = element.dom();
+      if (dom.nodeType !== ELEMENT$1) {
+        return false;
+      } else {
+        var elem = dom;
+        if (elem.matches !== undefined) {
+          return elem.matches(selector);
+        } else if (elem.msMatchesSelector !== undefined) {
+          return elem.msMatchesSelector(selector);
+        } else if (elem.webkitMatchesSelector !== undefined) {
+          return elem.webkitMatchesSelector(selector);
+        } else if (elem.mozMatchesSelector !== undefined) {
+          return elem.mozMatchesSelector(selector);
+        } else {
+          throw new Error('Browser lacks native selectors');
+        }
+      }
+    };
+
+    var eq = function (e1, e2) {
+      return e1.dom() === e2.dom();
+    };
+    var regularContains = function (e1, e2) {
+      var d1 = e1.dom();
+      var d2 = e2.dom();
+      return d1 === d2 ? false : d1.contains(d2);
+    };
+    var ieContains = function (e1, e2) {
+      return Node.documentPositionContainedBy(e1.dom(), e2.dom());
+    };
+    var browser = detect$3().browser;
+    var contains$1 = browser.isIE() ? ieContains : regularContains;
+    var is$1 = is;
+
+    var global$1 = tinymce.util.Tools.resolve('tinymce.dom.RangeUtils');
+
+    var global$2 = tinymce.util.Tools.resolve('tinymce.dom.TreeWalker');
+
+    var global$3 = tinymce.util.Tools.resolve('tinymce.util.VK');
+
+    var lift2 = function (oa, ob, f) {
+      return oa.isSome() && ob.isSome() ? Option.some(f(oa.getOrDie(), ob.getOrDie())) : Option.none();
+    };
+
+    var fromElements = function (elements, scope) {
+      var doc = scope || domGlobals.document;
+      var fragment = doc.createDocumentFragment();
+      each(elements, function (element) {
+        fragment.appendChild(element.dom());
+      });
+      return Element.fromDom(fragment);
+    };
+
+    var Immutable = function () {
+      var fields = [];
+      for (var _i = 0; _i < arguments.length; _i++) {
+        fields[_i] = arguments[_i];
+      }
+      return function () {
+        var values = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+          values[_i] = arguments[_i];
+        }
+        if (fields.length !== values.length) {
+          throw new Error('Wrong number of arguments to struct. Expected "[' + fields.length + ']", got ' + values.length + ' arguments');
+        }
+        var struct = {};
+        each(fields, function (name, i) {
+          struct[name] = constant(values[i]);
+        });
+        return struct;
+      };
+    };
+
+    var keys = Object.keys;
+    var each$1 = function (obj, f) {
+      var props = keys(obj);
+      for (var k = 0, len = props.length; k < len; k++) {
+        var i = props[k];
+        var x = obj[i];
+        f(x, i);
+      }
+    };
+
+    var parent = function (element) {
+      return Option.from(element.dom().parentNode).map(Element.fromDom);
+    };
+    var children = function (element) {
+      return map(element.dom().childNodes, Element.fromDom);
+    };
+    var child = function (element, index) {
+      var cs = element.dom().childNodes;
+      return Option.from(cs[index]).map(Element.fromDom);
+    };
+    var firstChild = function (element) {
+      return child(element, 0);
+    };
+    var lastChild = function (element) {
+      return child(element, element.dom().childNodes.length - 1);
+    };
+    var spot = Immutable('element', 'offset');
+
+    var before = function (marker, element) {
+      var parent$1 = parent(marker);
+      parent$1.each(function (v) {
+        v.dom().insertBefore(element.dom(), marker.dom());
+      });
+    };
+    var append = function (parent, element) {
+      parent.dom().appendChild(element.dom());
+    };
+
+    var before$1 = function (marker, elements) {
+      each(elements, function (x) {
+        before(marker, x);
+      });
+    };
+    var append$1 = function (parent, elements) {
+      each(elements, function (x) {
+        append(parent, x);
+      });
+    };
+
+    var remove = function (element) {
+      var dom = element.dom();
+      if (dom.parentNode !== null) {
+        dom.parentNode.removeChild(dom);
+      }
+    };
+
+    var fireListEvent = function (editor, action, element) {
+      return editor.fire('ListMutation', {
+        action: action,
+        element: element
+      });
+    };
+
+    var Global = typeof domGlobals.window !== 'undefined' ? domGlobals.window : Function('return this;')();
+
+    var path = function (parts, scope) {
+      var o = scope !== undefined && scope !== null ? scope : Global;
+      for (var i = 0; i < parts.length && o !== undefined && o !== null; ++i) {
+        o = o[parts[i]];
+      }
+      return o;
+    };
+    var resolve = function (p, scope) {
+      var parts = p.split('.');
+      return path(parts, scope);
+    };
+
+    var unsafe = function (name, scope) {
+      return resolve(name, scope);
+    };
+    var getOrDie = function (name, scope) {
+      var actual = unsafe(name, scope);
+      if (actual === undefined || actual === null) {
+        throw new Error(name + ' not available on this browser');
+      }
+      return actual;
+    };
+    var Global$1 = { getOrDie: getOrDie };
+
+    var htmlElement = function (scope) {
+      return Global$1.getOrDie('HTMLElement', scope);
+    };
+    var isPrototypeOf = function (x) {
+      var scope = resolve('ownerDocument.defaultView', x);
+      return htmlElement(scope).prototype.isPrototypeOf(x);
+    };
+    var HTMLElement = { isPrototypeOf: isPrototypeOf };
+
+    var global$4 = tinymce.util.Tools.resolve('tinymce.dom.DomQuery');
+
+    var global$5 = tinymce.util.Tools.resolve('tinymce.util.Tools');
+
+    var isTextNode = function (node) {
+      return node && node.nodeType === 3;
+    };
+    var isListNode = function (node) {
+      return node && /^(OL|UL|DL)$/.test(node.nodeName);
+    };
+    var isOlUlNode = function (node) {
+      return node && /^(OL|UL)$/.test(node.nodeName);
+    };
+    var isListItemNode = function (node) {
+      return node && /^(LI|DT|DD)$/.test(node.nodeName);
+    };
+    var isDlItemNode = function (node) {
+      return node && /^(DT|DD)$/.test(node.nodeName);
+    };
+    var isTableCellNode = function (node) {
+      return node && /^(TH|TD)$/.test(node.nodeName);
+    };
+    var isBr = function (node) {
+      return node && node.nodeName === 'BR';
+    };
+    var isFirstChild = function (node) {
+      return node.parentNode.firstChild === node;
+    };
+    var isLastChild = function (node) {
+      return node.parentNode.lastChild === node;
+    };
+    var isTextBlock = function (editor, node) {
+      return node && !!editor.schema.getTextBlockElements()[node.nodeName];
+    };
+    var isBlock = function (node, blockElements) {
+      return node && node.nodeName in blockElements;
+    };
+    var isBogusBr = function (dom, node) {
+      if (!isBr(node)) {
+        return false;
+      }
+      if (dom.isBlock(node.nextSibling) && !isBr(node.previousSibling)) {
+        return true;
+      }
+      return false;
+    };
+    var isEmpty = function (dom, elm, keepBookmarks) {
+      var empty = dom.isEmpty(elm);
+      if (keepBookmarks && dom.select('span[data-mce-type=bookmark]', elm).length > 0) {
+        return false;
+      }
+      return empty;
+    };
+    var isChildOfBody = function (dom, elm) {
+      return dom.isChildOf(elm, dom.getRoot());
+    };
+    var NodeType = {
+      isTextNode: isTextNode,
+      isListNode: isListNode,
+      isOlUlNode: isOlUlNode,
+      isDlItemNode: isDlItemNode,
+      isListItemNode: isListItemNode,
+      isTableCellNode: isTableCellNode,
+      isBr: isBr,
+      isFirstChild: isFirstChild,
+      isLastChild: isLastChild,
+      isTextBlock: isTextBlock,
+      isBlock: isBlock,
+      isBogusBr: isBogusBr,
+      isEmpty: isEmpty,
+      isChildOfBody: isChildOfBody
+    };
+
+    var getParentList = function (editor) {
+      var selectionStart = editor.selection.getStart(true);
+      return editor.dom.getParent(selectionStart, 'OL,UL,DL', getClosestListRootElm(editor, selectionStart));
+    };
+    var isParentListSelected = function (parentList, selectedBlocks) {
+      return parentList && selectedBlocks.length === 1 && selectedBlocks[0] === parentList;
+    };
+    var findSubLists = function (parentList) {
+      return global$5.grep(parentList.querySelectorAll('ol,ul,dl'), function (elm) {
+        return NodeType.isListNode(elm);
+      });
+    };
+    var getSelectedSubLists = function (editor) {
+      var parentList = getParentList(editor);
+      var selectedBlocks = editor.selection.getSelectedBlocks();
+      if (isParentListSelected(parentList, selectedBlocks)) {
+        return findSubLists(parentList);
+      } else {
+        return global$5.grep(selectedBlocks, function (elm) {
+          return NodeType.isListNode(elm) && parentList !== elm;
+        });
+      }
+    };
+    var findParentListItemsNodes = function (editor, elms) {
+      var listItemsElms = global$5.map(elms, function (elm) {
+        var parentLi = editor.dom.getParent(elm, 'li,dd,dt', getClosestListRootElm(editor, elm));
+        return parentLi ? parentLi : elm;
+      });
+      return global$4.unique(listItemsElms);
+    };
+    var getSelectedListItems = function (editor) {
+      var selectedBlocks = editor.selection.getSelectedBlocks();
+      return global$5.grep(findParentListItemsNodes(editor, selectedBlocks), function (block) {
+        return NodeType.isListItemNode(block);
+      });
+    };
+    var getSelectedDlItems = function (editor) {
+      return filter(getSelectedListItems(editor), NodeType.isDlItemNode);
+    };
+    var getClosestListRootElm = function (editor, elm) {
+      var parentTableCell = editor.dom.getParents(elm, 'TD,TH');
+      var root = parentTableCell.length > 0 ? parentTableCell[0] : editor.getBody();
+      return root;
+    };
+    var findLastParentListNode = function (editor, elm) {
+      var parentLists = editor.dom.getParents(elm, 'ol,ul', getClosestListRootElm(editor, elm));
+      return last(parentLists);
+    };
+    var getSelectedLists = function (editor) {
+      var firstList = findLastParentListNode(editor, editor.selection.getStart());
+      var subsequentLists = filter(editor.selection.getSelectedBlocks(), NodeType.isOlUlNode);
+      return firstList.toArray().concat(subsequentLists);
+    };
+    var getSelectedListRoots = function (editor) {
+      var selectedLists = getSelectedLists(editor);
+      return getUniqueListRoots(editor, selectedLists);
+    };
+    var getUniqueListRoots = function (editor, lists) {
+      var listRoots = map(lists, function (list) {
+        return findLastParentListNode(editor, list).getOr(list);
+      });
+      return global$4.unique(listRoots);
+    };
+    var isList = function (editor) {
+      var list = getParentList(editor);
+      return HTMLElement.isPrototypeOf(list);
+    };
+    var Selection = {
+      isList: isList,
+      getParentList: getParentList,
+      getSelectedSubLists: getSelectedSubLists,
+      getSelectedListItems: getSelectedListItems,
+      getClosestListRootElm: getClosestListRootElm,
+      getSelectedDlItems: getSelectedDlItems,
+      getSelectedListRoots: getSelectedListRoots
+    };
+
+    var createTextBlock = function (editor, contentNode) {
+      var dom = editor.dom;
+      var blockElements = editor.schema.getBlockElements();
+      var fragment = dom.createFragment();
+      var node, textBlock, blockName, hasContentNode;
+      if (editor.settings.forced_root_block) {
+        blockName = editor.settings.forced_root_block;
+      }
+      if (blockName) {
+        textBlock = dom.create(blockName);
+        if (textBlock.tagName === editor.settings.forced_root_block) {
+          dom.setAttribs(textBlock, editor.settings.forced_root_block_attrs);
+        }
+        if (!NodeType.isBlock(contentNode.firstChild, blockElements)) {
+          fragment.appendChild(textBlock);
+        }
+      }
+      if (contentNode) {
+        while (node = contentNode.firstChild) {
+          var nodeName = node.nodeName;
+          if (!hasContentNode && (nodeName !== 'SPAN' || node.getAttribute('data-mce-type') !== 'bookmark')) {
+            hasContentNode = true;
+          }
+          if (NodeType.isBlock(node, blockElements)) {
+            fragment.appendChild(node);
+            textBlock = null;
+          } else {
+            if (blockName) {
+              if (!textBlock) {
+                textBlock = dom.create(blockName);
+                fragment.appendChild(textBlock);
+              }
+              textBlock.appendChild(node);
+            } else {
+              fragment.appendChild(node);
+            }
+          }
+        }
+      }
+      if (!editor.settings.forced_root_block) {
+        fragment.appendChild(dom.create('br'));
+      } else {
+        if (!hasContentNode) {
+          textBlock.appendChild(dom.create('br', { 'data-mce-bogus': '1' }));
+        }
+      }
+      return fragment;
+    };
+
+    var name = function (element) {
+      var r = element.dom().nodeName;
+      return r.toLowerCase();
+    };
+    var type = function (element) {
+      return element.dom().nodeType;
+    };
+    var isType$1 = function (t) {
+      return function (element) {
+        return type(element) === t;
+      };
+    };
+    var isElement = isType$1(ELEMENT);
+
+    var rawSet = function (dom, key, value) {
+      if (isString(value) || isBoolean(value) || isNumber(value)) {
+        dom.setAttribute(key, value + '');
+      } else {
+        domGlobals.console.error('Invalid call to Attr.set. Key ', key, ':: Value ', value, ':: Element ', dom);
+        throw new Error('Attribute value was not simple');
+      }
+    };
+    var setAll = function (element, attrs) {
+      var dom = element.dom();
+      each$1(attrs, function (v, k) {
+        rawSet(dom, k, v);
+      });
+    };
+    var clone = function (element) {
+      return foldl(element.dom().attributes, function (acc, attr) {
+        acc[attr.name] = attr.value;
+        return acc;
+      }, {});
+    };
+
+    var isSupported = function (dom) {
+      return dom.style !== undefined && isFunction(dom.style.getPropertyValue);
+    };
+
+    var internalSet = function (dom, property, value) {
+      if (!isString(value)) {
+        domGlobals.console.error('Invalid call to CSS.set. Property ', property, ':: Value ', value, ':: Element ', dom);
+        throw new Error('CSS value must be a string: ' + value);
+      }
+      if (isSupported(dom)) {
+        dom.style.setProperty(property, value);
+      }
+    };
+    var set = function (element, property, value) {
+      var dom = element.dom();
+      internalSet(dom, property, value);
+    };
+
+    var clone$1 = function (original, isDeep) {
+      return Element.fromDom(original.dom().cloneNode(isDeep));
+    };
+    var deep = function (original) {
+      return clone$1(original, true);
+    };
+    var shallowAs = function (original, tag) {
+      var nu = Element.fromTag(tag);
+      var attributes = clone(original);
+      setAll(nu, attributes);
+      return nu;
+    };
+    var mutate = function (original, tag) {
+      var nu = shallowAs(original, tag);
+      before(original, nu);
+      var children$1 = children(original);
+      append$1(nu, children$1);
+      remove(original);
+      return nu;
+    };
+
+    var joinSegment = function (parent, child) {
+      append(parent.item, child.list);
+    };
+    var joinSegments = function (segments) {
+      for (var i = 1; i < segments.length; i++) {
+        joinSegment(segments[i - 1], segments[i]);
+      }
+    };
+    var appendSegments = function (head$1, tail) {
+      lift2(last(head$1), head(tail), joinSegment);
+    };
+    var createSegment = function (scope, listType) {
+      var segment = {
+        list: Element.fromTag(listType, scope),
+        item: Element.fromTag('li', scope)
+      };
+      append(segment.list, segment.item);
+      return segment;
+    };
+    var createSegments = function (scope, entry, size) {
+      var segments = [];
+      for (var i = 0; i < size; i++) {
+        segments.push(createSegment(scope, entry.listType));
+      }
+      return segments;
+    };
+    var populateSegments = function (segments, entry) {
+      for (var i = 0; i < segments.length - 1; i++) {
+        set(segments[i].item, 'list-style-type', 'none');
+      }
+      last(segments).each(function (segment) {
+        setAll(segment.list, entry.listAttributes);
+        setAll(segment.item, entry.itemAttributes);
+        append$1(segment.item, entry.content);
+      });
+    };
+    var normalizeSegment = function (segment, entry) {
+      if (name(segment.list) !== entry.listType) {
+        segment.list = mutate(segment.list, entry.listType);
+      }
+      setAll(segment.list, entry.listAttributes);
+    };
+    var createItem = function (scope, attr, content) {
+      var item = Element.fromTag('li', scope);
+      setAll(item, attr);
+      append$1(item, content);
+      return item;
+    };
+    var appendItem = function (segment, item) {
+      append(segment.list, item);
+      segment.item = item;
+    };
+    var writeShallow = function (scope, cast, entry) {
+      var newCast = cast.slice(0, entry.depth);
+      last(newCast).each(function (segment) {
+        var item = createItem(scope, entry.itemAttributes, entry.content);
+        appendItem(segment, item);
+        normalizeSegment(segment, entry);
+      });
+      return newCast;
+    };
+    var writeDeep = function (scope, cast, entry) {
+      var segments = createSegments(scope, entry, entry.depth - cast.length);
+      joinSegments(segments);
+      populateSegments(segments, entry);
+      appendSegments(cast, segments);
+      return cast.concat(segments);
+    };
+    var composeList = function (scope, entries) {
+      var cast = foldl(entries, function (cast, entry) {
+        return entry.depth > cast.length ? writeDeep(scope, cast, entry) : writeShallow(scope, cast, entry);
+      }, []);
+      return head(cast).map(function (segment) {
+        return segment.list;
+      });
+    };
+
+    var isList$1 = function (el) {
+      return is$1(el, 'OL,UL');
+    };
+    var hasFirstChildList = function (el) {
+      return firstChild(el).map(isList$1).getOr(false);
+    };
+    var hasLastChildList = function (el) {
+      return lastChild(el).map(isList$1).getOr(false);
+    };
+
+    var isIndented = function (entry) {
+      return entry.depth > 0;
+    };
+    var isSelected = function (entry) {
+      return entry.isSelected;
+    };
+    var cloneItemContent = function (li) {
+      var children$1 = children(li);
+      var content = hasLastChildList(li) ? children$1.slice(0, -1) : children$1;
+      return map(content, deep);
+    };
+    var createEntry = function (li, depth, isSelected) {
+      return parent(li).filter(isElement).map(function (list) {
+        return {
+          depth: depth,
+          isSelected: isSelected,
+          content: cloneItemContent(li),
+          itemAttributes: clone(li),
+          listAttributes: clone(list),
+          listType: name(list)
+        };
+      });
+    };
+
+    var indentEntry = function (indentation, entry) {
+      switch (indentation) {
+      case 'Indent':
+        entry.depth++;
+        break;
+      case 'Outdent':
+        entry.depth--;
+        break;
+      case 'Flatten':
+        entry.depth = 0;
+      }
+    };
+
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var shallow = function (old, nu) {
+      return nu;
+    };
+    var baseMerge = function (merger) {
+      return function () {
+        var objects = new Array(arguments.length);
+        for (var i = 0; i < objects.length; i++) {
+          objects[i] = arguments[i];
+        }
+        if (objects.length === 0) {
+          throw new Error('Can\'t merge zero objects');
+        }
+        var ret = {};
+        for (var j = 0; j < objects.length; j++) {
+          var curObject = objects[j];
+          for (var key in curObject) {
+            if (hasOwnProperty.call(curObject, key)) {
+              ret[key] = merger(ret[key], curObject[key]);
+            }
+          }
+        }
+        return ret;
+      };
+    };
+    var merge = baseMerge(shallow);
+
+    var cloneListProperties = function (target, source) {
+      target.listType = source.listType;
+      target.listAttributes = merge({}, source.listAttributes);
+    };
+    var previousSiblingEntry = function (entries, start) {
+      var depth = entries[start].depth;
+      for (var i = start - 1; i >= 0; i--) {
+        if (entries[i].depth === depth) {
+          return Option.some(entries[i]);
+        }
+        if (entries[i].depth < depth) {
+          break;
+        }
+      }
+      return Option.none();
+    };
+    var normalizeEntries = function (entries) {
+      each(entries, function (entry, i) {
+        previousSiblingEntry(entries, i).each(function (matchingEntry) {
+          cloneListProperties(entry, matchingEntry);
+        });
+      });
+    };
+
+    var parseItem = function (depth, itemSelection, selectionState, item) {
+      return firstChild(item).filter(isList$1).fold(function () {
+        itemSelection.each(function (selection) {
+          if (eq(selection.start, item)) {
+            selectionState.set(true);
+          }
+        });
+        var currentItemEntry = createEntry(item, depth, selectionState.get());
+        itemSelection.each(function (selection) {
+          if (eq(selection.end, item)) {
+            selectionState.set(false);
+          }
+        });
+        var childListEntries = lastChild(item).filter(isList$1).map(function (list) {
+          return parseList(depth, itemSelection, selectionState, list);
+        }).getOr([]);
+        return currentItemEntry.toArray().concat(childListEntries);
+      }, function (list) {
+        return parseList(depth, itemSelection, selectionState, list);
+      });
+    };
+    var parseList = function (depth, itemSelection, selectionState, list) {
+      return bind(children(list), function (element) {
+        var parser = isList$1(element) ? parseList : parseItem;
+        var newDepth = depth + 1;
+        return parser(newDepth, itemSelection, selectionState, element);
+      });
+    };
+    var parseLists = function (lists, itemSelection) {
+      var selectionState = Cell(false);
+      var initialDepth = 0;
+      return map(lists, function (list) {
+        return {
+          sourceList: list,
+          entries: parseList(initialDepth, itemSelection, selectionState, list)
+        };
+      });
+    };
+
+    var outdentedComposer = function (editor, entries) {
+      return map(entries, function (entry) {
+        var content = fromElements(entry.content);
+        return Element.fromDom(createTextBlock(editor, content.dom()));
+      });
+    };
+    var indentedComposer = function (editor, entries) {
+      normalizeEntries(entries);
+      return composeList(editor.contentDocument, entries).toArray();
+    };
+    var composeEntries = function (editor, entries) {
+      return bind(groupBy(entries, isIndented), function (entries) {
+        var groupIsIndented = head(entries).map(isIndented).getOr(false);
+        return groupIsIndented ? indentedComposer(editor, entries) : outdentedComposer(editor, entries);
+      });
+    };
+    var indentSelectedEntries = function (entries, indentation) {
+      each(filter(entries, isSelected), function (entry) {
+        return indentEntry(indentation, entry);
+      });
+    };
+    var getItemSelection = function (editor) {
+      var selectedListItems = map(Selection.getSelectedListItems(editor), Element.fromDom);
+      return lift2(find(selectedListItems, not(hasFirstChildList)), find(reverse(selectedListItems), not(hasFirstChildList)), function (start, end) {
+        return {
+          start: start,
+          end: end
+        };
+      });
+    };
+    var listIndentation = function (editor, lists, indentation) {
+      var entrySets = parseLists(lists, getItemSelection(editor));
+      each(entrySets, function (entrySet) {
+        indentSelectedEntries(entrySet.entries, indentation);
+        var composedLists = composeEntries(editor, entrySet.entries);
+        each(composedLists, function (composedList) {
+          fireListEvent(editor, indentation === 'Indent' ? 'IndentList' : 'OutdentList', composedList.dom());
+        });
+        before$1(entrySet.sourceList, composedLists);
+        remove(entrySet.sourceList);
+      });
+    };
+
+    var global$6 = tinymce.util.Tools.resolve('tinymce.dom.DOMUtils');
+
+    var DOM = global$6.DOM;
+    var splitList = function (editor, ul, li) {
+      var tmpRng, fragment, bookmarks, node, newBlock;
+      var removeAndKeepBookmarks = function (targetNode) {
+        global$5.each(bookmarks, function (node) {
+          targetNode.parentNode.insertBefore(node, li.parentNode);
+        });
+        DOM.remove(targetNode);
+      };
+      bookmarks = DOM.select('span[data-mce-type="bookmark"]', ul);
+      newBlock = createTextBlock(editor, li);
+      tmpRng = DOM.createRng();
+      tmpRng.setStartAfter(li);
+      tmpRng.setEndAfter(ul);
+      fragment = tmpRng.extractContents();
+      for (node = fragment.firstChild; node; node = node.firstChild) {
+        if (node.nodeName === 'LI' && editor.dom.isEmpty(node)) {
+          DOM.remove(node);
+          break;
+        }
+      }
+      if (!editor.dom.isEmpty(fragment)) {
+        DOM.insertAfter(fragment, ul);
+      }
+      DOM.insertAfter(newBlock, ul);
+      if (NodeType.isEmpty(editor.dom, li.parentNode)) {
+        removeAndKeepBookmarks(li.parentNode);
+      }
+      DOM.remove(li);
+      if (NodeType.isEmpty(editor.dom, ul)) {
+        DOM.remove(ul);
+      }
+    };
+    var SplitList = { splitList: splitList };
+
+    var outdentDlItem = function (editor, item) {
+      if (is$1(item, 'dd')) {
+        mutate(item, 'dt');
+      } else if (is$1(item, 'dt')) {
+        parent(item).each(function (dl) {
+          return SplitList.splitList(editor, dl.dom(), item.dom());
+        });
+      }
+    };
+    var indentDlItem = function (item) {
+      if (is$1(item, 'dt')) {
+        mutate(item, 'dd');
+      }
+    };
+    var dlIndentation = function (editor, indentation, dlItems) {
+      if (indentation === 'Indent') {
+        each(dlItems, indentDlItem);
+      } else {
+        each(dlItems, function (item) {
+          return outdentDlItem(editor, item);
+        });
+      }
+    };
+
+    var getNormalizedPoint = function (container, offset) {
+      if (NodeType.isTextNode(container)) {
+        return {
+          container: container,
+          offset: offset
+        };
+      }
+      var node = global$1.getNode(container, offset);
+      if (NodeType.isTextNode(node)) {
+        return {
+          container: node,
+          offset: offset >= container.childNodes.length ? node.data.length : 0
+        };
+      } else if (node.previousSibling && NodeType.isTextNode(node.previousSibling)) {
+        return {
+          container: node.previousSibling,
+          offset: node.previousSibling.data.length
+        };
+      } else if (node.nextSibling && NodeType.isTextNode(node.nextSibling)) {
+        return {
+          container: node.nextSibling,
+          offset: 0
+        };
+      }
+      return {
+        container: container,
+        offset: offset
+      };
+    };
+    var normalizeRange = function (rng) {
+      var outRng = rng.cloneRange();
+      var rangeStart = getNormalizedPoint(rng.startContainer, rng.startOffset);
+      outRng.setStart(rangeStart.container, rangeStart.offset);
+      var rangeEnd = getNormalizedPoint(rng.endContainer, rng.endOffset);
+      outRng.setEnd(rangeEnd.container, rangeEnd.offset);
+      return outRng;
+    };
+    var Range = {
+      getNormalizedPoint: getNormalizedPoint,
+      normalizeRange: normalizeRange
+    };
+
+    var selectionIndentation = function (editor, indentation) {
+      var lists = map(Selection.getSelectedListRoots(editor), Element.fromDom);
+      var dlItems = map(Selection.getSelectedDlItems(editor), Element.fromDom);
+      var isHandled = false;
+      if (lists.length || dlItems.length) {
+        var bookmark = editor.selection.getBookmark();
+        listIndentation(editor, lists, indentation);
+        dlIndentation(editor, indentation, dlItems);
+        editor.selection.moveToBookmark(bookmark);
+        editor.selection.setRng(Range.normalizeRange(editor.selection.getRng()));
+        editor.nodeChanged();
+        isHandled = true;
+      }
+      return isHandled;
+    };
+    var indentListSelection = function (editor) {
+      return selectionIndentation(editor, 'Indent');
+    };
+    var outdentListSelection = function (editor) {
+      return selectionIndentation(editor, 'Outdent');
+    };
+    var flattenListSelection = function (editor) {
+      return selectionIndentation(editor, 'Flatten');
+    };
+
+    var global$7 = tinymce.util.Tools.resolve('tinymce.dom.BookmarkManager');
+
+    var DOM$1 = global$6.DOM;
+    var createBookmark = function (rng) {
+      var bookmark = {};
+      var setupEndPoint = function (start) {
+        var offsetNode, container, offset;
+        container = rng[start ? 'startContainer' : 'endContainer'];
+        offset = rng[start ? 'startOffset' : 'endOffset'];
+        if (container.nodeType === 1) {
+          offsetNode = DOM$1.create('span', { 'data-mce-type': 'bookmark' });
+          if (container.hasChildNodes()) {
+            offset = Math.min(offset, container.childNodes.length - 1);
+            if (start) {
+              container.insertBefore(offsetNode, container.childNodes[offset]);
+            } else {
+              DOM$1.insertAfter(offsetNode, container.childNodes[offset]);
+            }
+          } else {
+            container.appendChild(offsetNode);
+          }
+          container = offsetNode;
+          offset = 0;
+        }
+        bookmark[start ? 'startContainer' : 'endContainer'] = container;
+        bookmark[start ? 'startOffset' : 'endOffset'] = offset;
+      };
+      setupEndPoint(true);
+      if (!rng.collapsed) {
+        setupEndPoint();
+      }
+      return bookmark;
+    };
+    var resolveBookmark = function (bookmark) {
+      function restoreEndPoint(start) {
+        var container, offset, node;
+        var nodeIndex = function (container) {
+          var node = container.parentNode.firstChild, idx = 0;
+          while (node) {
+            if (node === container) {
+              return idx;
+            }
+            if (node.nodeType !== 1 || node.getAttribute('data-mce-type') !== 'bookmark') {
+              idx++;
+            }
+            node = node.nextSibling;
+          }
+          return -1;
+        };
+        container = node = bookmark[start ? 'startContainer' : 'endContainer'];
+        offset = bookmark[start ? 'startOffset' : 'endOffset'];
+        if (!container) {
+          return;
+        }
+        if (container.nodeType === 1) {
+          offset = nodeIndex(container);
+          container = container.parentNode;
+          DOM$1.remove(node);
+          if (!container.hasChildNodes() && DOM$1.isBlock(container)) {
+            container.appendChild(DOM$1.create('br'));
+          }
+        }
+        bookmark[start ? 'startContainer' : 'endContainer'] = container;
+        bookmark[start ? 'startOffset' : 'endOffset'] = offset;
+      }
+      restoreEndPoint(true);
+      restoreEndPoint();
+      var rng = DOM$1.createRng();
+      rng.setStart(bookmark.startContainer, bookmark.startOffset);
+      if (bookmark.endContainer) {
+        rng.setEnd(bookmark.endContainer, bookmark.endOffset);
+      }
+      return Range.normalizeRange(rng);
+    };
+    var Bookmark = {
+      createBookmark: createBookmark,
+      resolveBookmark: resolveBookmark
+    };
+
+    var isCustomList = function (list) {
+      return /\btox\-/.test(list.className);
+    };
+
+    var listToggleActionFromListName = function (listName) {
+      switch (listName) {
+      case 'UL':
+        return 'ToggleUlList';
+      case 'OL':
+        return 'ToggleOlList';
+      case 'DL':
+        return 'ToggleDLList';
+      }
+    };
+
+    var updateListStyle = function (dom, el, detail) {
+      var type = detail['list-style-type'] ? detail['list-style-type'] : null;
+      dom.setStyle(el, 'list-style-type', type);
+    };
+    var setAttribs = function (elm, attrs) {
+      global$5.each(attrs, function (value, key) {
+        elm.setAttribute(key, value);
+      });
+    };
+    var updateListAttrs = function (dom, el, detail) {
+      setAttribs(el, detail['list-attributes']);
+      global$5.each(dom.select('li', el), function (li) {
+        setAttribs(li, detail['list-item-attributes']);
+      });
+    };
+    var updateListWithDetails = function (dom, el, detail) {
+      updateListStyle(dom, el, detail);
+      updateListAttrs(dom, el, detail);
+    };
+    var removeStyles = function (dom, element, styles) {
+      global$5.each(styles, function (style) {
+        var _a;
+        return dom.setStyle(element, (_a = {}, _a[style] = '', _a));
+      });
+    };
+    var getEndPointNode = function (editor, rng, start, root) {
+      var container, offset;
+      container = rng[start ? 'startContainer' : 'endContainer'];
+      offset = rng[start ? 'startOffset' : 'endOffset'];
+      if (container.nodeType === 1) {
+        container = container.childNodes[Math.min(offset, container.childNodes.length - 1)] || container;
+      }
+      if (!start && NodeType.isBr(container.nextSibling)) {
+        container = container.nextSibling;
+      }
+      while (container.parentNode !== root) {
+        if (NodeType.isTextBlock(editor, container)) {
+          return container;
+        }
+        if (/^(TD|TH)$/.test(container.parentNode.nodeName)) {
+          return container;
+        }
+        container = container.parentNode;
+      }
+      return container;
+    };
+    var getSelectedTextBlocks = function (editor, rng, root) {
+      var textBlocks = [], dom = editor.dom;
+      var startNode = getEndPointNode(editor, rng, true, root);
+      var endNode = getEndPointNode(editor, rng, false, root);
+      var block;
+      var siblings = [];
+      for (var node = startNode; node; node = node.nextSibling) {
+        siblings.push(node);
+        if (node === endNode) {
+          break;
+        }
+      }
+      global$5.each(siblings, function (node) {
+        if (NodeType.isTextBlock(editor, node)) {
+          textBlocks.push(node);
+          block = null;
+          return;
+        }
+        if (dom.isBlock(node) || NodeType.isBr(node)) {
+          if (NodeType.isBr(node)) {
+            dom.remove(node);
+          }
+          block = null;
+          return;
+        }
+        var nextSibling = node.nextSibling;
+        if (global$7.isBookmarkNode(node)) {
+          if (NodeType.isTextBlock(editor, nextSibling) || !nextSibling && node.parentNode === root) {
+            block = null;
+            return;
+          }
+        }
+        if (!block) {
+          block = dom.create('p');
+          node.parentNode.insertBefore(block, node);
+          textBlocks.push(block);
+        }
+        block.appendChild(node);
+      });
+      return textBlocks;
+    };
+    var hasCompatibleStyle = function (dom, sib, detail) {
+      var sibStyle = dom.getStyle(sib, 'list-style-type');
+      var detailStyle = detail ? detail['list-style-type'] : '';
+      detailStyle = detailStyle === null ? '' : detailStyle;
+      return sibStyle === detailStyle;
+    };
+    var applyList = function (editor, listName, detail) {
+      if (detail === void 0) {
+        detail = {};
+      }
+      var rng = editor.selection.getRng(true);
+      var bookmark;
+      var listItemName = 'LI';
+      var root = Selection.getClosestListRootElm(editor, editor.selection.getStart(true));
+      var dom = editor.dom;
+      if (dom.getContentEditable(editor.selection.getNode()) === 'false') {
+        return;
+      }
+      listName = listName.toUpperCase();
+      if (listName === 'DL') {
+        listItemName = 'DT';
+      }
+      bookmark = Bookmark.createBookmark(rng);
+      global$5.each(getSelectedTextBlocks(editor, rng, root), function (block) {
+        var listBlock, sibling;
+        sibling = block.previousSibling;
+        if (sibling && NodeType.isListNode(sibling) && sibling.nodeName === listName && hasCompatibleStyle(dom, sibling, detail)) {
+          listBlock = sibling;
+          block = dom.rename(block, listItemName);
+          sibling.appendChild(block);
+        } else {
+          listBlock = dom.create(listName);
+          block.parentNode.insertBefore(listBlock, block);
+          listBlock.appendChild(block);
+          block = dom.rename(block, listItemName);
+        }
+        removeStyles(dom, block, [
+          'margin',
+          'margin-right',
+          'margin-bottom',
+          'margin-left',
+          'margin-top',
+          'padding',
+          'padding-right',
+          'padding-bottom',
+          'padding-left',
+          'padding-top'
+        ]);
+        updateListWithDetails(dom, listBlock, detail);
+        mergeWithAdjacentLists(editor.dom, listBlock);
+      });
+      editor.selection.setRng(Bookmark.resolveBookmark(bookmark));
+    };
+    var isValidLists = function (list1, list2) {
+      return list1 && list2 && NodeType.isListNode(list1) && list1.nodeName === list2.nodeName;
+    };
+    var hasSameListStyle = function (dom, list1, list2) {
+      var targetStyle = dom.getStyle(list1, 'list-style-type', true);
+      var style = dom.getStyle(list2, 'list-style-type', true);
+      return targetStyle === style;
+    };
+    var hasSameClasses = function (elm1, elm2) {
+      return elm1.className === elm2.className;
+    };
+    var shouldMerge = function (dom, list1, list2) {
+      return isValidLists(list1, list2) && hasSameListStyle(dom, list1, list2) && hasSameClasses(list1, list2);
+    };
+    var mergeWithAdjacentLists = function (dom, listBlock) {
+      var sibling, node;
+      sibling = listBlock.nextSibling;
+      if (shouldMerge(dom, listBlock, sibling)) {
+        while (node = sibling.firstChild) {
+          listBlock.appendChild(node);
+        }
+        dom.remove(sibling);
+      }
+      sibling = listBlock.previousSibling;
+      if (shouldMerge(dom, listBlock, sibling)) {
+        while (node = sibling.lastChild) {
+          listBlock.insertBefore(node, listBlock.firstChild);
+        }
+        dom.remove(sibling);
+      }
+    };
+    var updateList = function (editor, list, listName, detail) {
+      if (list.nodeName !== listName) {
+        var newList = editor.dom.rename(list, listName);
+        updateListWithDetails(editor.dom, newList, detail);
+        fireListEvent(editor, listToggleActionFromListName(listName), newList);
+      } else {
+        updateListWithDetails(editor.dom, list, detail);
+        fireListEvent(editor, listToggleActionFromListName(listName), list);
+      }
+    };
+    var toggleMultipleLists = function (editor, parentList, lists, listName, detail) {
+      if (parentList.nodeName === listName && !hasListStyleDetail(detail)) {
+        flattenListSelection(editor);
+      } else {
+        var bookmark = Bookmark.createBookmark(editor.selection.getRng(true));
+        global$5.each([parentList].concat(lists), function (elm) {
+          updateList(editor, elm, listName, detail);
+        });
+        editor.selection.setRng(Bookmark.resolveBookmark(bookmark));
+      }
+    };
+    var hasListStyleDetail = function (detail) {
+      return 'list-style-type' in detail;
+    };
+    var toggleSingleList = function (editor, parentList, listName, detail) {
+      if (parentList === editor.getBody()) {
+        return;
+      }
+      if (parentList) {
+        if (parentList.nodeName === listName && !hasListStyleDetail(detail) && !isCustomList(parentList)) {
+          flattenListSelection(editor);
+        } else {
+          var bookmark = Bookmark.createBookmark(editor.selection.getRng(true));
+          updateListWithDetails(editor.dom, parentList, detail);
+          var newList = editor.dom.rename(parentList, listName);
+          mergeWithAdjacentLists(editor.dom, newList);
+          editor.selection.setRng(Bookmark.resolveBookmark(bookmark));
+          fireListEvent(editor, listToggleActionFromListName(listName), newList);
+        }
+      } else {
+        applyList(editor, listName, detail);
+        fireListEvent(editor, listToggleActionFromListName(listName), parentList);
+      }
+    };
+    var toggleList = function (editor, listName, detail) {
+      var parentList = Selection.getParentList(editor);
+      var selectedSubLists = Selection.getSelectedSubLists(editor);
+      detail = detail ? detail : {};
+      if (parentList && selectedSubLists.length > 0) {
+        toggleMultipleLists(editor, parentList, selectedSubLists, listName, detail);
+      } else {
+        toggleSingleList(editor, parentList, listName, detail);
+      }
+    };
+    var ToggleList = {
+      toggleList: toggleList,
+      mergeWithAdjacentLists: mergeWithAdjacentLists
+    };
+
+    var DOM$2 = global$6.DOM;
+    var normalizeList = function (dom, ul) {
+      var sibling;
+      var parentNode = ul.parentNode;
+      if (parentNode.nodeName === 'LI' && parentNode.firstChild === ul) {
+        sibling = parentNode.previousSibling;
+        if (sibling && sibling.nodeName === 'LI') {
+          sibling.appendChild(ul);
+          if (NodeType.isEmpty(dom, parentNode)) {
+            DOM$2.remove(parentNode);
+          }
+        } else {
+          DOM$2.setStyle(parentNode, 'listStyleType', 'none');
+        }
+      }
+      if (NodeType.isListNode(parentNode)) {
+        sibling = parentNode.previousSibling;
+        if (sibling && sibling.nodeName === 'LI') {
+          sibling.appendChild(ul);
+        }
+      }
+    };
+    var normalizeLists = function (dom, element) {
+      global$5.each(global$5.grep(dom.select('ol,ul', element)), function (ul) {
+        normalizeList(dom, ul);
+      });
+    };
+    var NormalizeLists = {
+      normalizeList: normalizeList,
+      normalizeLists: normalizeLists
+    };
+
+    var findNextCaretContainer = function (editor, rng, isForward, root) {
+      var node = rng.startContainer;
+      var offset = rng.startOffset;
+      if (NodeType.isTextNode(node) && (isForward ? offset < node.data.length : offset > 0)) {
+        return node;
+      }
+      var nonEmptyBlocks = editor.schema.getNonEmptyElements();
+      if (node.nodeType === 1) {
+        node = global$1.getNode(node, offset);
+      }
+      var walker = new global$2(node, root);
+      if (isForward) {
+        if (NodeType.isBogusBr(editor.dom, node)) {
+          walker.next();
+        }
+      }
+      while (node = walker[isForward ? 'next' : 'prev2']()) {
+        if (node.nodeName === 'LI' && !node.hasChildNodes()) {
+          return node;
+        }
+        if (nonEmptyBlocks[node.nodeName]) {
+          return node;
+        }
+        if (NodeType.isTextNode(node) && node.data.length > 0) {
+          return node;
+        }
+      }
+    };
+    var hasOnlyOneBlockChild = function (dom, elm) {
+      var childNodes = elm.childNodes;
+      return childNodes.length === 1 && !NodeType.isListNode(childNodes[0]) && dom.isBlock(childNodes[0]);
+    };
+    var unwrapSingleBlockChild = function (dom, elm) {
+      if (hasOnlyOneBlockChild(dom, elm)) {
+        dom.remove(elm.firstChild, true);
+      }
+    };
+    var moveChildren = function (dom, fromElm, toElm) {
+      var node, targetElm;
+      targetElm = hasOnlyOneBlockChild(dom, toElm) ? toElm.firstChild : toElm;
+      unwrapSingleBlockChild(dom, fromElm);
+      if (!NodeType.isEmpty(dom, fromElm, true)) {
+        while (node = fromElm.firstChild) {
+          targetElm.appendChild(node);
+        }
+      }
+    };
+    var mergeLiElements = function (dom, fromElm, toElm) {
+      var node, listNode;
+      var ul = fromElm.parentNode;
+      if (!NodeType.isChildOfBody(dom, fromElm) || !NodeType.isChildOfBody(dom, toElm)) {
+        return;
+      }
+      if (NodeType.isListNode(toElm.lastChild)) {
+        listNode = toElm.lastChild;
+      }
+      if (ul === toElm.lastChild) {
+        if (NodeType.isBr(ul.previousSibling)) {
+          dom.remove(ul.previousSibling);
+        }
+      }
+      node = toElm.lastChild;
+      if (node && NodeType.isBr(node) && fromElm.hasChildNodes()) {
+        dom.remove(node);
+      }
+      if (NodeType.isEmpty(dom, toElm, true)) {
+        dom.$(toElm).empty();
+      }
+      moveChildren(dom, fromElm, toElm);
+      if (listNode) {
+        toElm.appendChild(listNode);
+      }
+      var contains = contains$1(Element.fromDom(toElm), Element.fromDom(fromElm));
+      var nestedLists = contains ? dom.getParents(fromElm, NodeType.isListNode, toElm) : [];
+      dom.remove(fromElm);
+      each(nestedLists, function (list) {
+        if (NodeType.isEmpty(dom, list) && list !== dom.getRoot()) {
+          dom.remove(list);
+        }
+      });
+    };
+    var mergeIntoEmptyLi = function (editor, fromLi, toLi) {
+      editor.dom.$(toLi).empty();
+      mergeLiElements(editor.dom, fromLi, toLi);
+      editor.selection.setCursorLocation(toLi);
+    };
+    var mergeForward = function (editor, rng, fromLi, toLi) {
+      var dom = editor.dom;
+      if (dom.isEmpty(toLi)) {
+        mergeIntoEmptyLi(editor, fromLi, toLi);
+      } else {
+        var bookmark = Bookmark.createBookmark(rng);
+        mergeLiElements(dom, fromLi, toLi);
+        editor.selection.setRng(Bookmark.resolveBookmark(bookmark));
+      }
+    };
+    var mergeBackward = function (editor, rng, fromLi, toLi) {
+      var bookmark = Bookmark.createBookmark(rng);
+      mergeLiElements(editor.dom, fromLi, toLi);
+      var resolvedBookmark = Bookmark.resolveBookmark(bookmark);
+      editor.selection.setRng(resolvedBookmark);
+    };
+    var backspaceDeleteFromListToListCaret = function (editor, isForward) {
+      var dom = editor.dom, selection = editor.selection;
+      var selectionStartElm = selection.getStart();
+      var root = Selection.getClosestListRootElm(editor, selectionStartElm);
+      var li = dom.getParent(selection.getStart(), 'LI', root);
+      if (li) {
+        var ul = li.parentNode;
+        if (ul === editor.getBody() && NodeType.isEmpty(dom, ul)) {
+          return true;
+        }
+        var rng_1 = Range.normalizeRange(selection.getRng());
+        var otherLi_1 = dom.getParent(findNextCaretContainer(editor, rng_1, isForward, root), 'LI', root);
+        if (otherLi_1 && otherLi_1 !== li) {
+          editor.undoManager.transact(function () {
+            if (isForward) {
+              mergeForward(editor, rng_1, otherLi_1, li);
+            } else {
+              if (NodeType.isFirstChild(li)) {
+                outdentListSelection(editor);
+              } else {
+                mergeBackward(editor, rng_1, li, otherLi_1);
+              }
+            }
+          });
+          return true;
+        } else if (!otherLi_1) {
+          if (!isForward && rng_1.startOffset === 0 && rng_1.endOffset === 0) {
+            editor.undoManager.transact(function () {
+              flattenListSelection(editor);
+            });
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+    var removeBlock = function (dom, block, root) {
+      var parentBlock = dom.getParent(block.parentNode, dom.isBlock, root);
+      dom.remove(block);
+      if (parentBlock && dom.isEmpty(parentBlock)) {
+        dom.remove(parentBlock);
+      }
+    };
+    var backspaceDeleteIntoListCaret = function (editor, isForward) {
+      var dom = editor.dom;
+      var selectionStartElm = editor.selection.getStart();
+      var root = Selection.getClosestListRootElm(editor, selectionStartElm);
+      var block = dom.getParent(selectionStartElm, dom.isBlock, root);
+      if (block && dom.isEmpty(block)) {
+        var rng = Range.normalizeRange(editor.selection.getRng());
+        var otherLi_2 = dom.getParent(findNextCaretContainer(editor, rng, isForward, root), 'LI', root);
+        if (otherLi_2) {
+          editor.undoManager.transact(function () {
+            removeBlock(dom, block, root);
+            ToggleList.mergeWithAdjacentLists(dom, otherLi_2.parentNode);
+            editor.selection.select(otherLi_2, true);
+            editor.selection.collapse(isForward);
+          });
+          return true;
+        }
+      }
+      return false;
+    };
+    var backspaceDeleteCaret = function (editor, isForward) {
+      return backspaceDeleteFromListToListCaret(editor, isForward) || backspaceDeleteIntoListCaret(editor, isForward);
+    };
+    var backspaceDeleteRange = function (editor) {
+      var selectionStartElm = editor.selection.getStart();
+      var root = Selection.getClosestListRootElm(editor, selectionStartElm);
+      var startListParent = editor.dom.getParent(selectionStartElm, 'LI,DT,DD', root);
+      if (startListParent || Selection.getSelectedListItems(editor).length > 0) {
+        editor.undoManager.transact(function () {
+          editor.execCommand('Delete');
+          NormalizeLists.normalizeLists(editor.dom, editor.getBody());
+        });
+        return true;
+      }
+      return false;
+    };
+    var backspaceDelete = function (editor, isForward) {
+      return editor.selection.isCollapsed() ? backspaceDeleteCaret(editor, isForward) : backspaceDeleteRange(editor);
+    };
+    var setup = function (editor) {
+      editor.on('keydown', function (e) {
+        if (e.keyCode === global$3.BACKSPACE) {
+          if (backspaceDelete(editor, false)) {
+            e.preventDefault();
+          }
+        } else if (e.keyCode === global$3.DELETE) {
+          if (backspaceDelete(editor, true)) {
+            e.preventDefault();
+          }
+        }
+      });
+    };
+    var Delete = {
+      setup: setup,
+      backspaceDelete: backspaceDelete
+    };
+
+    var get = function (editor) {
+      return {
+        backspaceDelete: function (isForward) {
+          Delete.backspaceDelete(editor, isForward);
+        }
+      };
+    };
+    var Api = { get: get };
+
+    var queryListCommandState = function (editor, listName) {
+      return function () {
+        var parentList = editor.dom.getParent(editor.selection.getStart(), 'UL,OL,DL');
+        return parentList && parentList.nodeName === listName;
+      };
+    };
+    var register = function (editor) {
+      editor.on('BeforeExecCommand', function (e) {
+        var cmd = e.command.toLowerCase();
+        if (cmd === 'indent') {
+          indentListSelection(editor);
+        } else if (cmd === 'outdent') {
+          outdentListSelection(editor);
+        }
+      });
+      editor.addCommand('InsertUnorderedList', function (ui, detail) {
+        ToggleList.toggleList(editor, 'UL', detail);
+      });
+      editor.addCommand('InsertOrderedList', function (ui, detail) {
+        ToggleList.toggleList(editor, 'OL', detail);
+      });
+      editor.addCommand('InsertDefinitionList', function (ui, detail) {
+        ToggleList.toggleList(editor, 'DL', detail);
+      });
+      editor.addCommand('RemoveList', function () {
+        flattenListSelection(editor);
+      });
+      editor.addQueryStateHandler('InsertUnorderedList', queryListCommandState(editor, 'UL'));
+      editor.addQueryStateHandler('InsertOrderedList', queryListCommandState(editor, 'OL'));
+      editor.addQueryStateHandler('InsertDefinitionList', queryListCommandState(editor, 'DL'));
+    };
+    var Commands = { register: register };
+
+    var shouldIndentOnTab = function (editor) {
+      return editor.getParam('lists_indent_on_tab', true);
+    };
+    var Settings = { shouldIndentOnTab: shouldIndentOnTab };
+
+    var setupTabKey = function (editor) {
+      editor.on('keydown', function (e) {
+        if (e.keyCode !== global$3.TAB || global$3.metaKeyPressed(e)) {
+          return;
+        }
+        editor.undoManager.transact(function () {
+          if (e.shiftKey ? outdentListSelection(editor) : indentListSelection(editor)) {
+            e.preventDefault();
+          }
+        });
+      });
+    };
+    var setup$1 = function (editor) {
+      if (Settings.shouldIndentOnTab(editor)) {
+        setupTabKey(editor);
+      }
+      Delete.setup(editor);
+    };
+    var Keyboard = { setup: setup$1 };
+
+    var findIndex = function (list, predicate) {
+      for (var index = 0; index < list.length; index++) {
+        var element = list[index];
+        if (predicate(element)) {
+          return index;
+        }
+      }
+      return -1;
+    };
+    var listState = function (editor, listName) {
+      return function (buttonApi) {
+        var nodeChangeHandler = function (e) {
+          var tableCellIndex = findIndex(e.parents, NodeType.isTableCellNode);
+          var parents = tableCellIndex !== -1 ? e.parents.slice(0, tableCellIndex) : e.parents;
+          var lists = global$5.grep(parents, NodeType.isListNode);
+          buttonApi.setActive(lists.length > 0 && lists[0].nodeName === listName && !isCustomList(lists[0]));
+        };
+        editor.on('NodeChange', nodeChangeHandler);
+        return function () {
+          return editor.off('NodeChange', nodeChangeHandler);
+        };
+      };
+    };
+    var register$1 = function (editor) {
+      var hasPlugin = function (editor, plugin) {
+        var plugins = editor.settings.plugins ? editor.settings.plugins : '';
+        return global$5.inArray(plugins.split(/[ ,]/), plugin) !== -1;
+      };
+      var exec = function (command) {
+        return function () {
+          return editor.execCommand(command);
+        };
+      };
+      if (!hasPlugin(editor, 'advlist')) {
+        editor.ui.registry.addToggleButton('numlist', {
+          icon: 'ordered-list',
+          active: false,
+          tooltip: 'Numbered list',
+          onAction: exec('InsertOrderedList'),
+          onSetup: listState(editor, 'OL')
+        });
+        editor.ui.registry.addToggleButton('bullist', {
+          icon: 'unordered-list',
+          active: false,
+          tooltip: 'Bullet list',
+          onAction: exec('InsertUnorderedList'),
+          onSetup: listState(editor, 'UL')
+        });
+      }
+    };
+    var Buttons = { register: register$1 };
+
+    function Plugin () {
+      global.add('lists', function (editor) {
+        Keyboard.setup(editor);
+        Buttons.register(editor);
+        Commands.register(editor);
+        return Api.get(editor);
+      });
+    }
+
+    Plugin();
+
+}(window));
+
+
+/***/ }),
+
 /***/ "./node_modules/tinymce/plugins/media/index.js":
 /*!*****************************************************!*\
   !*** ./node_modules/tinymce/plugins/media/index.js ***!
@@ -43227,6 +45757,2417 @@ __webpack_require__(/*! ./plugin.js */ "./node_modules/tinymce/plugins/media/plu
 
 }());
 
+
+/***/ }),
+
+/***/ "./node_modules/tinymce/plugins/paste/index.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/tinymce/plugins/paste/index.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// Exports the "paste" plugin for usage with module loaders
+// Usage:
+//   CommonJS:
+//     require('tinymce/plugins/paste')
+//   ES2015:
+//     import 'tinymce/plugins/paste'
+__webpack_require__(/*! ./plugin.js */ "./node_modules/tinymce/plugins/paste/plugin.js");
+
+/***/ }),
+
+/***/ "./node_modules/tinymce/plugins/paste/plugin.js":
+/*!******************************************************!*\
+  !*** ./node_modules/tinymce/plugins/paste/plugin.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ * For commercial licenses see https://www.tiny.cloud/
+ *
+ * Version: 5.1.1 (2019-10-28)
+ */
+(function (domGlobals) {
+    'use strict';
+
+    var Cell = function (initial) {
+      var value = initial;
+      var get = function () {
+        return value;
+      };
+      var set = function (v) {
+        value = v;
+      };
+      var clone = function () {
+        return Cell(get());
+      };
+      return {
+        get: get,
+        set: set,
+        clone: clone
+      };
+    };
+
+    var global$1 = tinymce.util.Tools.resolve('tinymce.PluginManager');
+
+    var hasProPlugin = function (editor) {
+      if (/(^|[ ,])powerpaste([, ]|$)/.test(editor.settings.plugins) && global$1.get('powerpaste')) {
+        if (typeof domGlobals.window.console !== 'undefined' && domGlobals.window.console.log) {
+          domGlobals.window.console.log('PowerPaste is incompatible with Paste plugin! Remove \'paste\' from the \'plugins\' option.');
+        }
+        return true;
+      } else {
+        return false;
+      }
+    };
+    var DetectProPlugin = { hasProPlugin: hasProPlugin };
+
+    var get = function (clipboard, quirks) {
+      return {
+        clipboard: clipboard,
+        quirks: quirks
+      };
+    };
+    var Api = { get: get };
+
+    var firePastePreProcess = function (editor, html, internal, isWordHtml) {
+      return editor.fire('PastePreProcess', {
+        content: html,
+        internal: internal,
+        wordContent: isWordHtml
+      });
+    };
+    var firePastePostProcess = function (editor, node, internal, isWordHtml) {
+      return editor.fire('PastePostProcess', {
+        node: node,
+        internal: internal,
+        wordContent: isWordHtml
+      });
+    };
+    var firePastePlainTextToggle = function (editor, state) {
+      return editor.fire('PastePlainTextToggle', { state: state });
+    };
+    var firePaste = function (editor, ieFake) {
+      return editor.fire('paste', { ieFake: ieFake });
+    };
+    var Events = {
+      firePastePreProcess: firePastePreProcess,
+      firePastePostProcess: firePastePostProcess,
+      firePastePlainTextToggle: firePastePlainTextToggle,
+      firePaste: firePaste
+    };
+
+    var togglePlainTextPaste = function (editor, clipboard) {
+      if (clipboard.pasteFormat.get() === 'text') {
+        clipboard.pasteFormat.set('html');
+        Events.firePastePlainTextToggle(editor, false);
+      } else {
+        clipboard.pasteFormat.set('text');
+        Events.firePastePlainTextToggle(editor, true);
+      }
+      editor.focus();
+    };
+    var Actions = { togglePlainTextPaste: togglePlainTextPaste };
+
+    var register = function (editor, clipboard) {
+      editor.addCommand('mceTogglePlainTextPaste', function () {
+        Actions.togglePlainTextPaste(editor, clipboard);
+      });
+      editor.addCommand('mceInsertClipboardContent', function (ui, value) {
+        if (value.content) {
+          clipboard.pasteHtml(value.content, value.internal);
+        }
+        if (value.text) {
+          clipboard.pasteText(value.text);
+        }
+      });
+    };
+    var Commands = { register: register };
+
+    var noop = function () {
+    };
+    var constant = function (value) {
+      return function () {
+        return value;
+      };
+    };
+    var never = constant(false);
+    var always = constant(true);
+
+    var none = function () {
+      return NONE;
+    };
+    var NONE = function () {
+      var eq = function (o) {
+        return o.isNone();
+      };
+      var call = function (thunk) {
+        return thunk();
+      };
+      var id = function (n) {
+        return n;
+      };
+      var me = {
+        fold: function (n, s) {
+          return n();
+        },
+        is: never,
+        isSome: never,
+        isNone: always,
+        getOr: id,
+        getOrThunk: call,
+        getOrDie: function (msg) {
+          throw new Error(msg || 'error: getOrDie called on none.');
+        },
+        getOrNull: constant(null),
+        getOrUndefined: constant(undefined),
+        or: id,
+        orThunk: call,
+        map: none,
+        each: noop,
+        bind: none,
+        exists: never,
+        forall: always,
+        filter: none,
+        equals: eq,
+        equals_: eq,
+        toArray: function () {
+          return [];
+        },
+        toString: constant('none()')
+      };
+      if (Object.freeze) {
+        Object.freeze(me);
+      }
+      return me;
+    }();
+    var some = function (a) {
+      var constant_a = constant(a);
+      var self = function () {
+        return me;
+      };
+      var bind = function (f) {
+        return f(a);
+      };
+      var me = {
+        fold: function (n, s) {
+          return s(a);
+        },
+        is: function (v) {
+          return a === v;
+        },
+        isSome: always,
+        isNone: never,
+        getOr: constant_a,
+        getOrThunk: constant_a,
+        getOrDie: constant_a,
+        getOrNull: constant_a,
+        getOrUndefined: constant_a,
+        or: self,
+        orThunk: self,
+        map: function (f) {
+          return some(f(a));
+        },
+        each: function (f) {
+          f(a);
+        },
+        bind: bind,
+        exists: bind,
+        forall: bind,
+        filter: function (f) {
+          return f(a) ? me : NONE;
+        },
+        toArray: function () {
+          return [a];
+        },
+        toString: function () {
+          return 'some(' + a + ')';
+        },
+        equals: function (o) {
+          return o.is(a);
+        },
+        equals_: function (o, elementEq) {
+          return o.fold(never, function (b) {
+            return elementEq(a, b);
+          });
+        }
+      };
+      return me;
+    };
+    var from = function (value) {
+      return value === null || value === undefined ? NONE : some(value);
+    };
+    var Option = {
+      some: some,
+      none: none,
+      from: from
+    };
+
+    var typeOf = function (x) {
+      if (x === null) {
+        return 'null';
+      }
+      var t = typeof x;
+      if (t === 'object' && (Array.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'Array')) {
+        return 'array';
+      }
+      if (t === 'object' && (String.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'String')) {
+        return 'string';
+      }
+      return t;
+    };
+    var isType = function (type) {
+      return function (value) {
+        return typeOf(value) === type;
+      };
+    };
+    var isFunction = isType('function');
+
+    var nativeSlice = Array.prototype.slice;
+    var map = function (xs, f) {
+      var len = xs.length;
+      var r = new Array(len);
+      for (var i = 0; i < len; i++) {
+        var x = xs[i];
+        r[i] = f(x, i);
+      }
+      return r;
+    };
+    var each = function (xs, f) {
+      for (var i = 0, len = xs.length; i < len; i++) {
+        var x = xs[i];
+        f(x, i);
+      }
+    };
+    var filter = function (xs, pred) {
+      var r = [];
+      for (var i = 0, len = xs.length; i < len; i++) {
+        var x = xs[i];
+        if (pred(x, i)) {
+          r.push(x);
+        }
+      }
+      return r;
+    };
+    var foldl = function (xs, f, acc) {
+      each(xs, function (x) {
+        acc = f(acc, x);
+      });
+      return acc;
+    };
+    var from$1 = isFunction(Array.from) ? Array.from : function (x) {
+      return nativeSlice.call(x);
+    };
+
+    var exports$1 = {}, module = { exports: exports$1 };
+    (function (define, exports, module, require) {
+      (function (f) {
+        if (typeof exports === 'object' && typeof module !== 'undefined') {
+          module.exports = f();
+        } else if (typeof define === 'function' && define.amd) {
+          define([], f);
+        } else {
+          var g;
+          if (typeof window !== 'undefined') {
+            g = window;
+          } else if (typeof global !== 'undefined') {
+            g = global;
+          } else if (typeof self !== 'undefined') {
+            g = self;
+          } else {
+            g = this;
+          }
+          g.EphoxContactWrapper = f();
+        }
+      }(function () {
+        return function () {
+          function r(e, n, t) {
+            function o(i, f) {
+              if (!n[i]) {
+                if (!e[i]) {
+                  var c = 'function' == typeof require && require;
+                  if (!f && c)
+                    return c(i, !0);
+                  if (u)
+                    return u(i, !0);
+                  var a = new Error('Cannot find module \'' + i + '\'');
+                  throw a.code = 'MODULE_NOT_FOUND', a;
+                }
+                var p = n[i] = { exports: {} };
+                e[i][0].call(p.exports, function (r) {
+                  var n = e[i][1][r];
+                  return o(n || r);
+                }, p, p.exports, r, e, n, t);
+              }
+              return n[i].exports;
+            }
+            for (var u = 'function' == typeof require && require, i = 0; i < t.length; i++)
+              o(t[i]);
+            return o;
+          }
+          return r;
+        }()({
+          1: [
+            function (require, module, exports) {
+              var process = module.exports = {};
+              var cachedSetTimeout;
+              var cachedClearTimeout;
+              function defaultSetTimout() {
+                throw new Error('setTimeout has not been defined');
+              }
+              function defaultClearTimeout() {
+                throw new Error('clearTimeout has not been defined');
+              }
+              (function () {
+                try {
+                  if (typeof setTimeout === 'function') {
+                    cachedSetTimeout = setTimeout;
+                  } else {
+                    cachedSetTimeout = defaultSetTimout;
+                  }
+                } catch (e) {
+                  cachedSetTimeout = defaultSetTimout;
+                }
+                try {
+                  if (typeof clearTimeout === 'function') {
+                    cachedClearTimeout = clearTimeout;
+                  } else {
+                    cachedClearTimeout = defaultClearTimeout;
+                  }
+                } catch (e) {
+                  cachedClearTimeout = defaultClearTimeout;
+                }
+              }());
+              function runTimeout(fun) {
+                if (cachedSetTimeout === setTimeout) {
+                  return setTimeout(fun, 0);
+                }
+                if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+                  cachedSetTimeout = setTimeout;
+                  return setTimeout(fun, 0);
+                }
+                try {
+                  return cachedSetTimeout(fun, 0);
+                } catch (e) {
+                  try {
+                    return cachedSetTimeout.call(null, fun, 0);
+                  } catch (e) {
+                    return cachedSetTimeout.call(this, fun, 0);
+                  }
+                }
+              }
+              function runClearTimeout(marker) {
+                if (cachedClearTimeout === clearTimeout) {
+                  return clearTimeout(marker);
+                }
+                if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+                  cachedClearTimeout = clearTimeout;
+                  return clearTimeout(marker);
+                }
+                try {
+                  return cachedClearTimeout(marker);
+                } catch (e) {
+                  try {
+                    return cachedClearTimeout.call(null, marker);
+                  } catch (e) {
+                    return cachedClearTimeout.call(this, marker);
+                  }
+                }
+              }
+              var queue = [];
+              var draining = false;
+              var currentQueue;
+              var queueIndex = -1;
+              function cleanUpNextTick() {
+                if (!draining || !currentQueue) {
+                  return;
+                }
+                draining = false;
+                if (currentQueue.length) {
+                  queue = currentQueue.concat(queue);
+                } else {
+                  queueIndex = -1;
+                }
+                if (queue.length) {
+                  drainQueue();
+                }
+              }
+              function drainQueue() {
+                if (draining) {
+                  return;
+                }
+                var timeout = runTimeout(cleanUpNextTick);
+                draining = true;
+                var len = queue.length;
+                while (len) {
+                  currentQueue = queue;
+                  queue = [];
+                  while (++queueIndex < len) {
+                    if (currentQueue) {
+                      currentQueue[queueIndex].run();
+                    }
+                  }
+                  queueIndex = -1;
+                  len = queue.length;
+                }
+                currentQueue = null;
+                draining = false;
+                runClearTimeout(timeout);
+              }
+              process.nextTick = function (fun) {
+                var args = new Array(arguments.length - 1);
+                if (arguments.length > 1) {
+                  for (var i = 1; i < arguments.length; i++) {
+                    args[i - 1] = arguments[i];
+                  }
+                }
+                queue.push(new Item(fun, args));
+                if (queue.length === 1 && !draining) {
+                  runTimeout(drainQueue);
+                }
+              };
+              function Item(fun, array) {
+                this.fun = fun;
+                this.array = array;
+              }
+              Item.prototype.run = function () {
+                this.fun.apply(null, this.array);
+              };
+              process.title = 'browser';
+              process.browser = true;
+              process.env = {};
+              process.argv = [];
+              process.version = '';
+              process.versions = {};
+              function noop() {
+              }
+              process.on = noop;
+              process.addListener = noop;
+              process.once = noop;
+              process.off = noop;
+              process.removeListener = noop;
+              process.removeAllListeners = noop;
+              process.emit = noop;
+              process.prependListener = noop;
+              process.prependOnceListener = noop;
+              process.listeners = function (name) {
+                return [];
+              };
+              process.binding = function (name) {
+                throw new Error('process.binding is not supported');
+              };
+              process.cwd = function () {
+                return '/';
+              };
+              process.chdir = function (dir) {
+                throw new Error('process.chdir is not supported');
+              };
+              process.umask = function () {
+                return 0;
+              };
+            },
+            {}
+          ],
+          2: [
+            function (require, module, exports) {
+              (function (setImmediate) {
+                (function (root) {
+                  var setTimeoutFunc = setTimeout;
+                  function noop() {
+                  }
+                  function bind(fn, thisArg) {
+                    return function () {
+                      fn.apply(thisArg, arguments);
+                    };
+                  }
+                  function Promise(fn) {
+                    if (typeof this !== 'object')
+                      throw new TypeError('Promises must be constructed via new');
+                    if (typeof fn !== 'function')
+                      throw new TypeError('not a function');
+                    this._state = 0;
+                    this._handled = false;
+                    this._value = undefined;
+                    this._deferreds = [];
+                    doResolve(fn, this);
+                  }
+                  function handle(self, deferred) {
+                    while (self._state === 3) {
+                      self = self._value;
+                    }
+                    if (self._state === 0) {
+                      self._deferreds.push(deferred);
+                      return;
+                    }
+                    self._handled = true;
+                    Promise._immediateFn(function () {
+                      var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
+                      if (cb === null) {
+                        (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
+                        return;
+                      }
+                      var ret;
+                      try {
+                        ret = cb(self._value);
+                      } catch (e) {
+                        reject(deferred.promise, e);
+                        return;
+                      }
+                      resolve(deferred.promise, ret);
+                    });
+                  }
+                  function resolve(self, newValue) {
+                    try {
+                      if (newValue === self)
+                        throw new TypeError('A promise cannot be resolved with itself.');
+                      if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
+                        var then = newValue.then;
+                        if (newValue instanceof Promise) {
+                          self._state = 3;
+                          self._value = newValue;
+                          finale(self);
+                          return;
+                        } else if (typeof then === 'function') {
+                          doResolve(bind(then, newValue), self);
+                          return;
+                        }
+                      }
+                      self._state = 1;
+                      self._value = newValue;
+                      finale(self);
+                    } catch (e) {
+                      reject(self, e);
+                    }
+                  }
+                  function reject(self, newValue) {
+                    self._state = 2;
+                    self._value = newValue;
+                    finale(self);
+                  }
+                  function finale(self) {
+                    if (self._state === 2 && self._deferreds.length === 0) {
+                      Promise._immediateFn(function () {
+                        if (!self._handled) {
+                          Promise._unhandledRejectionFn(self._value);
+                        }
+                      });
+                    }
+                    for (var i = 0, len = self._deferreds.length; i < len; i++) {
+                      handle(self, self._deferreds[i]);
+                    }
+                    self._deferreds = null;
+                  }
+                  function Handler(onFulfilled, onRejected, promise) {
+                    this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
+                    this.onRejected = typeof onRejected === 'function' ? onRejected : null;
+                    this.promise = promise;
+                  }
+                  function doResolve(fn, self) {
+                    var done = false;
+                    try {
+                      fn(function (value) {
+                        if (done)
+                          return;
+                        done = true;
+                        resolve(self, value);
+                      }, function (reason) {
+                        if (done)
+                          return;
+                        done = true;
+                        reject(self, reason);
+                      });
+                    } catch (ex) {
+                      if (done)
+                        return;
+                      done = true;
+                      reject(self, ex);
+                    }
+                  }
+                  Promise.prototype['catch'] = function (onRejected) {
+                    return this.then(null, onRejected);
+                  };
+                  Promise.prototype.then = function (onFulfilled, onRejected) {
+                    var prom = new this.constructor(noop);
+                    handle(this, new Handler(onFulfilled, onRejected, prom));
+                    return prom;
+                  };
+                  Promise.all = function (arr) {
+                    var args = Array.prototype.slice.call(arr);
+                    return new Promise(function (resolve, reject) {
+                      if (args.length === 0)
+                        return resolve([]);
+                      var remaining = args.length;
+                      function res(i, val) {
+                        try {
+                          if (val && (typeof val === 'object' || typeof val === 'function')) {
+                            var then = val.then;
+                            if (typeof then === 'function') {
+                              then.call(val, function (val) {
+                                res(i, val);
+                              }, reject);
+                              return;
+                            }
+                          }
+                          args[i] = val;
+                          if (--remaining === 0) {
+                            resolve(args);
+                          }
+                        } catch (ex) {
+                          reject(ex);
+                        }
+                      }
+                      for (var i = 0; i < args.length; i++) {
+                        res(i, args[i]);
+                      }
+                    });
+                  };
+                  Promise.resolve = function (value) {
+                    if (value && typeof value === 'object' && value.constructor === Promise) {
+                      return value;
+                    }
+                    return new Promise(function (resolve) {
+                      resolve(value);
+                    });
+                  };
+                  Promise.reject = function (value) {
+                    return new Promise(function (resolve, reject) {
+                      reject(value);
+                    });
+                  };
+                  Promise.race = function (values) {
+                    return new Promise(function (resolve, reject) {
+                      for (var i = 0, len = values.length; i < len; i++) {
+                        values[i].then(resolve, reject);
+                      }
+                    });
+                  };
+                  Promise._immediateFn = typeof setImmediate === 'function' ? function (fn) {
+                    setImmediate(fn);
+                  } : function (fn) {
+                    setTimeoutFunc(fn, 0);
+                  };
+                  Promise._unhandledRejectionFn = function _unhandledRejectionFn(err) {
+                    if (typeof console !== 'undefined' && console) {
+                      console.warn('Possible Unhandled Promise Rejection:', err);
+                    }
+                  };
+                  Promise._setImmediateFn = function _setImmediateFn(fn) {
+                    Promise._immediateFn = fn;
+                  };
+                  Promise._setUnhandledRejectionFn = function _setUnhandledRejectionFn(fn) {
+                    Promise._unhandledRejectionFn = fn;
+                  };
+                  if (typeof module !== 'undefined' && module.exports) {
+                    module.exports = Promise;
+                  } else if (!root.Promise) {
+                    root.Promise = Promise;
+                  }
+                }(this));
+              }.call(this, require('timers').setImmediate));
+            },
+            { 'timers': 3 }
+          ],
+          3: [
+            function (require, module, exports) {
+              (function (setImmediate, clearImmediate) {
+                var nextTick = require('process/browser.js').nextTick;
+                var apply = Function.prototype.apply;
+                var slice = Array.prototype.slice;
+                var immediateIds = {};
+                var nextImmediateId = 0;
+                exports.setTimeout = function () {
+                  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+                };
+                exports.setInterval = function () {
+                  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+                };
+                exports.clearTimeout = exports.clearInterval = function (timeout) {
+                  timeout.close();
+                };
+                function Timeout(id, clearFn) {
+                  this._id = id;
+                  this._clearFn = clearFn;
+                }
+                Timeout.prototype.unref = Timeout.prototype.ref = function () {
+                };
+                Timeout.prototype.close = function () {
+                  this._clearFn.call(window, this._id);
+                };
+                exports.enroll = function (item, msecs) {
+                  clearTimeout(item._idleTimeoutId);
+                  item._idleTimeout = msecs;
+                };
+                exports.unenroll = function (item) {
+                  clearTimeout(item._idleTimeoutId);
+                  item._idleTimeout = -1;
+                };
+                exports._unrefActive = exports.active = function (item) {
+                  clearTimeout(item._idleTimeoutId);
+                  var msecs = item._idleTimeout;
+                  if (msecs >= 0) {
+                    item._idleTimeoutId = setTimeout(function onTimeout() {
+                      if (item._onTimeout)
+                        item._onTimeout();
+                    }, msecs);
+                  }
+                };
+                exports.setImmediate = typeof setImmediate === 'function' ? setImmediate : function (fn) {
+                  var id = nextImmediateId++;
+                  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+                  immediateIds[id] = true;
+                  nextTick(function onNextTick() {
+                    if (immediateIds[id]) {
+                      if (args) {
+                        fn.apply(null, args);
+                      } else {
+                        fn.call(null);
+                      }
+                      exports.clearImmediate(id);
+                    }
+                  });
+                  return id;
+                };
+                exports.clearImmediate = typeof clearImmediate === 'function' ? clearImmediate : function (id) {
+                  delete immediateIds[id];
+                };
+              }.call(this, require('timers').setImmediate, require('timers').clearImmediate));
+            },
+            {
+              'process/browser.js': 1,
+              'timers': 3
+            }
+          ],
+          4: [
+            function (require, module, exports) {
+              var promisePolyfill = require('promise-polyfill');
+              var Global = function () {
+                if (typeof window !== 'undefined') {
+                  return window;
+                } else {
+                  return Function('return this;')();
+                }
+              }();
+              module.exports = { boltExport: Global.Promise || promisePolyfill };
+            },
+            { 'promise-polyfill': 2 }
+          ]
+        }, {}, [4])(4);
+      }));
+    }(undefined, exports$1, module, undefined));
+    var Promise = module.exports.boltExport;
+
+    var nu = function (baseFn) {
+      var data = Option.none();
+      var callbacks = [];
+      var map = function (f) {
+        return nu(function (nCallback) {
+          get(function (data) {
+            nCallback(f(data));
+          });
+        });
+      };
+      var get = function (nCallback) {
+        if (isReady()) {
+          call(nCallback);
+        } else {
+          callbacks.push(nCallback);
+        }
+      };
+      var set = function (x) {
+        data = Option.some(x);
+        run(callbacks);
+        callbacks = [];
+      };
+      var isReady = function () {
+        return data.isSome();
+      };
+      var run = function (cbs) {
+        each(cbs, call);
+      };
+      var call = function (cb) {
+        data.each(function (x) {
+          domGlobals.setTimeout(function () {
+            cb(x);
+          }, 0);
+        });
+      };
+      baseFn(set);
+      return {
+        get: get,
+        map: map,
+        isReady: isReady
+      };
+    };
+    var pure = function (a) {
+      return nu(function (callback) {
+        callback(a);
+      });
+    };
+    var LazyValue = {
+      nu: nu,
+      pure: pure
+    };
+
+    var errorReporter = function (err) {
+      domGlobals.setTimeout(function () {
+        throw err;
+      }, 0);
+    };
+    var make = function (run) {
+      var get = function (callback) {
+        run().then(callback, errorReporter);
+      };
+      var map = function (fab) {
+        return make(function () {
+          return run().then(fab);
+        });
+      };
+      var bind = function (aFutureB) {
+        return make(function () {
+          return run().then(function (v) {
+            return aFutureB(v).toPromise();
+          });
+        });
+      };
+      var anonBind = function (futureB) {
+        return make(function () {
+          return run().then(function () {
+            return futureB.toPromise();
+          });
+        });
+      };
+      var toLazy = function () {
+        return LazyValue.nu(get);
+      };
+      var toCached = function () {
+        var cache = null;
+        return make(function () {
+          if (cache === null) {
+            cache = run();
+          }
+          return cache;
+        });
+      };
+      var toPromise = run;
+      return {
+        map: map,
+        bind: bind,
+        anonBind: anonBind,
+        toLazy: toLazy,
+        toCached: toCached,
+        toPromise: toPromise,
+        get: get
+      };
+    };
+    var nu$1 = function (baseFn) {
+      return make(function () {
+        return new Promise(baseFn);
+      });
+    };
+    var pure$1 = function (a) {
+      return make(function () {
+        return Promise.resolve(a);
+      });
+    };
+    var Future = {
+      nu: nu$1,
+      pure: pure$1
+    };
+
+    var par = function (asyncValues, nu) {
+      return nu(function (callback) {
+        var r = [];
+        var count = 0;
+        var cb = function (i) {
+          return function (value) {
+            r[i] = value;
+            count++;
+            if (count >= asyncValues.length) {
+              callback(r);
+            }
+          };
+        };
+        if (asyncValues.length === 0) {
+          callback([]);
+        } else {
+          each(asyncValues, function (asyncValue, i) {
+            asyncValue.get(cb(i));
+          });
+        }
+      });
+    };
+
+    var par$1 = function (futures) {
+      return par(futures, Future.nu);
+    };
+    var traverse = function (array, fn) {
+      return par$1(map(array, fn));
+    };
+
+    var value = function () {
+      var subject = Cell(Option.none());
+      var clear = function () {
+        subject.set(Option.none());
+      };
+      var set = function (s) {
+        subject.set(Option.some(s));
+      };
+      var on = function (f) {
+        subject.get().each(f);
+      };
+      var isSet = function () {
+        return subject.get().isSome();
+      };
+      return {
+        clear: clear,
+        set: set,
+        isSet: isSet,
+        on: on
+      };
+    };
+
+    var global$2 = tinymce.util.Tools.resolve('tinymce.Env');
+
+    var global$3 = tinymce.util.Tools.resolve('tinymce.util.Delay');
+
+    var global$4 = tinymce.util.Tools.resolve('tinymce.util.Tools');
+
+    var global$5 = tinymce.util.Tools.resolve('tinymce.util.VK');
+
+    var internalMimeType = 'x-tinymce/html';
+    var internalMark = '<!-- ' + internalMimeType + ' -->';
+    var mark = function (html) {
+      return internalMark + html;
+    };
+    var unmark = function (html) {
+      return html.replace(internalMark, '');
+    };
+    var isMarked = function (html) {
+      return html.indexOf(internalMark) !== -1;
+    };
+    var InternalHtml = {
+      mark: mark,
+      unmark: unmark,
+      isMarked: isMarked,
+      internalHtmlMime: function () {
+        return internalMimeType;
+      }
+    };
+
+    var global$6 = tinymce.util.Tools.resolve('tinymce.html.Entities');
+
+    var isPlainText = function (text) {
+      return !/<(?:\/?(?!(?:div|p|br|span)>)\w+|(?:(?!(?:span style="white-space:\s?pre;?">)|br\s?\/>))\w+\s[^>]+)>/i.test(text);
+    };
+    var toBRs = function (text) {
+      return text.replace(/\r?\n/g, '<br>');
+    };
+    var openContainer = function (rootTag, rootAttrs) {
+      var key;
+      var attrs = [];
+      var tag = '<' + rootTag;
+      if (typeof rootAttrs === 'object') {
+        for (key in rootAttrs) {
+          if (rootAttrs.hasOwnProperty(key)) {
+            attrs.push(key + '="' + global$6.encodeAllRaw(rootAttrs[key]) + '"');
+          }
+        }
+        if (attrs.length) {
+          tag += ' ' + attrs.join(' ');
+        }
+      }
+      return tag + '>';
+    };
+    var toBlockElements = function (text, rootTag, rootAttrs) {
+      var blocks = text.split(/\n\n/);
+      var tagOpen = openContainer(rootTag, rootAttrs);
+      var tagClose = '</' + rootTag + '>';
+      var paragraphs = global$4.map(blocks, function (p) {
+        return p.split(/\n/).join('<br />');
+      });
+      var stitch = function (p) {
+        return tagOpen + p + tagClose;
+      };
+      return paragraphs.length === 1 ? paragraphs[0] : global$4.map(paragraphs, stitch).join('');
+    };
+    var convert = function (text, rootTag, rootAttrs) {
+      return rootTag ? toBlockElements(text, rootTag === true ? 'p' : rootTag, rootAttrs) : toBRs(text);
+    };
+    var Newlines = {
+      isPlainText: isPlainText,
+      convert: convert,
+      toBRs: toBRs,
+      toBlockElements: toBlockElements
+    };
+
+    var global$7 = tinymce.util.Tools.resolve('tinymce.html.DomParser');
+
+    var global$8 = tinymce.util.Tools.resolve('tinymce.html.Node');
+
+    var global$9 = tinymce.util.Tools.resolve('tinymce.html.Schema');
+
+    var global$a = tinymce.util.Tools.resolve('tinymce.html.Serializer');
+
+    var shouldBlockDrop = function (editor) {
+      return editor.getParam('paste_block_drop', false);
+    };
+    var shouldPasteDataImages = function (editor) {
+      return editor.getParam('paste_data_images', false);
+    };
+    var shouldFilterDrop = function (editor) {
+      return editor.getParam('paste_filter_drop', true);
+    };
+    var getPreProcess = function (editor) {
+      return editor.getParam('paste_preprocess');
+    };
+    var getPostProcess = function (editor) {
+      return editor.getParam('paste_postprocess');
+    };
+    var getWebkitStyles = function (editor) {
+      return editor.getParam('paste_webkit_styles');
+    };
+    var shouldRemoveWebKitStyles = function (editor) {
+      return editor.getParam('paste_remove_styles_if_webkit', true);
+    };
+    var shouldMergeFormats = function (editor) {
+      return editor.getParam('paste_merge_formats', true);
+    };
+    var isSmartPasteEnabled = function (editor) {
+      return editor.getParam('smart_paste', true);
+    };
+    var isPasteAsTextEnabled = function (editor) {
+      return editor.getParam('paste_as_text', false);
+    };
+    var getRetainStyleProps = function (editor) {
+      return editor.getParam('paste_retain_style_properties');
+    };
+    var getWordValidElements = function (editor) {
+      var defaultValidElements = '-strong/b,-em/i,-u,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6,' + '-p/div,-a[href|name],sub,sup,strike,br,del,table[width],tr,' + 'td[colspan|rowspan|width],th[colspan|rowspan|width],thead,tfoot,tbody';
+      return editor.getParam('paste_word_valid_elements', defaultValidElements);
+    };
+    var shouldConvertWordFakeLists = function (editor) {
+      return editor.getParam('paste_convert_word_fake_lists', true);
+    };
+    var shouldUseDefaultFilters = function (editor) {
+      return editor.getParam('paste_enable_default_filters', true);
+    };
+    var Settings = {
+      shouldBlockDrop: shouldBlockDrop,
+      shouldPasteDataImages: shouldPasteDataImages,
+      shouldFilterDrop: shouldFilterDrop,
+      getPreProcess: getPreProcess,
+      getPostProcess: getPostProcess,
+      getWebkitStyles: getWebkitStyles,
+      shouldRemoveWebKitStyles: shouldRemoveWebKitStyles,
+      shouldMergeFormats: shouldMergeFormats,
+      isSmartPasteEnabled: isSmartPasteEnabled,
+      isPasteAsTextEnabled: isPasteAsTextEnabled,
+      getRetainStyleProps: getRetainStyleProps,
+      getWordValidElements: getWordValidElements,
+      shouldConvertWordFakeLists: shouldConvertWordFakeLists,
+      shouldUseDefaultFilters: shouldUseDefaultFilters
+    };
+
+    function filter$1(content, items) {
+      global$4.each(items, function (v) {
+        if (v.constructor === RegExp) {
+          content = content.replace(v, '');
+        } else {
+          content = content.replace(v[0], v[1]);
+        }
+      });
+      return content;
+    }
+    function innerText(html) {
+      var schema = global$9();
+      var domParser = global$7({}, schema);
+      var text = '';
+      var shortEndedElements = schema.getShortEndedElements();
+      var ignoreElements = global$4.makeMap('script noscript style textarea video audio iframe object', ' ');
+      var blockElements = schema.getBlockElements();
+      function walk(node) {
+        var name = node.name, currentNode = node;
+        if (name === 'br') {
+          text += '\n';
+          return;
+        }
+        if (name === 'wbr') {
+          return;
+        }
+        if (shortEndedElements[name]) {
+          text += ' ';
+        }
+        if (ignoreElements[name]) {
+          text += ' ';
+          return;
+        }
+        if (node.type === 3) {
+          text += node.value;
+        }
+        if (!node.shortEnded) {
+          if (node = node.firstChild) {
+            do {
+              walk(node);
+            } while (node = node.next);
+          }
+        }
+        if (blockElements[name] && currentNode.next) {
+          text += '\n';
+          if (name === 'p') {
+            text += '\n';
+          }
+        }
+      }
+      html = filter$1(html, [/<!\[[^\]]+\]>/g]);
+      walk(domParser.parse(html));
+      return text;
+    }
+    function trimHtml(html) {
+      function trimSpaces(all, s1, s2) {
+        if (!s1 && !s2) {
+          return ' ';
+        }
+        return '\xA0';
+      }
+      html = filter$1(html, [
+        /^[\s\S]*<body[^>]*>\s*|\s*<\/body[^>]*>[\s\S]*$/ig,
+        /<!--StartFragment-->|<!--EndFragment-->/g,
+        [
+          /( ?)<span class="Apple-converted-space">\u00a0<\/span>( ?)/g,
+          trimSpaces
+        ],
+        /<br class="Apple-interchange-newline">/g,
+        /<br>$/i
+      ]);
+      return html;
+    }
+    function createIdGenerator(prefix) {
+      var count = 0;
+      return function () {
+        return prefix + count++;
+      };
+    }
+    var isMsEdge = function () {
+      return domGlobals.navigator.userAgent.indexOf(' Edge/') !== -1;
+    };
+    var Utils = {
+      filter: filter$1,
+      innerText: innerText,
+      trimHtml: trimHtml,
+      createIdGenerator: createIdGenerator,
+      isMsEdge: isMsEdge
+    };
+
+    function isWordContent(content) {
+      return /<font face="Times New Roman"|class="?Mso|style="[^"]*\bmso-|style='[^'']*\bmso-|w:WordDocument/i.test(content) || /class="OutlineElement/.test(content) || /id="?docs\-internal\-guid\-/.test(content);
+    }
+    function isNumericList(text) {
+      var found, patterns;
+      patterns = [
+        /^[IVXLMCD]{1,2}\.[ \u00a0]/,
+        /^[ivxlmcd]{1,2}\.[ \u00a0]/,
+        /^[a-z]{1,2}[\.\)][ \u00a0]/,
+        /^[A-Z]{1,2}[\.\)][ \u00a0]/,
+        /^[0-9]+\.[ \u00a0]/,
+        /^[\u3007\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d]+\.[ \u00a0]/,
+        /^[\u58f1\u5f10\u53c2\u56db\u4f0d\u516d\u4e03\u516b\u4e5d\u62fe]+\.[ \u00a0]/
+      ];
+      text = text.replace(/^[\u00a0 ]+/, '');
+      global$4.each(patterns, function (pattern) {
+        if (pattern.test(text)) {
+          found = true;
+          return false;
+        }
+      });
+      return found;
+    }
+    function isBulletList(text) {
+      return /^[\s\u00a0]*[\u2022\u00b7\u00a7\u25CF]\s*/.test(text);
+    }
+    function convertFakeListsToProperLists(node) {
+      var currentListNode, prevListNode, lastLevel = 1;
+      function getText(node) {
+        var txt = '';
+        if (node.type === 3) {
+          return node.value;
+        }
+        if (node = node.firstChild) {
+          do {
+            txt += getText(node);
+          } while (node = node.next);
+        }
+        return txt;
+      }
+      function trimListStart(node, regExp) {
+        if (node.type === 3) {
+          if (regExp.test(node.value)) {
+            node.value = node.value.replace(regExp, '');
+            return false;
+          }
+        }
+        if (node = node.firstChild) {
+          do {
+            if (!trimListStart(node, regExp)) {
+              return false;
+            }
+          } while (node = node.next);
+        }
+        return true;
+      }
+      function removeIgnoredNodes(node) {
+        if (node._listIgnore) {
+          node.remove();
+          return;
+        }
+        if (node = node.firstChild) {
+          do {
+            removeIgnoredNodes(node);
+          } while (node = node.next);
+        }
+      }
+      function convertParagraphToLi(paragraphNode, listName, start) {
+        var level = paragraphNode._listLevel || lastLevel;
+        if (level !== lastLevel) {
+          if (level < lastLevel) {
+            if (currentListNode) {
+              currentListNode = currentListNode.parent.parent;
+            }
+          } else {
+            prevListNode = currentListNode;
+            currentListNode = null;
+          }
+        }
+        if (!currentListNode || currentListNode.name !== listName) {
+          prevListNode = prevListNode || currentListNode;
+          currentListNode = new global$8(listName, 1);
+          if (start > 1) {
+            currentListNode.attr('start', '' + start);
+          }
+          paragraphNode.wrap(currentListNode);
+        } else {
+          currentListNode.append(paragraphNode);
+        }
+        paragraphNode.name = 'li';
+        if (level > lastLevel && prevListNode) {
+          prevListNode.lastChild.append(currentListNode);
+        }
+        lastLevel = level;
+        removeIgnoredNodes(paragraphNode);
+        trimListStart(paragraphNode, /^\u00a0+/);
+        trimListStart(paragraphNode, /^\s*([\u2022\u00b7\u00a7\u25CF]|\w+\.)/);
+        trimListStart(paragraphNode, /^\u00a0+/);
+      }
+      var elements = [];
+      var child = node.firstChild;
+      while (typeof child !== 'undefined' && child !== null) {
+        elements.push(child);
+        child = child.walk();
+        if (child !== null) {
+          while (typeof child !== 'undefined' && child.parent !== node) {
+            child = child.walk();
+          }
+        }
+      }
+      for (var i = 0; i < elements.length; i++) {
+        node = elements[i];
+        if (node.name === 'p' && node.firstChild) {
+          var nodeText = getText(node);
+          if (isBulletList(nodeText)) {
+            convertParagraphToLi(node, 'ul');
+            continue;
+          }
+          if (isNumericList(nodeText)) {
+            var matches = /([0-9]+)\./.exec(nodeText);
+            var start = 1;
+            if (matches) {
+              start = parseInt(matches[1], 10);
+            }
+            convertParagraphToLi(node, 'ol', start);
+            continue;
+          }
+          if (node._listLevel) {
+            convertParagraphToLi(node, 'ul', 1);
+            continue;
+          }
+          currentListNode = null;
+        } else {
+          prevListNode = currentListNode;
+          currentListNode = null;
+        }
+      }
+    }
+    function filterStyles(editor, validStyles, node, styleValue) {
+      var outputStyles = {}, matches;
+      var styles = editor.dom.parseStyle(styleValue);
+      global$4.each(styles, function (value, name) {
+        switch (name) {
+        case 'mso-list':
+          matches = /\w+ \w+([0-9]+)/i.exec(styleValue);
+          if (matches) {
+            node._listLevel = parseInt(matches[1], 10);
+          }
+          if (/Ignore/i.test(value) && node.firstChild) {
+            node._listIgnore = true;
+            node.firstChild._listIgnore = true;
+          }
+          break;
+        case 'horiz-align':
+          name = 'text-align';
+          break;
+        case 'vert-align':
+          name = 'vertical-align';
+          break;
+        case 'font-color':
+        case 'mso-foreground':
+          name = 'color';
+          break;
+        case 'mso-background':
+        case 'mso-highlight':
+          name = 'background';
+          break;
+        case 'font-weight':
+        case 'font-style':
+          if (value !== 'normal') {
+            outputStyles[name] = value;
+          }
+          return;
+        case 'mso-element':
+          if (/^(comment|comment-list)$/i.test(value)) {
+            node.remove();
+            return;
+          }
+          break;
+        }
+        if (name.indexOf('mso-comment') === 0) {
+          node.remove();
+          return;
+        }
+        if (name.indexOf('mso-') === 0) {
+          return;
+        }
+        if (Settings.getRetainStyleProps(editor) === 'all' || validStyles && validStyles[name]) {
+          outputStyles[name] = value;
+        }
+      });
+      if (/(bold)/i.test(outputStyles['font-weight'])) {
+        delete outputStyles['font-weight'];
+        node.wrap(new global$8('b', 1));
+      }
+      if (/(italic)/i.test(outputStyles['font-style'])) {
+        delete outputStyles['font-style'];
+        node.wrap(new global$8('i', 1));
+      }
+      outputStyles = editor.dom.serializeStyle(outputStyles, node.name);
+      if (outputStyles) {
+        return outputStyles;
+      }
+      return null;
+    }
+    var filterWordContent = function (editor, content) {
+      var retainStyleProperties, validStyles;
+      retainStyleProperties = Settings.getRetainStyleProps(editor);
+      if (retainStyleProperties) {
+        validStyles = global$4.makeMap(retainStyleProperties.split(/[, ]/));
+      }
+      content = Utils.filter(content, [
+        /<br class="?Apple-interchange-newline"?>/gi,
+        /<b[^>]+id="?docs-internal-[^>]*>/gi,
+        /<!--[\s\S]+?-->/gi,
+        /<(!|script[^>]*>.*?<\/script(?=[>\s])|\/?(\?xml(:\w+)?|img|meta|link|style|\w:\w+)(?=[\s\/>]))[^>]*>/gi,
+        [
+          /<(\/?)s>/gi,
+          '<$1strike>'
+        ],
+        [
+          /&nbsp;/gi,
+          '\xA0'
+        ],
+        [
+          /<span\s+style\s*=\s*"\s*mso-spacerun\s*:\s*yes\s*;?\s*"\s*>([\s\u00a0]*)<\/span>/gi,
+          function (str, spaces) {
+            return spaces.length > 0 ? spaces.replace(/./, ' ').slice(Math.floor(spaces.length / 2)).split('').join('\xA0') : '';
+          }
+        ]
+      ]);
+      var validElements = Settings.getWordValidElements(editor);
+      var schema = global$9({
+        valid_elements: validElements,
+        valid_children: '-li[p]'
+      });
+      global$4.each(schema.elements, function (rule) {
+        if (!rule.attributes.class) {
+          rule.attributes.class = {};
+          rule.attributesOrder.push('class');
+        }
+        if (!rule.attributes.style) {
+          rule.attributes.style = {};
+          rule.attributesOrder.push('style');
+        }
+      });
+      var domParser = global$7({}, schema);
+      domParser.addAttributeFilter('style', function (nodes) {
+        var i = nodes.length, node;
+        while (i--) {
+          node = nodes[i];
+          node.attr('style', filterStyles(editor, validStyles, node, node.attr('style')));
+          if (node.name === 'span' && node.parent && !node.attributes.length) {
+            node.unwrap();
+          }
+        }
+      });
+      domParser.addAttributeFilter('class', function (nodes) {
+        var i = nodes.length, node, className;
+        while (i--) {
+          node = nodes[i];
+          className = node.attr('class');
+          if (/^(MsoCommentReference|MsoCommentText|msoDel)$/i.test(className)) {
+            node.remove();
+          }
+          node.attr('class', null);
+        }
+      });
+      domParser.addNodeFilter('del', function (nodes) {
+        var i = nodes.length;
+        while (i--) {
+          nodes[i].remove();
+        }
+      });
+      domParser.addNodeFilter('a', function (nodes) {
+        var i = nodes.length, node, href, name;
+        while (i--) {
+          node = nodes[i];
+          href = node.attr('href');
+          name = node.attr('name');
+          if (href && href.indexOf('#_msocom_') !== -1) {
+            node.remove();
+            continue;
+          }
+          if (href && href.indexOf('file://') === 0) {
+            href = href.split('#')[1];
+            if (href) {
+              href = '#' + href;
+            }
+          }
+          if (!href && !name) {
+            node.unwrap();
+          } else {
+            if (name && !/^_?(?:toc|edn|ftn)/i.test(name)) {
+              node.unwrap();
+              continue;
+            }
+            node.attr({
+              href: href,
+              name: name
+            });
+          }
+        }
+      });
+      var rootNode = domParser.parse(content);
+      if (Settings.shouldConvertWordFakeLists(editor)) {
+        convertFakeListsToProperLists(rootNode);
+      }
+      content = global$a({ validate: editor.settings.validate }, schema).serialize(rootNode);
+      return content;
+    };
+    var preProcess = function (editor, content) {
+      return Settings.shouldUseDefaultFilters(editor) ? filterWordContent(editor, content) : content;
+    };
+    var WordFilter = {
+      preProcess: preProcess,
+      isWordContent: isWordContent
+    };
+
+    var processResult = function (content, cancelled) {
+      return {
+        content: content,
+        cancelled: cancelled
+      };
+    };
+    var postProcessFilter = function (editor, html, internal, isWordHtml) {
+      var tempBody = editor.dom.create('div', { style: 'display:none' }, html);
+      var postProcessArgs = Events.firePastePostProcess(editor, tempBody, internal, isWordHtml);
+      return processResult(postProcessArgs.node.innerHTML, postProcessArgs.isDefaultPrevented());
+    };
+    var filterContent = function (editor, content, internal, isWordHtml) {
+      var preProcessArgs = Events.firePastePreProcess(editor, content, internal, isWordHtml);
+      if (editor.hasEventListeners('PastePostProcess') && !preProcessArgs.isDefaultPrevented()) {
+        return postProcessFilter(editor, preProcessArgs.content, internal, isWordHtml);
+      } else {
+        return processResult(preProcessArgs.content, preProcessArgs.isDefaultPrevented());
+      }
+    };
+    var process = function (editor, html, internal) {
+      var isWordHtml = WordFilter.isWordContent(html);
+      var content = isWordHtml ? WordFilter.preProcess(editor, html) : html;
+      return filterContent(editor, content, internal, isWordHtml);
+    };
+    var ProcessFilters = { process: process };
+
+    var removeMeta = function (editor, html) {
+      var body = editor.dom.create('body', {}, html);
+      global$4.each(body.querySelectorAll('meta'), function (elm) {
+        return elm.parentNode.removeChild(elm);
+      });
+      return body.innerHTML;
+    };
+    var pasteHtml = function (editor, html) {
+      editor.insertContent(removeMeta(editor, html), {
+        merge: Settings.shouldMergeFormats(editor),
+        paste: true
+      });
+      return true;
+    };
+    var isAbsoluteUrl = function (url) {
+      return /^https?:\/\/[\w\?\-\/+=.&%@~#]+$/i.test(url);
+    };
+    var isImageUrl = function (url) {
+      return isAbsoluteUrl(url) && /.(gif|jpe?g|png)$/.test(url);
+    };
+    var createImage = function (editor, url, pasteHtmlFn) {
+      editor.undoManager.extra(function () {
+        pasteHtmlFn(editor, url);
+      }, function () {
+        editor.insertContent('<img src="' + url + '">');
+      });
+      return true;
+    };
+    var createLink = function (editor, url, pasteHtmlFn) {
+      editor.undoManager.extra(function () {
+        pasteHtmlFn(editor, url);
+      }, function () {
+        editor.execCommand('mceInsertLink', false, url);
+      });
+      return true;
+    };
+    var linkSelection = function (editor, html, pasteHtmlFn) {
+      return editor.selection.isCollapsed() === false && isAbsoluteUrl(html) ? createLink(editor, html, pasteHtmlFn) : false;
+    };
+    var insertImage = function (editor, html, pasteHtmlFn) {
+      return isImageUrl(html) ? createImage(editor, html, pasteHtmlFn) : false;
+    };
+    var smartInsertContent = function (editor, html) {
+      global$4.each([
+        linkSelection,
+        insertImage,
+        pasteHtml
+      ], function (action) {
+        return action(editor, html, pasteHtml) !== true;
+      });
+    };
+    var insertContent = function (editor, html) {
+      if (Settings.isSmartPasteEnabled(editor) === false) {
+        pasteHtml(editor, html);
+      } else {
+        smartInsertContent(editor, html);
+      }
+    };
+    var SmartPaste = {
+      isImageUrl: isImageUrl,
+      isAbsoluteUrl: isAbsoluteUrl,
+      insertContent: insertContent
+    };
+
+    var isCollapsibleWhitespace = function (c) {
+      return ' \f\t\x0B'.indexOf(c) !== -1;
+    };
+    var isNewLineChar = function (c) {
+      return c === '\n' || c === '\r';
+    };
+    var isNewline = function (text, idx) {
+      return idx < text.length && idx >= 0 ? isNewLineChar(text[idx]) : false;
+    };
+    var normalizeWhitespace = function (text) {
+      var result = foldl(text, function (acc, c) {
+        if (isCollapsibleWhitespace(c) || c === '\xA0') {
+          if (acc.pcIsSpace || acc.str === '' || acc.str.length === text.length - 1 || isNewline(text, acc.str.length + 1)) {
+            return {
+              pcIsSpace: false,
+              str: acc.str + '\xA0'
+            };
+          } else {
+            return {
+              pcIsSpace: true,
+              str: acc.str + ' '
+            };
+          }
+        } else {
+          return {
+            pcIsSpace: isNewLineChar(c),
+            str: acc.str + c
+          };
+        }
+      }, {
+        pcIsSpace: false,
+        str: ''
+      });
+      return result.str;
+    };
+
+    var pasteHtml$1 = function (editor, html, internalFlag) {
+      var internal = internalFlag ? internalFlag : InternalHtml.isMarked(html);
+      var args = ProcessFilters.process(editor, InternalHtml.unmark(html), internal);
+      if (args.cancelled === false) {
+        SmartPaste.insertContent(editor, args.content);
+      }
+    };
+    var pasteText = function (editor, text) {
+      var encodedText = editor.dom.encode(text).replace(/\r\n/g, '\n');
+      var normalizedText = normalizeWhitespace(encodedText);
+      var html = Newlines.convert(normalizedText, editor.settings.forced_root_block, editor.settings.forced_root_block_attrs);
+      pasteHtml$1(editor, html, false);
+    };
+    var getDataTransferItems = function (dataTransfer) {
+      var items = {};
+      var mceInternalUrlPrefix = 'data:text/mce-internal,';
+      if (dataTransfer) {
+        if (dataTransfer.getData) {
+          var legacyText = dataTransfer.getData('Text');
+          if (legacyText && legacyText.length > 0) {
+            if (legacyText.indexOf(mceInternalUrlPrefix) === -1) {
+              items['text/plain'] = legacyText;
+            }
+          }
+        }
+        if (dataTransfer.types) {
+          for (var i = 0; i < dataTransfer.types.length; i++) {
+            var contentType = dataTransfer.types[i];
+            try {
+              items[contentType] = dataTransfer.getData(contentType);
+            } catch (ex) {
+              items[contentType] = '';
+            }
+          }
+        }
+      }
+      return items;
+    };
+    var getClipboardContent = function (editor, clipboardEvent) {
+      var content = getDataTransferItems(clipboardEvent.clipboardData || editor.getDoc().dataTransfer);
+      return Utils.isMsEdge() ? global$4.extend(content, { 'text/html': '' }) : content;
+    };
+    var hasContentType = function (clipboardContent, mimeType) {
+      return mimeType in clipboardContent && clipboardContent[mimeType].length > 0;
+    };
+    var hasHtmlOrText = function (content) {
+      return hasContentType(content, 'text/html') || hasContentType(content, 'text/plain');
+    };
+    var getBase64FromUri = function (uri) {
+      var idx;
+      idx = uri.indexOf(',');
+      if (idx !== -1) {
+        return uri.substr(idx + 1);
+      }
+      return null;
+    };
+    var isValidDataUriImage = function (settings, imgElm) {
+      return settings.images_dataimg_filter ? settings.images_dataimg_filter(imgElm) : true;
+    };
+    var extractFilename = function (editor, str) {
+      var m = str.match(/([\s\S]+?)\.(?:jpeg|jpg|png|gif)$/i);
+      return m ? editor.dom.encode(m[1]) : null;
+    };
+    var uniqueId = Utils.createIdGenerator('mceclip');
+    var pasteImage = function (editor, imageItem) {
+      var base64 = getBase64FromUri(imageItem.uri);
+      var id = uniqueId();
+      var name = editor.settings.images_reuse_filename && imageItem.blob.name ? extractFilename(editor, imageItem.blob.name) : id;
+      var img = new domGlobals.Image();
+      img.src = imageItem.uri;
+      if (isValidDataUriImage(editor.settings, img)) {
+        var blobCache = editor.editorUpload.blobCache;
+        var blobInfo = void 0, existingBlobInfo = void 0;
+        existingBlobInfo = blobCache.findFirst(function (cachedBlobInfo) {
+          return cachedBlobInfo.base64() === base64;
+        });
+        if (!existingBlobInfo) {
+          blobInfo = blobCache.create(id, imageItem.blob, base64, name);
+          blobCache.add(blobInfo);
+        } else {
+          blobInfo = existingBlobInfo;
+        }
+        pasteHtml$1(editor, '<img src="' + blobInfo.blobUri() + '">', false);
+      } else {
+        pasteHtml$1(editor, '<img src="' + imageItem.uri + '">', false);
+      }
+    };
+    var isClipboardEvent = function (event) {
+      return event.type === 'paste';
+    };
+    var readBlobsAsDataUris = function (items) {
+      return traverse(items, function (item) {
+        return Future.nu(function (resolve) {
+          var blob = item.getAsFile ? item.getAsFile() : item;
+          var reader = new window.FileReader();
+          reader.onload = function () {
+            resolve({
+              blob: blob,
+              uri: reader.result
+            });
+          };
+          reader.readAsDataURL(blob);
+        });
+      });
+    };
+    var getImagesFromDataTransfer = function (dataTransfer) {
+      var items = dataTransfer.items ? map(from$1(dataTransfer.items), function (item) {
+        return item.getAsFile();
+      }) : [];
+      var files = dataTransfer.files ? from$1(dataTransfer.files) : [];
+      var images = filter(items.length > 0 ? items : files, function (file) {
+        return /^image\/(jpeg|png|gif|bmp)$/.test(file.type);
+      });
+      return images;
+    };
+    var pasteImageData = function (editor, e, rng) {
+      var dataTransfer = isClipboardEvent(e) ? e.clipboardData : e.dataTransfer;
+      if (editor.settings.paste_data_images && dataTransfer) {
+        var images = getImagesFromDataTransfer(dataTransfer);
+        if (images.length > 0) {
+          e.preventDefault();
+          readBlobsAsDataUris(images).get(function (blobResults) {
+            if (rng) {
+              editor.selection.setRng(rng);
+            }
+            each(blobResults, function (result) {
+              pasteImage(editor, result);
+            });
+          });
+          return true;
+        }
+      }
+      return false;
+    };
+    var isBrokenAndroidClipboardEvent = function (e) {
+      var clipboardData = e.clipboardData;
+      return domGlobals.navigator.userAgent.indexOf('Android') !== -1 && clipboardData && clipboardData.items && clipboardData.items.length === 0;
+    };
+    var isKeyboardPasteEvent = function (e) {
+      return global$5.metaKeyPressed(e) && e.keyCode === 86 || e.shiftKey && e.keyCode === 45;
+    };
+    var registerEventHandlers = function (editor, pasteBin, pasteFormat) {
+      var keyboardPasteEvent = value();
+      var keyboardPastePlainTextState;
+      editor.on('keydown', function (e) {
+        function removePasteBinOnKeyUp(e) {
+          if (isKeyboardPasteEvent(e) && !e.isDefaultPrevented()) {
+            pasteBin.remove();
+          }
+        }
+        if (isKeyboardPasteEvent(e) && !e.isDefaultPrevented()) {
+          keyboardPastePlainTextState = e.shiftKey && e.keyCode === 86;
+          if (keyboardPastePlainTextState && global$2.webkit && domGlobals.navigator.userAgent.indexOf('Version/') !== -1) {
+            return;
+          }
+          e.stopImmediatePropagation();
+          keyboardPasteEvent.set(e);
+          window.setTimeout(function () {
+            keyboardPasteEvent.clear();
+          }, 100);
+          if (global$2.ie && keyboardPastePlainTextState) {
+            e.preventDefault();
+            Events.firePaste(editor, true);
+            return;
+          }
+          pasteBin.remove();
+          pasteBin.create();
+          editor.once('keyup', removePasteBinOnKeyUp);
+          editor.once('paste', function () {
+            editor.off('keyup', removePasteBinOnKeyUp);
+          });
+        }
+      });
+      function insertClipboardContent(clipboardContent, isKeyBoardPaste, plainTextMode, internal) {
+        var content, isPlainTextHtml;
+        if (hasContentType(clipboardContent, 'text/html')) {
+          content = clipboardContent['text/html'];
+        } else {
+          content = pasteBin.getHtml();
+          internal = internal ? internal : InternalHtml.isMarked(content);
+          if (pasteBin.isDefaultContent(content)) {
+            plainTextMode = true;
+          }
+        }
+        content = Utils.trimHtml(content);
+        pasteBin.remove();
+        isPlainTextHtml = internal === false && Newlines.isPlainText(content);
+        if (!content.length || isPlainTextHtml) {
+          plainTextMode = true;
+        }
+        if (plainTextMode) {
+          if (hasContentType(clipboardContent, 'text/plain') && isPlainTextHtml) {
+            content = clipboardContent['text/plain'];
+          } else {
+            content = Utils.innerText(content);
+          }
+        }
+        if (pasteBin.isDefaultContent(content)) {
+          if (!isKeyBoardPaste) {
+            editor.windowManager.alert('Please use Ctrl+V/Cmd+V keyboard shortcuts to paste contents.');
+          }
+          return;
+        }
+        if (plainTextMode) {
+          pasteText(editor, content);
+        } else {
+          pasteHtml$1(editor, content, internal);
+        }
+      }
+      var getLastRng = function () {
+        return pasteBin.getLastRng() || editor.selection.getRng();
+      };
+      editor.on('paste', function (e) {
+        var isKeyBoardPaste = keyboardPasteEvent.isSet();
+        var clipboardContent = getClipboardContent(editor, e);
+        var plainTextMode = pasteFormat.get() === 'text' || keyboardPastePlainTextState;
+        var internal = hasContentType(clipboardContent, InternalHtml.internalHtmlMime());
+        keyboardPastePlainTextState = false;
+        if (e.isDefaultPrevented() || isBrokenAndroidClipboardEvent(e)) {
+          pasteBin.remove();
+          return;
+        }
+        if (!hasHtmlOrText(clipboardContent) && pasteImageData(editor, e, getLastRng())) {
+          pasteBin.remove();
+          return;
+        }
+        if (!isKeyBoardPaste) {
+          e.preventDefault();
+        }
+        if (global$2.ie && (!isKeyBoardPaste || e.ieFake) && !hasContentType(clipboardContent, 'text/html')) {
+          pasteBin.create();
+          editor.dom.bind(pasteBin.getEl(), 'paste', function (e) {
+            e.stopPropagation();
+          });
+          editor.getDoc().execCommand('Paste', false, null);
+          clipboardContent['text/html'] = pasteBin.getHtml();
+        }
+        if (hasContentType(clipboardContent, 'text/html')) {
+          e.preventDefault();
+          if (!internal) {
+            internal = InternalHtml.isMarked(clipboardContent['text/html']);
+          }
+          insertClipboardContent(clipboardContent, isKeyBoardPaste, plainTextMode, internal);
+        } else {
+          global$3.setEditorTimeout(editor, function () {
+            insertClipboardContent(clipboardContent, isKeyBoardPaste, plainTextMode, internal);
+          }, 0);
+        }
+      });
+    };
+    var registerEventsAndFilters = function (editor, pasteBin, pasteFormat) {
+      registerEventHandlers(editor, pasteBin, pasteFormat);
+      var src;
+      editor.parser.addNodeFilter('img', function (nodes, name, args) {
+        var isPasteInsert = function (args) {
+          return args.data && args.data.paste === true;
+        };
+        var remove = function (node) {
+          if (!node.attr('data-mce-object') && src !== global$2.transparentSrc) {
+            node.remove();
+          }
+        };
+        var isWebKitFakeUrl = function (src) {
+          return src.indexOf('webkit-fake-url') === 0;
+        };
+        var isDataUri = function (src) {
+          return src.indexOf('data:') === 0;
+        };
+        if (!editor.settings.paste_data_images && isPasteInsert(args)) {
+          var i = nodes.length;
+          while (i--) {
+            src = nodes[i].attr('src');
+            if (!src) {
+              continue;
+            }
+            if (isWebKitFakeUrl(src)) {
+              remove(nodes[i]);
+            } else if (!editor.settings.allow_html_data_urls && isDataUri(src)) {
+              remove(nodes[i]);
+            }
+          }
+        }
+      });
+    };
+
+    var getPasteBinParent = function (editor) {
+      return global$2.ie && editor.inline ? domGlobals.document.body : editor.getBody();
+    };
+    var isExternalPasteBin = function (editor) {
+      return getPasteBinParent(editor) !== editor.getBody();
+    };
+    var delegatePasteEvents = function (editor, pasteBinElm, pasteBinDefaultContent) {
+      if (isExternalPasteBin(editor)) {
+        editor.dom.bind(pasteBinElm, 'paste keyup', function (e) {
+          if (!isDefault(editor, pasteBinDefaultContent)) {
+            editor.fire('paste');
+          }
+        });
+      }
+    };
+    var create = function (editor, lastRngCell, pasteBinDefaultContent) {
+      var dom = editor.dom, body = editor.getBody();
+      var pasteBinElm;
+      lastRngCell.set(editor.selection.getRng());
+      pasteBinElm = editor.dom.add(getPasteBinParent(editor), 'div', {
+        'id': 'mcepastebin',
+        'class': 'mce-pastebin',
+        'contentEditable': true,
+        'data-mce-bogus': 'all',
+        'style': 'position: fixed; top: 50%; width: 10px; height: 10px; overflow: hidden; opacity: 0'
+      }, pasteBinDefaultContent);
+      if (global$2.ie || global$2.gecko) {
+        dom.setStyle(pasteBinElm, 'left', dom.getStyle(body, 'direction', true) === 'rtl' ? 65535 : -65535);
+      }
+      dom.bind(pasteBinElm, 'beforedeactivate focusin focusout', function (e) {
+        e.stopPropagation();
+      });
+      delegatePasteEvents(editor, pasteBinElm, pasteBinDefaultContent);
+      pasteBinElm.focus();
+      editor.selection.select(pasteBinElm, true);
+    };
+    var remove = function (editor, lastRngCell) {
+      if (getEl(editor)) {
+        var pasteBinClone = void 0;
+        var lastRng = lastRngCell.get();
+        while (pasteBinClone = editor.dom.get('mcepastebin')) {
+          editor.dom.remove(pasteBinClone);
+          editor.dom.unbind(pasteBinClone);
+        }
+        if (lastRng) {
+          editor.selection.setRng(lastRng);
+        }
+      }
+      lastRngCell.set(null);
+    };
+    var getEl = function (editor) {
+      return editor.dom.get('mcepastebin');
+    };
+    var getHtml = function (editor) {
+      var pasteBinElm, pasteBinClones, i, dirtyWrappers, cleanWrapper;
+      var copyAndRemove = function (toElm, fromElm) {
+        toElm.appendChild(fromElm);
+        editor.dom.remove(fromElm, true);
+      };
+      pasteBinClones = global$4.grep(getPasteBinParent(editor).childNodes, function (elm) {
+        return elm.id === 'mcepastebin';
+      });
+      pasteBinElm = pasteBinClones.shift();
+      global$4.each(pasteBinClones, function (pasteBinClone) {
+        copyAndRemove(pasteBinElm, pasteBinClone);
+      });
+      dirtyWrappers = editor.dom.select('div[id=mcepastebin]', pasteBinElm);
+      for (i = dirtyWrappers.length - 1; i >= 0; i--) {
+        cleanWrapper = editor.dom.create('div');
+        pasteBinElm.insertBefore(cleanWrapper, dirtyWrappers[i]);
+        copyAndRemove(cleanWrapper, dirtyWrappers[i]);
+      }
+      return pasteBinElm ? pasteBinElm.innerHTML : '';
+    };
+    var getLastRng = function (lastRng) {
+      return lastRng.get();
+    };
+    var isDefaultContent = function (pasteBinDefaultContent, content) {
+      return content === pasteBinDefaultContent;
+    };
+    var isPasteBin = function (elm) {
+      return elm && elm.id === 'mcepastebin';
+    };
+    var isDefault = function (editor, pasteBinDefaultContent) {
+      var pasteBinElm = getEl(editor);
+      return isPasteBin(pasteBinElm) && isDefaultContent(pasteBinDefaultContent, pasteBinElm.innerHTML);
+    };
+    var PasteBin = function (editor) {
+      var lastRng = Cell(null);
+      var pasteBinDefaultContent = '%MCEPASTEBIN%';
+      return {
+        create: function () {
+          return create(editor, lastRng, pasteBinDefaultContent);
+        },
+        remove: function () {
+          return remove(editor, lastRng);
+        },
+        getEl: function () {
+          return getEl(editor);
+        },
+        getHtml: function () {
+          return getHtml(editor);
+        },
+        getLastRng: function () {
+          return getLastRng(lastRng);
+        },
+        isDefault: function () {
+          return isDefault(editor, pasteBinDefaultContent);
+        },
+        isDefaultContent: function (content) {
+          return isDefaultContent(pasteBinDefaultContent, content);
+        }
+      };
+    };
+
+    var Clipboard = function (editor, pasteFormat) {
+      var pasteBin = PasteBin(editor);
+      editor.on('PreInit', function () {
+        return registerEventsAndFilters(editor, pasteBin, pasteFormat);
+      });
+      return {
+        pasteFormat: pasteFormat,
+        pasteHtml: function (html, internalFlag) {
+          return pasteHtml$1(editor, html, internalFlag);
+        },
+        pasteText: function (text) {
+          return pasteText(editor, text);
+        },
+        pasteImageData: function (e, rng) {
+          return pasteImageData(editor, e, rng);
+        },
+        getDataTransferItems: getDataTransferItems,
+        hasHtmlOrText: hasHtmlOrText,
+        hasContentType: hasContentType
+      };
+    };
+
+    var noop$1 = function () {
+    };
+    var hasWorkingClipboardApi = function (clipboardData) {
+      return global$2.iOS === false && clipboardData !== undefined && typeof clipboardData.setData === 'function' && Utils.isMsEdge() !== true;
+    };
+    var setHtml5Clipboard = function (clipboardData, html, text) {
+      if (hasWorkingClipboardApi(clipboardData)) {
+        try {
+          clipboardData.clearData();
+          clipboardData.setData('text/html', html);
+          clipboardData.setData('text/plain', text);
+          clipboardData.setData(InternalHtml.internalHtmlMime(), html);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    };
+    var setClipboardData = function (evt, data, fallback, done) {
+      if (setHtml5Clipboard(evt.clipboardData, data.html, data.text)) {
+        evt.preventDefault();
+        done();
+      } else {
+        fallback(data.html, done);
+      }
+    };
+    var fallback = function (editor) {
+      return function (html, done) {
+        var markedHtml = InternalHtml.mark(html);
+        var outer = editor.dom.create('div', {
+          'contenteditable': 'false',
+          'data-mce-bogus': 'all'
+        });
+        var inner = editor.dom.create('div', { contenteditable: 'true' }, markedHtml);
+        editor.dom.setStyles(outer, {
+          position: 'fixed',
+          top: '0',
+          left: '-3000px',
+          width: '1000px',
+          overflow: 'hidden'
+        });
+        outer.appendChild(inner);
+        editor.dom.add(editor.getBody(), outer);
+        var range = editor.selection.getRng();
+        inner.focus();
+        var offscreenRange = editor.dom.createRng();
+        offscreenRange.selectNodeContents(inner);
+        editor.selection.setRng(offscreenRange);
+        global$3.setTimeout(function () {
+          editor.selection.setRng(range);
+          outer.parentNode.removeChild(outer);
+          done();
+        }, 0);
+      };
+    };
+    var getData = function (editor) {
+      return {
+        html: editor.selection.getContent({ contextual: true }),
+        text: editor.selection.getContent({ format: 'text' })
+      };
+    };
+    var isTableSelection = function (editor) {
+      return !!editor.dom.getParent(editor.selection.getStart(), 'td[data-mce-selected],th[data-mce-selected]', editor.getBody());
+    };
+    var hasSelectedContent = function (editor) {
+      return !editor.selection.isCollapsed() || isTableSelection(editor);
+    };
+    var cut = function (editor) {
+      return function (evt) {
+        if (hasSelectedContent(editor)) {
+          setClipboardData(evt, getData(editor), fallback(editor), function () {
+            global$3.setTimeout(function () {
+              editor.execCommand('Delete');
+            }, 0);
+          });
+        }
+      };
+    };
+    var copy = function (editor) {
+      return function (evt) {
+        if (hasSelectedContent(editor)) {
+          setClipboardData(evt, getData(editor), fallback(editor), noop$1);
+        }
+      };
+    };
+    var register$1 = function (editor) {
+      editor.on('cut', cut(editor));
+      editor.on('copy', copy(editor));
+    };
+    var CutCopy = { register: register$1 };
+
+    var global$b = tinymce.util.Tools.resolve('tinymce.dom.RangeUtils');
+
+    var getCaretRangeFromEvent = function (editor, e) {
+      return global$b.getCaretRangeFromPoint(e.clientX, e.clientY, editor.getDoc());
+    };
+    var isPlainTextFileUrl = function (content) {
+      var plainTextContent = content['text/plain'];
+      return plainTextContent ? plainTextContent.indexOf('file://') === 0 : false;
+    };
+    var setFocusedRange = function (editor, rng) {
+      editor.focus();
+      editor.selection.setRng(rng);
+    };
+    var setup = function (editor, clipboard, draggingInternallyState) {
+      if (Settings.shouldBlockDrop(editor)) {
+        editor.on('dragend dragover draggesture dragdrop drop drag', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        });
+      }
+      if (!Settings.shouldPasteDataImages(editor)) {
+        editor.on('drop', function (e) {
+          var dataTransfer = e.dataTransfer;
+          if (dataTransfer && dataTransfer.files && dataTransfer.files.length > 0) {
+            e.preventDefault();
+          }
+        });
+      }
+      editor.on('drop', function (e) {
+        var dropContent, rng;
+        rng = getCaretRangeFromEvent(editor, e);
+        if (e.isDefaultPrevented() || draggingInternallyState.get()) {
+          return;
+        }
+        dropContent = clipboard.getDataTransferItems(e.dataTransfer);
+        var internal = clipboard.hasContentType(dropContent, InternalHtml.internalHtmlMime());
+        if ((!clipboard.hasHtmlOrText(dropContent) || isPlainTextFileUrl(dropContent)) && clipboard.pasteImageData(e, rng)) {
+          return;
+        }
+        if (rng && Settings.shouldFilterDrop(editor)) {
+          var content_1 = dropContent['mce-internal'] || dropContent['text/html'] || dropContent['text/plain'];
+          if (content_1) {
+            e.preventDefault();
+            global$3.setEditorTimeout(editor, function () {
+              editor.undoManager.transact(function () {
+                if (dropContent['mce-internal']) {
+                  editor.execCommand('Delete');
+                }
+                setFocusedRange(editor, rng);
+                content_1 = Utils.trimHtml(content_1);
+                if (!dropContent['text/html']) {
+                  clipboard.pasteText(content_1);
+                } else {
+                  clipboard.pasteHtml(content_1, internal);
+                }
+              });
+            });
+          }
+        }
+      });
+      editor.on('dragstart', function (e) {
+        draggingInternallyState.set(true);
+      });
+      editor.on('dragover dragend', function (e) {
+        if (Settings.shouldPasteDataImages(editor) && draggingInternallyState.get() === false) {
+          e.preventDefault();
+          setFocusedRange(editor, getCaretRangeFromEvent(editor, e));
+        }
+        if (e.type === 'dragend') {
+          draggingInternallyState.set(false);
+        }
+      });
+    };
+    var DragDrop = { setup: setup };
+
+    var setup$1 = function (editor) {
+      var plugin = editor.plugins.paste;
+      var preProcess = Settings.getPreProcess(editor);
+      if (preProcess) {
+        editor.on('PastePreProcess', function (e) {
+          preProcess.call(plugin, plugin, e);
+        });
+      }
+      var postProcess = Settings.getPostProcess(editor);
+      if (postProcess) {
+        editor.on('PastePostProcess', function (e) {
+          postProcess.call(plugin, plugin, e);
+        });
+      }
+    };
+    var PrePostProcess = { setup: setup$1 };
+
+    function addPreProcessFilter(editor, filterFunc) {
+      editor.on('PastePreProcess', function (e) {
+        e.content = filterFunc(editor, e.content, e.internal, e.wordContent);
+      });
+    }
+    function addPostProcessFilter(editor, filterFunc) {
+      editor.on('PastePostProcess', function (e) {
+        filterFunc(editor, e.node);
+      });
+    }
+    function removeExplorerBrElementsAfterBlocks(editor, html) {
+      if (!WordFilter.isWordContent(html)) {
+        return html;
+      }
+      var blockElements = [];
+      global$4.each(editor.schema.getBlockElements(), function (block, blockName) {
+        blockElements.push(blockName);
+      });
+      var explorerBlocksRegExp = new RegExp('(?:<br>&nbsp;[\\s\\r\\n]+|<br>)*(<\\/?(' + blockElements.join('|') + ')[^>]*>)(?:<br>&nbsp;[\\s\\r\\n]+|<br>)*', 'g');
+      html = Utils.filter(html, [[
+          explorerBlocksRegExp,
+          '$1'
+        ]]);
+      html = Utils.filter(html, [
+        [
+          /<br><br>/g,
+          '<BR><BR>'
+        ],
+        [
+          /<br>/g,
+          ' '
+        ],
+        [
+          /<BR><BR>/g,
+          '<br>'
+        ]
+      ]);
+      return html;
+    }
+    function removeWebKitStyles(editor, content, internal, isWordHtml) {
+      if (isWordHtml || internal) {
+        return content;
+      }
+      var webKitStylesSetting = Settings.getWebkitStyles(editor);
+      var webKitStyles;
+      if (Settings.shouldRemoveWebKitStyles(editor) === false || webKitStylesSetting === 'all') {
+        return content;
+      }
+      if (webKitStylesSetting) {
+        webKitStyles = webKitStylesSetting.split(/[, ]/);
+      }
+      if (webKitStyles) {
+        var dom_1 = editor.dom, node_1 = editor.selection.getNode();
+        content = content.replace(/(<[^>]+) style="([^"]*)"([^>]*>)/gi, function (all, before, value, after) {
+          var inputStyles = dom_1.parseStyle(dom_1.decode(value));
+          var outputStyles = {};
+          if (webKitStyles === 'none') {
+            return before + after;
+          }
+          for (var i = 0; i < webKitStyles.length; i++) {
+            var inputValue = inputStyles[webKitStyles[i]], currentValue = dom_1.getStyle(node_1, webKitStyles[i], true);
+            if (/color/.test(webKitStyles[i])) {
+              inputValue = dom_1.toHex(inputValue);
+              currentValue = dom_1.toHex(currentValue);
+            }
+            if (currentValue !== inputValue) {
+              outputStyles[webKitStyles[i]] = inputValue;
+            }
+          }
+          outputStyles = dom_1.serializeStyle(outputStyles, 'span');
+          if (outputStyles) {
+            return before + ' style="' + outputStyles + '"' + after;
+          }
+          return before + after;
+        });
+      } else {
+        content = content.replace(/(<[^>]+) style="([^"]*)"([^>]*>)/gi, '$1$3');
+      }
+      content = content.replace(/(<[^>]+) data-mce-style="([^"]+)"([^>]*>)/gi, function (all, before, value, after) {
+        return before + ' style="' + value + '"' + after;
+      });
+      return content;
+    }
+    function removeUnderlineAndFontInAnchor(editor, root) {
+      editor.$('a', root).find('font,u').each(function (i, node) {
+        editor.dom.remove(node, true);
+      });
+    }
+    var setup$2 = function (editor) {
+      if (global$2.webkit) {
+        addPreProcessFilter(editor, removeWebKitStyles);
+      }
+      if (global$2.ie) {
+        addPreProcessFilter(editor, removeExplorerBrElementsAfterBlocks);
+        addPostProcessFilter(editor, removeUnderlineAndFontInAnchor);
+      }
+    };
+    var Quirks = { setup: setup$2 };
+
+    var makeSetupHandler = function (editor, clipboard) {
+      return function (api) {
+        api.setActive(clipboard.pasteFormat.get() === 'text');
+        var pastePlainTextToggleHandler = function (e) {
+          return api.setActive(e.state);
+        };
+        editor.on('PastePlainTextToggle', pastePlainTextToggleHandler);
+        return function () {
+          return editor.off('PastePlainTextToggle', pastePlainTextToggleHandler);
+        };
+      };
+    };
+    var register$2 = function (editor, clipboard) {
+      editor.ui.registry.addToggleButton('pastetext', {
+        active: false,
+        icon: 'paste-text',
+        tooltip: 'Paste as text',
+        onAction: function () {
+          return editor.execCommand('mceTogglePlainTextPaste');
+        },
+        onSetup: makeSetupHandler(editor, clipboard)
+      });
+      editor.ui.registry.addToggleMenuItem('pastetext', {
+        text: 'Paste as text',
+        onAction: function () {
+          return editor.execCommand('mceTogglePlainTextPaste');
+        },
+        onSetup: makeSetupHandler(editor, clipboard)
+      });
+    };
+    var Buttons = { register: register$2 };
+
+    function Plugin () {
+      global$1.add('paste', function (editor) {
+        if (DetectProPlugin.hasProPlugin(editor) === false) {
+          var draggingInternallyState = Cell(false);
+          var pasteFormat = Cell(Settings.isPasteAsTextEnabled(editor) ? 'text' : 'html');
+          var clipboard = Clipboard(editor, pasteFormat);
+          var quirks = Quirks.setup(editor);
+          Buttons.register(editor, clipboard);
+          Commands.register(editor, clipboard);
+          PrePostProcess.setup(editor);
+          CutCopy.register(editor);
+          DragDrop.setup(editor, clipboard, draggingInternallyState);
+          return Api.get(clipboard, quirks);
+        }
+      });
+    }
+
+    Plugin();
+
+}(window));
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -102804,7 +107745,7 @@ try {
 
   window.sortable = __webpack_require__(/*! jquery-ui/ui/widgets/sortable */ "./node_modules/jquery-ui/ui/widgets/sortable.js");
 
-  __webpack_require__(/*! tinymce */ "./node_modules/tinymce/tinymce.js");
+  var tinymce = __webpack_require__(/*! tinymce/tinymce */ "./node_modules/tinymce/tinymce.js");
 
   __webpack_require__(/*! tinymce/themes/silver */ "./node_modules/tinymce/themes/silver/index.js");
 
@@ -102813,11 +107754,18 @@ try {
   __webpack_require__(/*! tinymce/plugins/media */ "./node_modules/tinymce/plugins/media/index.js");
 
   __webpack_require__(/*! tinymce/plugins/image */ "./node_modules/tinymce/plugins/image/index.js");
+
+  __webpack_require__(/*! tinymce/plugins/paste */ "./node_modules/tinymce/plugins/paste/index.js");
+
+  __webpack_require__(/*! tinymce/plugins/lists */ "./node_modules/tinymce/plugins/lists/index.js");
+
+  __webpack_require__(/*! tinymce/plugins/advlist */ "./node_modules/tinymce/plugins/advlist/index.js");
 } catch (e) {}
 
 $(function () {
   $('.sortable').sortable({
     delay: 300,
+    handle: '.handle',
     update: function update(event, ui) {
       var action = $(this).data('action');
       var data = $(this).sortable('toArray');
@@ -102836,6 +107784,66 @@ $(function () {
           }
         },
         dataType: 'json'
+      });
+    }
+  });
+  tinymce.init({
+    selector: '.inline-editor',
+    inline: true,
+    language: 'nl',
+    plugins: ['link', 'image', 'media', 'lists', 'paste', 'advlist'],
+    link_list: "/admin/page/tinymce",
+    image_title: true,
+    menu_bar: false,
+    paste_data_images: true,
+    images_upload_handler: function images_upload_handler(blobInfo, success, failure) {
+      var xhr, formData;
+      xhr = new XMLHttpRequest();
+      xhr.withCredentials = false;
+      xhr.open('POST', '/admin/asset/upload_tinymce');
+      xhr.setRequestHeader("X-CSRF-Token", $('meta[name="csrf-token"]').attr('content'));
+
+      xhr.onload = function () {
+        var json;
+
+        if (xhr.status != 200) {
+          failure('HTTP Error: ' + xhr.status);
+          return;
+        }
+
+        json = JSON.parse(xhr.responseText);
+
+        if (!json || typeof json.location != 'string') {
+          failure('Invalid JSON: ' + xhr.responseText);
+          return;
+        }
+
+        success(json.location);
+      };
+
+      formData = new FormData();
+      formData.append('file', blobInfo.blob(), blobInfo.filename);
+      xhr.send(formData);
+    },
+    convert_urls: 0,
+    toolbar: 'formatselect | fontsizeselect | bold italic strikethrough | numlist bullist | link image media',
+    setup: function setup(editor) {
+      editor.on('blur', function (e) {
+        var content = editor.getContent();
+        var object = $($(e)[0].target.bodyElement);
+        var identifier = $(object).data('identifier');
+        $.ajax({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          data: $.extend($(object).data(), {
+            'content': content,
+            'identifier': identifier
+          }),
+          //url: $(object).data('action') ? $(object).data('action') : '/admin/page/update_content',
+          url: $(object).data('action'),
+          type: 'PUT'
+        });
       });
     }
   });

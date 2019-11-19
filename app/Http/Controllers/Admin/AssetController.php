@@ -41,4 +41,18 @@ class AssetController extends Controller
 
         return redirect()->to(url()->previous() . '#'.$hash);
     }
+
+    public function upload_tinymce(Request $request)
+    {
+        $path = $request->file('file')->store('assets', 'public');
+
+        $data = array_merge($request->all(), ['file' => $path]);
+
+        $asset = new Asset();
+        $asset->fill($data);
+        $asset->save();
+
+        return response()->json(['location' => '/storage/'.$path]);
+
+    }
 }

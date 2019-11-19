@@ -62,4 +62,17 @@ class PageController extends Controller
             $page->save();
         }
     }
+
+    public function tinymce_links()
+    {
+        $pages = [];
+        foreach (Page::all() as $page)
+        {
+            $pages[] = [
+                'title' => $page->title,
+                'value' => '/'.$page->slug
+            ];
+        }
+        return response()->json($pages);
+    }
 }
