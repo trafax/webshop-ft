@@ -21,6 +21,8 @@ try {
 
     window.Dropzone = require('dropzone');
 
+    window.colorpicker = require('bootstrap-colorpicker');
+
     tinymce.init({
         selector: '.inline-editor',
         inline: true,

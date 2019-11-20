@@ -23,7 +23,7 @@ $style = isset($block->block_data['height']) ? 'height: '. $block->block_data['h
     @if (Auth::user() && Auth::user()->role == 'admin')
         <div class="block-actions">
             @php $uniq_id = uniqid('_1') @endphp
-            <a href="#" onclick="return edit_block_{{ $uniq_id }}()"><i class="far fa-edit"></i></a>
+            <a href="javascript:;" onclick="return edit_block_{{ $uniq_id }}()"><i class="far fa-edit"></i></a>
             <a href="javascript:;" class="handle"><i class="fas fa-expand-arrows-alt"></i></a>
             <a href="{{ route('admin.block.destroy', $block) }}" onclick="return delete_block_{{ $uniq_id }}()"><i class="far fa-trash-alt"></i></a>
             <script type="text/javascript">

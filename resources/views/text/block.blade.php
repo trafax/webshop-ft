@@ -1,8 +1,12 @@
 <div class="container my-4">
-    <div class="row">
+    <div class="row row-eq-height">
         @for ($i=1; $i<=$block->block_data['cols']; $i++)
+            @php
+                $style = isset($block->block_data['col_'.$i.'_padding']) ? 'padding: '.$block->block_data['col_'.$i.'_padding'].';' : '';
+                $style .= isset($block->block_data['col_'.$i.'_bg_color']) ? 'background-color: '.$block->block_data['col_'.$i.'_bg_color'].';' : '';
+            @endphp
             <div class="col-lg col-md-6 col-sm-12 ">
-                <div class="{{ Auth::user() && Auth::user()->role == 'admin' ? 'border inline-editor' : '' }}" data-locale="{{ config('app.locale') }}" data-col="{{ $i }}" data-action="{{ route('admin.text.save_text', $block) }}">
+                <div class="{{ Auth::user() && Auth::user()->role == 'admin' ? 'border inline-editor' : '' }}" style="{!! $style !!}" data-locale="{{ config('app.locale') }}" data-col="{{ $i }}" data-action="{{ route('admin.text.save_text', $block) }}">
                     {!! isset($content[$i]) ? $content[$i] : '' !!}
                 </div>
             </div>
@@ -11,7 +15,7 @@
     @if (Auth::user() && Auth::user()->role == 'admin')
         <div class="block-actions">
             @php $uniq_id = uniqid('_1') @endphp
-            <a href="#" onclick="return edit_block_{{ $uniq_id }}()"><i class="far fa-edit"></i></a>
+            <a href="javascript:;" onclick="return edit_block_{{ $uniq_id }}()"><i class="far fa-edit"></i></a>
             <a href="javascript:;" class="handle"><i class="fas fa-expand-arrows-alt"></i></a>
             <a href="{{ route('admin.block.destroy', $block) }}" onclick="return delete_block_{{ $uniq_id }}()"><i class="far fa-trash-alt"></i></a>
             <script type="text/javascript">
