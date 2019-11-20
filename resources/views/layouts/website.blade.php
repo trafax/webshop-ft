@@ -97,21 +97,21 @@
         <div class="contact-details py-4">
             <div class="container">
                 <div class="row">
-                    <div class="col d-flex">
+                    <div class="col-md-4 d-flex">
                         <div class="mr-4"><i class="fas fa-phone-square-alt"></i></div>
                         <div>
                             <span class="font-weight-bold">Telefoonnummer</span><br>
                             +316-10694149
                         </div>
                     </div>
-                    <div class="col d-flex">
+                    <div class="col-md-4 d-flex">
                         <div class="mr-4"><i class="fas fa-envelope-square"></i></div>
                         <div>
                             <span class="font-weight-bold">E-mailadres</span><br>
                             info@floratuin.com
                         </div>
                     </div>
-                    <div class="col d-flex">
+                    <div class="col-md-4 d-flex">
                         <div class="mr-4"><i class="fas fa-map-marked-alt"></i></div>
                         <div>
                             <span class="font-weight-bold">Locatie</span><br>
