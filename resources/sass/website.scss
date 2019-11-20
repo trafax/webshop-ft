@@ -14,7 +14,9 @@ html {
 }
 
 body {
-    padding-bottom: 215px;
+    @media (min-width: 768px) {
+        padding-bottom: 215px;
+    }
     min-height: 100vh;
     position: relative;
     font-size: 1rem;
@@ -124,8 +126,10 @@ body {
 }
 
 .footer {
-    position: absolute;
-    bottom: 0;
+    @media (min-width: 768px) {
+        position: absolute;
+        bottom: 0;
+    }
     width: 100%;
     a {
         color: #FFF;
