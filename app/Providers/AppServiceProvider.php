@@ -33,6 +33,6 @@ class AppServiceProvider extends ServiceProvider
         Config::set('app.name', setting('websitename'));
         Config::set('localized-routes.supported-locales', Language::orderBy('sort')->get()->pluck('language_key')->toArray());
 
-        View::share('menu_items', Page::where('parent_id', '0')->orderBy('sort')->get());
+        View::share('menu_items', Page::where(['parent_id' => '0', 'show_in_menu' => 1])->orderBy('sort')->get());
     }
 }

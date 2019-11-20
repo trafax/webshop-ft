@@ -12,6 +12,8 @@
             </ol>
         </nav>
 
+        <hr>
+
         <div class="card-deck">
             @foreach ($categories as $key => $category)
                 <div class="card category mb-4">

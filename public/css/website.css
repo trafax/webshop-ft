@@ -10649,6 +10649,16 @@ a.text-dark:focus {
   }
 }
 
+html {
+  min-height: 100%;
+}
+
+body {
+  padding-bottom: 142px;
+  min-height: 100vh;
+  position: relative;
+}
+
 .header .logo {
   max-width: 250px;
 }
@@ -10741,6 +10751,25 @@ a.text-dark:focus {
 
 .shopping-cart .product .name {
   font-weight: bold;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer a {
+  color: #FFF;
+}
+
+.footer .contact-details {
+  background-color: #99bc3c;
+}
+
+.footer .copyright {
+  background-color: #1e451f;
+  color: #FFF;
 }
 
 .translate-wrapper {

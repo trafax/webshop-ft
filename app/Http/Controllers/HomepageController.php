@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Block;
 use Illuminate\Http\Request;
 
 class HomepageController extends Controller
@@ -14,6 +15,8 @@ class HomepageController extends Controller
             'description' => t('settings', 'seo_description') ? t('settings', 'seo_description') : setting('seo_description')
         ];
 
-        return view('homepage', compact('seo'));
+        $blocks = Block::where('parent_id', 'homepage')->orderBy('sort')->get();
+
+        return view('homepage', compact('seo', 'blocks'));
     }
 }

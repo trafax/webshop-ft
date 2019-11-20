@@ -93,6 +93,49 @@
 
     @yield('content')
 
+    <div class="footer">
+        <div class="contact-details py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col d-flex">
+                        <div> <i class="fas fa-phone-square-alt"></i></div>
+                        <div>
+                            Telefoonnummer<br>
+                            +316-10694149
+                        </div>
+                    </div>
+                    <div class="col d-flex">
+                        <div><i class="fas fa-envelope-square"></i></div>
+                        <div>
+                            E-mailadres<br>
+                            info@floratuin.com
+                        </div>
+                    </div>
+                    <div class="col d-flex">
+                        <div><i class="fas fa-map-marked-alt"></i></div>
+                        <div>
+                            Locatie<br>
+                            Rijksweg 85, 1787 PK Julianadorp
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col d-flex">
+                        <div>&copy; {{ date('Y') }} - <a href="https://vanspelden.nl/">van Spelden IT solutions</a></div>
+                        <div class="ml-auto">
+                            <a href="{{ route('page', 'disclaimer') }}">Disclaimer</a> |
+                            <a href="{{ route('page', 'contact') }}">Contact</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @if (session('modal'))
         <div class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
