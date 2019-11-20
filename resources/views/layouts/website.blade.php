@@ -98,23 +98,23 @@
             <div class="container">
                 <div class="row">
                     <div class="col d-flex">
-                        <div> <i class="fas fa-phone-square-alt"></i></div>
+                        <div class="mr-4"><i class="fas fa-phone-square-alt"></i></div>
                         <div>
-                            Telefoonnummer<br>
+                            <span class="font-weight-bold">Telefoonnummer</span><br>
                             +316-10694149
                         </div>
                     </div>
                     <div class="col d-flex">
-                        <div><i class="fas fa-envelope-square"></i></div>
+                        <div class="mr-4"><i class="fas fa-envelope-square"></i></div>
                         <div>
-                            E-mailadres<br>
+                            <span class="font-weight-bold">E-mailadres</span><br>
                             info@floratuin.com
                         </div>
                     </div>
                     <div class="col d-flex">
-                        <div><i class="fas fa-map-marked-alt"></i></div>
+                        <div class="mr-4"><i class="fas fa-map-marked-alt"></i></div>
                         <div>
-                            Locatie<br>
+                            <span class="font-weight-bold">Locatie</span><br>
                             Rijksweg 85, 1787 PK Julianadorp
                         </div>
                     </div>

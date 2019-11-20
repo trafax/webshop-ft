@@ -10654,9 +10654,10 @@ html {
 }
 
 body {
-  padding-bottom: 142px;
+  padding-bottom: 215px;
   min-height: 100vh;
   position: relative;
+  font-size: 1rem;
 }
 
 .header .logo {
@@ -10765,6 +10766,11 @@ body {
 
 .footer .contact-details {
   background-color: #99bc3c;
+  color: #FFF;
+}
+
+.footer .contact-details i {
+  font-size: 40px;
 }
 
 .footer .copyright {

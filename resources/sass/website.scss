@@ -14,9 +14,10 @@ html {
 }
 
 body {
-    padding-bottom: 142px;
+    padding-bottom: 215px;
     min-height: 100vh;
     position: relative;
+    font-size: 1rem;
 }
 
 .header {
@@ -131,6 +132,10 @@ body {
     }
     .contact-details {
         background-color: #99bc3c;
+        color: #FFF;
+        i {
+            font-size: 40px;
+        }
     }
     .copyright {
         background-color: #1e451f;
