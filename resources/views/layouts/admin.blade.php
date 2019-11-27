@@ -51,6 +51,9 @@
                                 <a class="dropdown-item" href="{{ route('admin.shipping.index') }}">Verzendkosten</a>
                             </div>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.form.index') }}">Formulieren</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             Instellingen <span class="caret"></span>

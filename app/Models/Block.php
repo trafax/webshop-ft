@@ -28,6 +28,6 @@ class Block extends Model
     {
         return $this->hasOne('App\Models\Asset', 'parent_id', 'id')->withDefault(function() {
             return new Asset();
-        });;
+        });
     }
 }

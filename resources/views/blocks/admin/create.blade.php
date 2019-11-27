@@ -48,6 +48,27 @@
                         </div>
                     </div>
                 </div>
+                <div class="card-deck mt-1">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Formulier</h5>
+                            <form method="post" action="{{ route('admin.block.store') }}">
+                                @csrf
+                                <p class="card-text">Dit blok toont het geselecteerde formulier.</p>
+                                <div class="d-inline float-left mr-2">
+                                    <select name="block_data[form_id]" class="form-control">
+                                        @foreach (\App\Models\Form::all() as $form)
+                                            <option value="{{ $form->id }}">{{ $form->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <input type="hidden" name="parent_id" value="{{ $request->get('parent_id') }}">
+                                <input type="hidden" name="type" value="form">
+                                <button class="btn btn-primary" type="submit">Plaats blok</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluit</button>

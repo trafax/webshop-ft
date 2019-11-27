@@ -65,6 +65,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('order/{order}/destroy', 'OrderController@destroy')->name('order.destroy');
     Route::get('order/{order}/download_invoice', 'OrderController@download_invoice')->name('order.download_invoice');
 
+    Route::resource('form', 'FormController');
+    Route::get('form/{form}/destroy', 'FormController@destroy')->name('form.destroy');
+
+    Route::resource('form_field', 'FormFieldController');
+    Route::get('form_field/{form_field}/destroy', 'FormFieldController@destroy')->name('form_field.destroy');
+    Route::post('form_field/sort', 'FormFieldController@sort')->name('form_field.sort');
+
+    Route::resource('form_value', 'FormValueController');
+    Route::get('form_value/{form_value}/destroy', 'FormValueController@destroy')->name('form_value.destroy');
+    Route::post('form_value/sort', 'FormValueController@sort')->name('form_value.sort');
+
     Route::resource('block', 'BlockController');
     Route::post('block/sort', 'BlockController@sort')->name('block.sort');
     Route::get('block/{block}/destroy', 'BlockController@destroy')->name('block.destroy');
@@ -79,9 +90,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 Route::localized(function () {
     Route::get('/', 'HomepageController@index')->name('homepage');
-    //Route::get('{language?}', 'HomepageController@index')->where('language', '[a-z]{2}');
 
     Route::get('language/set/{language}', 'LanguageController@set_language')->name('language.set');
+
+    Route::post('form/send/{form}', 'FormController@send')->name('form.send');
 
     Route::get('webshop', 'WebshopController@index')->name('webshop');
     Route::get('category/{slug}/{any?}', 'CategoryController@index')->name('category')->where('any', '.*');
