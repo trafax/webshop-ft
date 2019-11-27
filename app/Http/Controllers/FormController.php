@@ -14,7 +14,7 @@ class FormController extends Controller
     {
         $form = Form::find($block->block_data['form_id']);
 
-        return view('form.form', compact('form'));
+        return view('form.block', compact('form', 'block'));
     }
 
     public function send(Request $request, Form $form)
@@ -22,6 +22,7 @@ class FormController extends Controller
         $request->request->remove('_token');
 
         $validationRules = [];
+        $send_to_subscriber = NULL;
 
         foreach ($form->fields as $field)
         {
@@ -36,6 +37,11 @@ class FormController extends Controller
                     $validationRules = array_merge($validationRules, [t($field, 'title') => 'required']);
                 }
             }
+
+            if ($field->type == 'email')
+            {
+                $send_to_subscriber = $request->get(t($field, 'title'));
+            }
         }
 
         if ($validationRules)
@@ -43,7 +49,10 @@ class FormController extends Controller
             $request->validate($validationRules);
         }
 
-        Mail::to('info@vanspelden.nl')->send(new AppForm($form));
+        $email = Mail::to($form->send_to_email);
+        $email->cc($send_to_subscriber);
+        $email->send(new AppForm($form, $request));
 
+        return redirect()->back()->with('message', t($form, 'text_website'));
     }
 }

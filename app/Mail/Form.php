@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\Form as AppForm;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Http\Request;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -19,9 +20,10 @@ class Form extends Mailable
      *
      * @return void
      */
-    public function __construct(AppForm $form)
+    public function __construct(AppForm $form, Request $request)
     {
         $this->form = $form;
+        $this->request = $request;
     }
 
     /**
@@ -31,6 +33,9 @@ class Form extends Mailable
      */
     public function build()
     {
-        return $this->view('form.email.form')->subject(t($this->form, 'title'))->from('noreply@floratuin.com');
+        return $this->view('form.email.form')->with([
+            'form' => $this->form,
+            'request' => $this->request
+        ])->subject(t($this->form, 'title'))->from('noreply@floratuin.com');
     }
 }

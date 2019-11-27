@@ -67,6 +67,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     Route::resource('form', 'FormController');
     Route::get('form/{form}/destroy', 'FormController@destroy')->name('form.destroy');
+    Route::get('form/{block}/block_edit', 'FormController@block_edit')->name('form.block.edit');
+    Route::put('form/{block}/block_update', 'FormController@block_update')->name('form.block.update');
 
     Route::resource('form_field', 'FormFieldController');
     Route::get('form_field/{form_field}/destroy', 'FormFieldController@destroy')->name('form_field.destroy');

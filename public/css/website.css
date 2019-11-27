@@ -10336,3 +10336,9 @@ a {
   cursor: pointer;
   text-align: center;
 }
+
+@media (max-width: 1198px) {
+  .page-blocks iframe {
+    width: 100%;
+  }
+}

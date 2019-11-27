@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Block;
 use App\Models\Form;
 use Illuminate\Http\Request;
 
@@ -47,5 +48,18 @@ class FormController extends Controller
         $form->delete();
 
         return redirect()->route('admin.form.index')->with('message', 'Formulier succesvol verwijderd.');
+    }
+
+    public function block_edit(Block $block)
+    {
+        return view('form.admin.edit_block', compact('block'));
+    }
+
+    public function block_update(Block $block, Request $request)
+    {
+        $block->fill($request->all());
+        $block->save();
+
+        return redirect()->back();
     }
 }

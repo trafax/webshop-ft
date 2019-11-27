@@ -196,3 +196,12 @@ a {
     cursor: pointer;
     text-align: center;
 }
+
+.page-blocks {
+    iframe {
+        @media (max-width: 1198px)
+        {
+            width: 100%;
+        }
+    }
+}
