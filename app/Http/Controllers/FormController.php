@@ -50,7 +50,10 @@ class FormController extends Controller
         }
 
         $email = Mail::to($form->send_to_email);
-        $email->cc($send_to_subscriber);
+        if ($send_to_subscriber)
+        {
+            $email->cc($send_to_subscriber);
+        }
         $email->send(new AppForm($form, $request));
 
         return redirect()->back()->with('message', t($form, 'text_website'));
