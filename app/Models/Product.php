@@ -54,4 +54,9 @@ class Product extends Model
     {
         return $this->hasMany('App\Models\Asset', 'parent_id', 'id')->orderBy('sort');
     }
+
+    public function ordered()
+    {
+        return $this->hasMany('App\Models\OrderRule', 'product_id', 'id')->selectRaw('*, sum(qty) as sum')->groupBy('options');
+    }
 }

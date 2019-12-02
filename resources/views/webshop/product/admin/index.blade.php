@@ -24,6 +24,7 @@
                             <th scope="col" class="border-top-0">Productnaam</th>
                             <th scope="col" class="border-top-0">Link</th>
                             <th scope="col" class="border-top-0">Prijs</th>
+                            <th scope="col" class="border-top-0"></th>
                             <th scope="col" class="border-top-0">Acties</th>
                             </tr>
                         </thead>
@@ -33,6 +34,11 @@
                                     <td><a href="{{ route('admin.product.edit', $product) }}">{{ $product->title }}</a></td>
                                     <td class="small">product/{{ $product->slug }}</td>
                                     <td>&euro; {{ $product->price }}</td>
+                                    <td class="small">
+                                        @foreach ($product->ordered as $rule)
+                                            {{ $rule->sum }}x {{ $rule->options['Hoeveelheid'] }}<br>
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <a href="{{ route('admin.product.destroy', $product) }}" onclick="return confirm('Product verwijderen?')">verwijder</a>
                                     </td>
