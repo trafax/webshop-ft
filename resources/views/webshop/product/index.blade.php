@@ -64,39 +64,45 @@
                         <span class="price">&euro; {{ price($product->price) }}</span>
                     </div>
 
-                    @foreach ($variations as $key => $variation)
-                        @php $rows = $product->variations->where('title', $variation->title); @endphp
-                        @if ($rows->count() > 0)
-                            <div class="form-group">
-                                <label>{{ t($variation, 'title') }}</label>
-                                <select class="form-control option_select" name="options[{{ $variation->slug }}]">
-                                @foreach ($rows as $row)
-                                    @php
-                                        $data_attr = '';
-                                        $price = '';
-                                        if ($row->pivot->fixed_price > 0)
-                                        {
-                                            $data_attr = 'data-fixed_price="'. $row->pivot->fixed_price .'"';
-                                            $price = '(&euro; '.price($row->pivot->fixed_price).')';
-                                        }
-                                        else if ($row->pivot->adding_price > 0)
-                                        {
-                                            $data_attr = 'data-adding_price="'. $row->pivot->adding_price .'"';
-                                            $price = '+ (&euro; '.$row->pivot->adding_price.')';
-                                        }
-                                    @endphp
-                                    <option value="{{ $row->pivot->slug }}" {!! $data_attr !!}>{{ $row->pivot->title }} {!! $price !!}</option>
-                                @endforeach
-                                </select>
-                            </div>
-                        @endif
-                    @endforeach
+                    @if ($product->sold_out == 0)
+                        @foreach ($variations as $key => $variation)
+                            @php $rows = $product->variations->where('title', $variation->title); @endphp
+                            @if ($rows->count() > 0)
+                                <div class="form-group">
+                                    <label>{{ t($variation, 'title') }}</label>
+                                    <select class="form-control option_select" name="options[{{ $variation->slug }}]">
+                                    @foreach ($rows as $row)
+                                        @php
+                                            $data_attr = '';
+                                            $price = '';
+                                            if ($row->pivot->fixed_price > 0)
+                                            {
+                                                $data_attr = 'data-fixed_price="'. $row->pivot->fixed_price .'"';
+                                                $price = '(&euro; '.price($row->pivot->fixed_price).')';
+                                            }
+                                            else if ($row->pivot->adding_price > 0)
+                                            {
+                                                $data_attr = 'data-adding_price="'. $row->pivot->adding_price .'"';
+                                                $price = '+ (&euro; '.$row->pivot->adding_price.')';
+                                            }
+                                        @endphp
+                                        <option value="{{ $row->pivot->slug }}" {!! $data_attr !!}>{{ $row->pivot->title }} {!! $price !!}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            @endif
+                        @endforeach
 
-                    <div class="form-group">
-                        <label>{!! it('webshop-product-qty', 'Aantal') !!}</label>
-                        <input type="text" name="qty" value="1" class="form-control col-md-3">
-                    </div>
-                    <button type="submit" class="btn btn-green">{!! it('webshop-product-add-to-cart', 'Plaats in winkelwagen') !!}</button>
+                        <div class="form-group">
+                            <label>{!! it('webshop-product-qty', 'Aantal') !!}</label>
+                            <input type="text" name="qty" value="1" class="form-control col-md-3">
+                        </div>
+                        <button type="submit" class="btn btn-green">{!! it('webshop-product-add-to-cart', 'Plaats in winkelwagen') !!}</button>
+                    @else
+
+                        <span class="text-warning">{!! it('product-status-sold-out', 'Helaas, het artikel is uitverkocht.') !!}</span>
+
+                    @endif
                 </form>
             </div>
         </div>

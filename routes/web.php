@@ -64,6 +64,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('order/{order}/show', 'OrderController@show')->name('order.show');
     Route::get('order/{order}/destroy', 'OrderController@destroy')->name('order.destroy');
     Route::get('order/{order}/download_invoice', 'OrderController@download_invoice')->name('order.download_invoice');
+    Route::put('order/{order}/update', 'OrderController@update')->name('order.update');
 
     Route::resource('form', 'FormController');
     Route::get('form/{form}/destroy', 'FormController@destroy')->name('form.destroy');

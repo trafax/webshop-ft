@@ -13,6 +13,25 @@
                 </ol>
             </nav>
 
+            <div class="card mb-4">
+                <div class="card-header">
+                    Status bestelling
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{{ route('admin.order.update', $order) }}">
+                        @csrf
+                        @method('PUT')
+                        <select name="order_status" class="form-control col-3">
+                            <option value="">Selecteer een status</option>
+                            <option value="Is betaald" {{ $order->order_status == 'Is betaald' ? 'selected' : '' }}>Is betaald</option>
+                            <option value="In behandeling" {{ $order->order_status == 'In behandeling' ? 'selected' : '' }}>In behandeling</option>
+                            <option value="Verzonden en voltooid" {{ $order->order_status == 'Verzonden en voltooid' ? 'selected' : '' }}>Verzonden en voltooid</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary mt-2">Opslaan</button>
+                    </form>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <span>Bestelling {{ $order->nr }}</span>

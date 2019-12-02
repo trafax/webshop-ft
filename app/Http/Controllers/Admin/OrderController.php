@@ -34,4 +34,12 @@ class OrderController extends Controller
         $pdf = PDF::loadHTML($data->build()->html);
         return $pdf->download('Factuur '. $order->nr . '.pdf');
     }
+
+    public function update(Request $request, Order $order)
+    {
+        $order->order_status = $request->get('order_status');
+        $order->save();
+
+        return redirect()->route('admin.order.index')->with('message', 'Status succesvol aangepast.');
+    }
 }

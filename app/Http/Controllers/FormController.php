@@ -19,7 +19,7 @@ class FormController extends Controller
 
     public function send(Request $request, Form $form)
     {
-        $request->request->remove('_token');
+        $request->request->remove(['_token', 'submit']);
 
         $validationRules = [];
         $send_to_subscriber = NULL;

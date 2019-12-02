@@ -10173,7 +10173,7 @@ html {
 body {
   min-height: 100vh;
   position: relative;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 @media (min-width: 768px) {
   body {
@@ -10341,4 +10341,17 @@ a {
   .page-blocks iframe {
     width: 100%;
   }
+}
+
+.sold-out {
+  position: absolute;
+  top: 35%;
+  width: 100%;
+  transform: translateY(-35%);
+  padding: 10px;
+  text-align: center;
+  color: #FFF;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: rgba(255, 0, 0, 0.5);
 }

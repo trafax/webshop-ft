@@ -26,6 +26,7 @@
                                 <th scope="col" class="border-top-0">Datum</th>
                                 <th scope="col" class="border-top-0">Landcode</th>
                                 <th scope="col" class="border-top-0">Prijs</th>
+                                <th scope="col" class="border-top-0">Betaling</th>
                                 <th scope="col" class="border-top-0">Status</th>
                                 <th scope="col" class="border-top-0"></th>
                             </tr>
@@ -38,6 +39,7 @@
                                     <td>{{ strtoupper($order->customer->country) }}</td>
                                     <td>€ {{ price($order->total) }}</td>
                                     <td>{{ $order->status }}</td>
+                                    <td>{{ $order->order_status ? $order->order_status : ' - ' }}</td>
                                     <td class="text-right">
                                         @if ($order->status == 'paid')
                                             <a href="{{ route('admin.order.download_invoice', $order) }}">download</a> |

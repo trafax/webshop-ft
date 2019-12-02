@@ -14,7 +14,7 @@ class Order extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'nr', 'sub_total', 'tax', 'shipping', 'total', 'payment_method', 'status', 'comment'
+        'nr', 'sub_total', 'tax', 'shipping', 'total', 'payment_method', 'status', 'order_status', 'comment'
     ];
 
     public function user()
@@ -24,7 +24,7 @@ class Order extends Model
 
     public function rules()
     {
-        return $this->hasMany('App\Models\OrderRule', 'order_id', 'id');
+        return $this->hasMany('App\Models\OrderRule', 'order_id', 'id')->orderBy('sku');
     }
 
     public function customer()

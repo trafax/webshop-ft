@@ -80,6 +80,9 @@
                     <div class="card-deck products">
                         @foreach ($products as $key => $product)
                         <div class="card product mb-4">
+                            @if ($product->sold_out == 1)
+                                <div class="sold-out">{!! it('product-sold-out', 'Uitverkocht') !!}</div>
+                            @endif
                             @if ($product->assets()->get()->first())
                                 <div class="image" style="background-image: url('/storage/{{ $product->assets()->get()->first()->file }}')"></div>
                             @endif

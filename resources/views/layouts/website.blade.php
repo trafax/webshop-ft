@@ -128,6 +128,7 @@
                         <div>&copy; {{ date('Y') }} - <a href="https://vanspelden.nl/">van Spelden IT solutions</a></div>
                         <div class="ml-auto">
                             <a href="{{ route('page', 'disclaimer') }}">Disclaimer</a> |
+                            <a href="{{ route('page', 'privacy-verklaring') }}">Privacy verklaring</a> |
                             <a href="{{ route('page', 'contact') }}">Contact</a>
                         </div>
                     </div>

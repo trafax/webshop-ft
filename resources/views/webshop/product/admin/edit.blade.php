@@ -61,6 +61,13 @@
                                             <label>Link <small>optioneel</small></label>
                                             <input type="text" name="slug" value="{{ $product->slug }}" class="form-control">
                                         </div>
+                                        <div class="form-group">
+                                            <label>Uitverkocht</label>
+                                            <select name="sold_out" class="form-control">
+                                                <option value="0">Nee</option>
+                                                <option value="1" {{ $product->sold_out ? 'selected' : '' }}>Ja</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 
