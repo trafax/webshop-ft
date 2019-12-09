@@ -45,6 +45,13 @@
                                         <label class="ml-1"><input type="radio" name="hide"> Nee</label>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label>Sorteer op</label>
+                                    <select name="sort_by" class="form-control col-2">
+                                        <option value="title">Titel</option>
+                                        <option value="price">Prijs</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div>

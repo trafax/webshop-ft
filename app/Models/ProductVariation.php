@@ -9,8 +9,10 @@ class ProductVariation extends Model
 {
     public $table = 'product_variation';
 
+    public $timestamps = false;
+
     public $fillable = [
-        'product_id', 'variation_id', 'title', 'slug'
+        'product_id', 'variation_id', 'title', 'slug', 'fixed_price', 'adding_price', 'sort'
     ];
 
     public function scopeSlugs($query, $slugs)

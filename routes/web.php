@@ -94,6 +94,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 Route::localized(function () {
     Route::get('/', 'HomepageController@index')->name('homepage');
 
+    Route::get('import', 'ImportController@index');
+
     Route::get('language/set/{language}', 'LanguageController@set_language')->name('language.set');
 
     Route::post('form/send/{form}', 'FormController@send')->name('form.send');

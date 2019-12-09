@@ -21,6 +21,7 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
+                            <th scope="col" class="border-top-0">SKU</th>
                             <th scope="col" class="border-top-0">Productnaam</th>
                             <th scope="col" class="border-top-0">Link</th>
                             <th scope="col" class="border-top-0">Prijs</th>
@@ -31,6 +32,7 @@
                         <tbody>
                             @foreach ($products as $product)
                                 <tr>
+                                    <td>{{ $product->sku }}</td>
                                     <td><a href="{{ route('admin.product.edit', $product) }}">{{ $product->title }}</a></td>
                                     <td class="small">product/{{ $product->slug }}</td>
                                     <td>&euro; {{ $product->price }}</td>

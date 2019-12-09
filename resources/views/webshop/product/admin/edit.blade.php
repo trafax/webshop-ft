@@ -44,8 +44,13 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Tekst</label>
-                                            <textarea name="description" class="form-control editor" rows="8">{{ $product->description }}</textarea>
+                                            <textarea name="description" class="form-control editor" rows="12">{{ $product->description }}</textarea>
                                             @include('language.admin.partials.translate', ['field' => 'description', 'parent_id' => $product->id, 'editor' => true])
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Specificaties</label>
+                                            <textarea name="specs" class="form-control editor" rows="8">{{ $product->specs }}</textarea>
+                                            @include('language.admin.partials.translate', ['field' => 'specs', 'parent_id' => $product->id, 'editor' => true])
                                         </div>
                                     </div>
                                     <div class="col-md-4">

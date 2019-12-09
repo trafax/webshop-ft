@@ -52,6 +52,8 @@
                         @endforeach
                     </div>
                 @endif
+
+                <div class="description">{!! t($product, 'description') !!}</div>
             </div>
             <div class="col-md-6">
                 <form method="post" action="{{ route('cart.store', $product) }}">
@@ -59,7 +61,7 @@
                     @if ($product->sku)
                         <div class="description mb-2 font-weight-bold">{!! it('webshop-product-sku', 'Artikelnummer') !!}: {{ $product->sku }}</div>
                     @endif
-                    <div class="description">{!! nl2br(t($product, 'description')) !!}</div>
+                    <div class="specs">{!! t($product, 'specs') !!}</div>
                     <div class="mt-2 mb-2 default_price" data-default_price="{{ $product->price }}">
                         <span class="price">&euro; {{ price($product->price) }}</span>
                     </div>

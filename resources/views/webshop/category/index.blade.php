@@ -63,7 +63,7 @@
                 @if ($category->children->isNotEmpty() == true)
                     <ul class="list-group list-group-horizontal">
                         @foreach ($category->children as $item)
-                            <li class="list-group-item"><a href="{{ route('category', $item->slug) }}">{{ t($item, 'title') }}</a></li>
+                            <li class="list-group-item"><a href="{{ route('category', $item->slug) }}">{!! t($item, 'title') !!}</a></li>
                         @endforeach
                     </ul>
                     <hr class="mb-4">
@@ -91,7 +91,7 @@
                                 <a href="{{ route('product', $product->slug) }}" class="stretched-link"></a>
                             </div>
                         </div>
-                        {!! ($key+1) == 3 ? '</div><div class="card-deck products">' : '' !!}
+                        {!! ($key+1) % 3 == 0 ? '</div><div class="card-deck products">' : '' !!}
                         @endforeach
                     </div>
                 @endif

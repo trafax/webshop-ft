@@ -50,6 +50,13 @@
                                         <label class="ml-1"><input type="radio" name="hide" value="1" {{ $variation->hide == 1 ? 'checked' : '' }}> Nee</label>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label>Sorteer op</label>
+                                    <select name="sort_by" class="form-control col-2">
+                                        <option value="title" {{ $variation->sort_by == 'title' ? 'selected' : '' }}>Titel</option>
+                                        <option value="price" {{ $variation->sort_by == 'price' ? 'selected' : '' }}>Prijs</option>
+                                    </select>
+                                </div>
                             </div>
                             {{-- <div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="nav-home-tab">
 

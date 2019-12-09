@@ -19,7 +19,7 @@ class Product extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'sku', 'title', 'description', 'price', 'seo', 'slug', 'image', 'sold_out'
+        'sku', 'title', 'description', 'price', 'seo', 'slug', 'image', 'sold_out', 'old_id', 'visible', 'specs'
     ];
 
     public $casts =[
