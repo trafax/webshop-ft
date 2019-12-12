@@ -19,11 +19,11 @@ class ImportController extends Controller
     {
         self::import_categories();
 
-        self::import_products();
+        //self::import_products();
 
-        self::import_variations();
+        //self::import_variations();
 
-        self::import_images();
+        //self::import_images();
     }
 
     public function import_categories()
@@ -65,7 +65,7 @@ class ImportController extends Controller
 
                     $filename =  basename($url);
                     //$img->save(storage_path("app\public\assets\\") . $filename);
-                    $img->save(public_path("\photos\categorieen\\") . $filename);
+                    $img->save(public_path("/photos/categorieen/") . $filename);
 
                     $data = array_merge(['parent_id' => $categoryNew->id], ['file' => 'assets/'. $filename]);
 
@@ -217,7 +217,7 @@ class ImportController extends Controller
                 $img = Image::make($url);
 
                 $filename =  basename($url);
-                $img->save(storage_path("app\public\assets\\") . $filename);
+                $img->save(storage_path("app/public/assets/") . $filename);
 
                 $data = array_merge(['parent_id' => $product->id], ['file' => 'assets/'. $filename]);
 
