@@ -38,7 +38,7 @@
                                     <td>&euro; {{ $product->price }}</td>
                                     <td class="small">
                                         @foreach ($product->ordered as $rule)
-                                            {{ $rule->sum }}x {{ $rule->options['Hoeveelheid'] }}<br>
+                                            {{ $rule->sum }}x {{ @$rule->options['Hoeveelheid'] }} {{ @$rule->options['Quantity'] }}<br>
                                         @endforeach
                                     </td>
                                     <td>
