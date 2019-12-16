@@ -18,14 +18,29 @@
                         <div class="form-group">
                             <label>{!! it('sign-up-email', 'E-mailadres') !!}</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required>
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label>{!! it('sign-up-password', 'Wachtwoord') !!}</label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label>{!! it('sign-up-confirm-password', 'Bevestig wachtwoord') !!}</label>
                             <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                            @error('password_confirmation')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">

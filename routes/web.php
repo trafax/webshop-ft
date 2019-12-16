@@ -13,8 +13,6 @@
 
 use Illuminate\Support\Facades\Lang;
 
-Auth::routes();
-
 Route::get('admin', 'Auth\LoginController@showLoginForm');
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'auth:admin'], function () {
 
@@ -92,6 +90,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 });
 
 Route::localized(function () {
+
+    Auth::routes();
+
     Route::get('/', 'HomepageController@index')->name('homepage');
 
     Route::get('import', 'ImportController@index');
