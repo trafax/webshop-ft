@@ -17,6 +17,15 @@
     <link href="{{ mix('css/website.css') }}" rel="stylesheet">
 </head>
 <body>
+
+    @section('popup')
+        @if (setting('show_popup'))
+            <div class="website-popup" style="{!! setting('popup-bg') ? 'background-color: ' . setting('popup-bg') : '' !!}">
+                {!! setting('popup_content') !!}
+            </div>
+        @endif
+    @show
+
     <div class="header border-bottom">
 
         <div class="container">

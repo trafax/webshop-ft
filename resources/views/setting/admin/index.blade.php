@@ -20,6 +20,7 @@
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="nav-home" aria-selected="true">Basis</a>
+                                    <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#popup" role="tab" aria-controls="nav-home" aria-selected="true">Popup</a>
                                     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#webshop" role="tab" aria-controls="nav-profile" aria-selected="false">Webwinkel</a>
                                     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#translations" role="tab" aria-controls="nav-profile" aria-selected="false">Vertalingen</a>
                                     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#google" role="tab" aria-controls="nav-profile" aria-selected="false">Google</a>
@@ -39,6 +40,28 @@
                                                 <input type="text" name="company_address" class="form-control" value="{{ setting('company_address') }}">
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="popup" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                    <div class="form-group">
+                                        <label>Toon popup</label>
+                                        <select name="show_popup" class="form-control col-md-3">
+                                            <option value="">Nee</option>
+                                            <option value="1" {{ setting('show_popup') == 1 ? 'selected' : '' }}>Ja</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Achtergrondkleur popup</label>
+                                        <input type="text" name="popup-bg" class="form-control popup-bg" value="{{ setting('popup-bg') }}">
+                                        <script type="text/javascript">
+                                            $('.popup-bg').colorpicker({
+                                                format: "rgb"
+                                            });
+                                        </script>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tekst voor in de popup</label>
+                                        <textarea class="editor" name="popup_content">{!! setting('popup_content') !!}</textarea>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="webshop" role="tabpanel" aria-labelledby="nav-profile-tab">

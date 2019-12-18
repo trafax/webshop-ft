@@ -218,3 +218,12 @@ a {
     text-transform: uppercase;
     background: rgba($color: red, $alpha: 0.5);
 }
+
+.website-popup {
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    p {
+        margin: 0;
+    }
+}

@@ -18,6 +18,8 @@ try {
 
     window.Dropzone = require('dropzone');
 
+    window.colorpicker = require('bootstrap-colorpicker');
+
     tinymce.init({
         selector: '.editor',
         //inline: true,
