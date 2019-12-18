@@ -75,7 +75,8 @@
             <td>
                 <strong>{{ $rule->sku }} : {{ $rule->title }}</strong>
                 @foreach ($rule->options as $option => $value)
-                    <br><small>{{ $option }}: {{ $value }}</small>
+                    @php $variation = \App\Models\Variation::find($option) @endphp
+                    <br><small>{{ t($variation, 'title') }}: {{ $value }}</small>
                 @endforeach
             </td>
             <td>{{ $rule->qty }}x</td>

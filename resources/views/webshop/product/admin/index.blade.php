@@ -38,7 +38,9 @@
                                     <td>&euro; {{ $product->price }}</td>
                                     <td class="small">
                                         @foreach ($product->ordered as $rule)
-                                            {{ $rule->sum }}x {{ @$rule->options['Hoeveelheid'] }} {{ @$rule->options['Quantity'] }}<br>
+                                            @foreach (\App\Models\Variation::where('selectable', 1)->get() as $variation)
+                                                {{ $rule->sum }}x {{ @$rule->options[$variation->id] }}<br>
+                                            @endforeach
                                         @endforeach
                                     </td>
                                     <td>
