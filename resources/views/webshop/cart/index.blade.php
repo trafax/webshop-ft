@@ -38,7 +38,8 @@
                                             <span class="d-block small">{!! it('webshop-product-sku', 'Artikelnummer') !!}: {{ $item->id->sku }}</span>
                                         @endif
                                         @foreach ($item->options as $option => $value)
-                                            <span class="d-block small">{{ $option }}: {{ $value }}</span>
+                                            @php $variation = \App\Models\Variation::find($option) @endphp
+                                            <span class="d-block small">{{ @t($variation, 'title') }}: {{ $value }}</span>
                                         @endforeach
                                     </div>
                                 </div>
@@ -78,7 +79,7 @@
                         <td colspan="4">
                             <div class="d-flex">
                                 <a href="{{ route('webshop') }}" class="btn btn-light">{!! it('cart-continue-shopping', 'Verder winkelen') !!}</a>
-                                @if (App\Libraries\Cart::total() >= setting('minimum_order_taking'))
+                                @if (round(App\Libraries\Cart::total()) >= setting('minimum_order_taking'))
                                     <a href="{{ route('checkout') }}" class="btn btn-green ml-auto">{!! it('cart-to-pay', 'Afrekenen') !!}</a>
                                 @else
                                     <p class="ml-auto text-warning">{!! it('cart-minimum', 'Minimaal order afname €') !!} {{ price(setting('minimum_order_taking')) }}</p>

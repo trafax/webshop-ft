@@ -14,7 +14,7 @@ class OrderRule extends Model
     public $timestamps = false;
 
     public $fillable = [
-        'order_id', 'product_id', 'sku', 'title', 'qty', 'price', 'options'
+        'order_id', 'product_id', 'sku', 'title', 'qty', 'price', 'options', 'option_ids'
     ];
 
     public $casts = [

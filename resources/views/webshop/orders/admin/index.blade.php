@@ -44,6 +44,7 @@
                                         @if ($order->status == 'paid')
                                             <a href="{{ route('admin.order.download_invoice', $order) }}">download</a> |
                                         @endif
+                                        <a href="{{ route('admin.order.show', $order) }}">bekijk</a> |
                                         <a href="{{ route('admin.order.destroy', $order) }}" onclick="return confirm('Bestelling verwijderen?')">verwijder</a>
                                     </td>
                                 </tr>
