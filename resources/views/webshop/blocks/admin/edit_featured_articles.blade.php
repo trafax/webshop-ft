@@ -22,13 +22,15 @@
                                 <label>Titel blok</label>
                                 <input type="text" name="block_data[title]" class="form-control" required value="{{ @$block->block_data['title'] }}">
                             </div>
-                            <div class="form-group">
-                                <label>Sorteren producten</label>
-                                <select name="block_data[sort_by]" class="form-control">
-                                    <option value="rand">Sorteer willekeurig</option>
-                                    <option value="title" {{ @$block->block_data['sort_by'] == 'title' ? 'selected' : '' }}>Sorteer alfabetisch</option>
-                                </select>
-                            </div>
+                            @if (in_array($block->type, ['featured_articles']))
+                                <div class="form-group">
+                                    <label>Sorteren producten</label>
+                                    <select name="block_data[sort_by]" class="form-control">
+                                        <option value="rand">Sorteer willekeurig</option>
+                                        <option value="title" {{ @$block->block_data['sort_by'] == 'title' ? 'selected' : '' }}>Sorteer alfabetisch</option>
+                                    </select>
+                                </div>
+                            @endif
                             <div class="form-group">
                                 <label>Toon aantal artikelen</label>
                                 <input type="number" name="block_data[total_products]" value="{{ @$block->block_data['total_products'] }}" class="form-control">
