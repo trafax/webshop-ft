@@ -10364,3 +10364,6 @@ a {
 .website-popup p {
   margin: 0;
 }
+.website-popup a:hover {
+  color: #FFF;
+}
