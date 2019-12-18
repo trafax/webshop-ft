@@ -87,6 +87,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     Route::get('parallax/{block}/edit', 'ParallaxController@edit')->name('parallax.edit');
     Route::put('parallax/{block}/update', 'ParallaxController@update')->name('parallax.update');
+
+    Route::get('featured_articles/{block}/edit', 'Featured_articlesController@edit')->name('featured.edit');
+    Route::put('featured_articles/{block}/update', 'Featured_articlesController@update')->name('featured.update');
 });
 
 Route::localized(function () {

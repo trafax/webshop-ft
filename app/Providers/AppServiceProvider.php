@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Language;
 use App\Models\Page;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -29,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        Artisan::call('migrate');
 
         Config::set('app.name', setting('websitename'));
         Config::set('localized-routes.supported-locales', Language::orderBy('sort')->get()->pluck('language_key')->toArray());

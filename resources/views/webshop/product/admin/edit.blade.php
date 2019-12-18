@@ -73,6 +73,13 @@
                                                 <option value="1" {{ $product->sold_out ? 'selected' : '' }}>Ja</option>
                                             </select>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Toon product in uitgelicht</label>
+                                            <select name="featured" class="form-control">
+                                                <option value="0">Nee</option>
+                                                <option value="1" {{ $product->featured ? 'selected' : '' }}>Ja</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 

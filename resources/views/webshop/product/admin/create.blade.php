@@ -65,6 +65,13 @@
                                                 <option value="1">Ja</option>
                                             </select>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Toon product in uitgelicht</label>
+                                            <select name="featured" class="form-control">
+                                                <option value="0">Nee</option>
+                                                <option value="1">Ja</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

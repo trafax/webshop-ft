@@ -10181,6 +10181,13 @@ body {
   }
 }
 
+.modal-content {
+  font-size: 0.9rem;
+}
+.modal-content a {
+  color: blue;
+}
+
 h1 {
   color: #f68422;
 }
