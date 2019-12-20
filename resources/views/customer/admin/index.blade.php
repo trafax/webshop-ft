@@ -23,7 +23,7 @@
                             <tr>
                                 <th scope="col" class="border-top-0">Klantnaam</th>
                                 <th scope="col" class="border-top-0">Aantal bestellingen</th>
-                                <th scope="col" class="border-top-0">Totaal besteld <small>(zonder verzendkosten)</small></th>
+                                <th scope="col" class="border-top-0">Totaal betaald <small>(zonder verzendkosten)</small></th>
                                 <th scope="col" class="border-top-0 text-right">Acties</th>
                             </tr>
                         </thead>
