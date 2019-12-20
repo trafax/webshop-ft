@@ -90,6 +90,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     Route::get('featured_articles/{block}/edit', 'Featured_articlesController@edit')->name('featured.edit');
     Route::put('featured_articles/{block}/update', 'Featured_articlesController@update')->name('featured.update');
+
+    Route::post('related_product/insert', 'Related_productController@insert')->name('related_product.insert');
+    Route::get('related_product/delete', 'Related_productController@delete')->name('related_product.delete');
 });
 
 Route::localized(function () {

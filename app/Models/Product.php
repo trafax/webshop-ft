@@ -59,4 +59,9 @@ class Product extends Model
     {
         return $this->hasMany('App\Models\OrderRule', 'product_id', 'id')->selectRaw('*, sum(qty) as sum')->groupBy('options');
     }
+
+    public function related()
+    {
+        return $this->hasMany('App\Models\RelatedProduct', 'id', 'id');
+    }
 }

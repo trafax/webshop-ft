@@ -27,6 +27,7 @@
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#categories" role="tab" aria-controls="nav-profile" aria-selected="false">Categorieën</a>
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#images" role="tab" aria-controls="nav-profile" aria-selected="false">Afbeeldingen</a>
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#variations" role="tab" aria-controls="nav-profile" aria-selected="false">Variaties</a>
+                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#related_products" role="tab" aria-controls="nav-profile" aria-selected="false">Gerelateerde producten</a>
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#google" role="tab" aria-controls="nav-profile" aria-selected="false">Zoekmachine</a>
                             </div>
                         </nav>
@@ -192,6 +193,75 @@
                                         </div>
                                         {!! ($key+1) % 3 == 0 ? '</div><div class="card-group mb-4">' : '' !!}
                                     @endforeach
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="related_products" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+                                <script>
+                                $(function(){
+                                    $.ajaxSetup({
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        }
+                                    });
+                                    $('.add-product').on('click', function(){
+                                        $.ajax({
+                                            data: {id: '{{ $product->id }}', sku: $('[name="search_sku"]').val()},
+                                            url: '{{ route("admin.related_product.insert") }}',
+                                            type: 'POST',
+                                            success: function(response){
+                                                $('#related-products').load('{{ route('admin.product.edit', $product) }} #related');
+                                            },
+                                            error: function() {
+                                                alert('Artikel niet gevonden.');
+                                            },
+                                            dataType: 'json'
+                                        });
+                                    });
+                                    $('.drop-related').on('click', function(){
+
+                                    });
+                                });
+                                function delete_related(object)
+                                {
+                                    var parent_id = $(object).data('parent_id');
+                                    $.ajax({
+                                        data: {'id': '{{ $product->id }}', 'parent_id': parent_id},
+                                        url: '{{ route("admin.related_product.delete") }}',
+                                        type: 'GET',
+                                        success: function(response){
+                                            $('#related-products').load('{{ route('admin.product.edit', $product) }} #related');
+                                        },
+                                        dataType: 'json'
+                                    });
+                                }
+                                </script>
+
+                                <div class="form-group">
+                                    <label>Voeg gerelateerde product toe via SKU nummer</label>
+                                    <div class="input-group">
+                                        <input type="text" name="search_sku" placeholder="SKU nr." class="form-control">
+                                        <div class="input-group-append">
+                                            <a href="javascript:;" class="btn btn-primary add-product">Voeg product toe</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 class="h4 mt-4">Gekoppelde producten</h3>
+                                <div id="related-products">
+                                    <div id="related">
+                                        <div class="card-deck">
+                                            @foreach ($product->related as $key => $related)
+                                                <div class="card col-md-3">
+                                                    <div class="pt-2">
+                                                        <a href="{{ route('admin.product.edit', $related->product) }}">{{ $related->product->title }}</a><br>
+                                                        {{ $related->product->sku }}
+                                                    </div>
+                                                    <div class="text-right"><a href="javascript:;" onclick="return delete_related($(this))" data-parent_id="{{ $related->parent_id }}">verwijder</a></div>
+                                                </div>
+                                                {!! $loop->iteration % 3 == 0 && $key != 0 ? '</div><div class="card-deck mt-4">' : '' !!}
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="google" role="tabpanel" aria-labelledby="nav-profile-tab">
