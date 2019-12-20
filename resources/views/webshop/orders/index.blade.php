@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-md-9">
                         <ul class="list-group">
-                            @foreach ($orders as $order)
+                            @forelse ($orders as $order)
                                 <li class="list-group-item">
                                     <div class="row">
                                         <div class="col-md-1">{{ $order->nr }}</div>
@@ -33,7 +33,9 @@
                                         <div class="col text-right"><a href="{{ route('order.show', $order) }}">{!! it('show_order', 'Bekijk bestelling') !!}</a></div>
                                     </div>
                                 </li>
-                            @endforeach
+                            @empty
+                                <p>{!! it('no-orders-found', 'Er zijn nog geen bestelling bekend in ons systeem.') !!}</p>
+                            @endforelse
                         </ul>
                     </div>
                 </div>

@@ -46,6 +46,7 @@
                                 <a class="dropdown-item" href="{{ route('admin.category.index') }}">Categorieën</a>
                                 <a class="dropdown-item" href="{{ route('admin.product.index') }}">Producten</a>
                                 <a class="dropdown-item" href="{{ route('admin.order.index') }}">Bestellingen</a>
+                                <a class="dropdown-item" href="{{ route('admin.customer.index') }}">Klanten</a>
                                 <a class="dropdown-item" href="{{ route('admin.variation.index') }}">Variaties</a>
                                 <a class="dropdown-item" href="{{ route('admin.country.index') }}">Landen</a>
                                 <a class="dropdown-item" href="{{ route('admin.shipping.index') }}">Verzendkosten</a>

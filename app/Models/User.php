@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Uuids;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -22,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'firstname', 'preposition', 'lastname', 'email', 'password',
     ];
 
     /**
@@ -48,5 +49,15 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Customer', 'user_id', 'id')->withDefault(function() {
             return new Customer();
         });
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Models\OrderCustomer', 'user_id', 'id');
+    }
+
+    public function order_amounts()
+    {
+        return $this->hasMany('App\Models\OrderCustomer', 'user_id', 'id');
     }
 }

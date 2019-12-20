@@ -238,9 +238,9 @@
                                 </script>
 
                                 <div class="form-group">
-                                    <label>Voeg gerelateerde product toe via SKU nummer</label>
+                                    <label>Voeg gerelateerde producten toe via artikelnummer</label>
                                     <div class="input-group">
-                                        <input type="text" name="search_sku" placeholder="SKU nr." class="form-control">
+                                        <input type="text" name="search_sku" placeholder="Artikelnummer" class="form-control">
                                         <div class="input-group-append">
                                             <a href="javascript:;" class="btn btn-primary add-product">Voeg product toe</a>
                                         </div>

@@ -12,7 +12,6 @@
 
         <hr>
 
-
         <form method="post" action="{{ route('customer.update') }}">
                 <h2>{!! it('my-details', 'Mijn gegevens') !!}</h2>
                 {!! it('my-details-description', '<p>Vul onderstaand uw persoonlijke gegevens in.</p>', true) !!}
@@ -22,6 +21,21 @@
                     @include('webshop.partials.fast_menu')
                 </div>
                 <div class="col-md-9">
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            @foreach ($errors->all() as $error)
+                                {{ $error }}
+                            @endforeach
+                        </div>
+                    @endif
+
+                    @if (session('message'))
+                        <div class="alert alert-success" role="alert"><i class="far fa-check-circle"></i> {!! it('your_details_saved', session('message')) !!}</div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-warning" role="alert"><i class="far fa-check-circle"></i> {!! it('your_details_error', session('error')) !!}</div>
+                    @endif
 
                     <h2>{!! it('delivery-address', 'Afleveradres') !!}</h2>
                     {!! it('select-when-delivery', '<p>Selecteer wanneer u uw bestelling op een ander adres wilt laten afleveren.</p>', true) !!}
@@ -68,9 +82,25 @@
                     <div class="card">
                         <div class="card-body">
                             @csrf
-                            <div class="form-group">
-                                <label class="font-weight-bold">{!! it('invoice_name', 'Naam') !!} *</label>
-                                <input type="text" name="name" value="{{ $user->name }}" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">{!! it('invoice_firstname', 'Voornaam') !!} *</label>
+                                        <input type="text" name="firstname" value="{{ $user->firstname }}" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">{!! it('invoice_preposition', 'Tussenvoegsel') !!}</label>
+                                        <input type="text" name="preposition" value="{{ $user->preposition }}" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="font-weight-bold">{!! it('invoice_lastname', 'Achternaam') !!} *</label>
+                                        <input type="text" name="lastname" value="{{ $user->lastname }}" class="form-control" required>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">{!! it('invoice_street', 'Straatnaam') !!} *</label>
@@ -98,7 +128,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">{!! it('invoice_telephone', 'Telefoonnummer') !!}</label>
-                                <input type="text" name="telephone" value="{{ $user->customer->telephone }}" class="form-control">
+                                <input type="tel" name="telephone" value="{{ $user->customer->telephone }}" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">{!! it('invoice_email', 'E-mailadres') !!} *</label>
@@ -106,13 +136,6 @@
                             </div>
                         </div>
                     </div>
-
-                    @if (session('message'))
-                        <div class="alert alert-success" role="alert"><i class="far fa-check-circle"></i> {!! it('your_details_saved', session('message')) !!}</div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-warning" role="alert"><i class="far fa-check-circle"></i> {!! it('your_details_error', session('error')) !!}</div>
-                    @endif
 
                     <div class="form-group d-flex mt-4">
                         <button type="submit" class="btn btn-green mr-3">{!! it('profile_save', 'Sla mijn gegevens op') !!}</button>

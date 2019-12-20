@@ -25,7 +25,7 @@
             <h2>Factuuradres</h2>
             <table cellspacing="0" style="width: 100% !important; text-align: right;">
                 <tr>
-                    <td>{{ $order->customer->name }}</td>
+                    <td>{{ $order->customer->firstname }} {{ $order->customer->preposition }} {{ $order->customer->lastname }}</td>
                 </tr>
                 <tr>
                     <td>{{ $order->customer->street }} {{ $order->customer->number }}</td>

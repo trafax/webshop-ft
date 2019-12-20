@@ -20,7 +20,7 @@
                     <hr>
                     <div class="form-group">
                         <label class="font-weight-bold">{!! it('invoice_name', 'Naam') !!}</label>
-                        <span class="d-block">{{ Auth::user()->name }}</span>
+                        <span class="d-block">{{ Auth::user()->firstname }} {{ Auth::user()->preposition }} {{ Auth::user()->lastname }}</span>
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bold">{!! it('invoice_address', 'Adres') !!}</label>

@@ -16,7 +16,9 @@ class CreateOrderCustomerTable extends Migration
         Schema::create('order_customer', function (Blueprint $table) {
             $table->uuid('order_id');
             $table->uuid('user_id');
-            $table->string('name')->nullable();
+            $table->string('firstname')->nullable();
+            $table->string('preposition')->nullable();
+            $table->string('lastname')->nullable();
             $table->string('email')->nullable();
             $table->string('street')->nullable();
             $table->string('number')->nullable();

@@ -21,17 +21,19 @@ class CustomerController extends Controller
 
     public function update(Request $request)
     {
+        $user = Auth::user();
+
         $request->validate([
-            'name' => 'required',
+            'firstname' => 'required',
+            'lastname' => 'required',
             'street' => 'required',
             'number' => 'required',
             'zipcode' => 'required',
             'city' => 'required',
             'language_key' => 'required',
-            'email' => 'required'
+            'email' => 'required|unique:users,email,'.$user->id.',id'
         ]);
 
-        $user = Auth::user();
         $user->fill($request->all());
         $user->customer()->updateOrCreate(['user_id' => $user->id], $request->all());
         $user->save();

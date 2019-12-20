@@ -37,7 +37,7 @@ class Invoice extends Mailable
 
         $orderText = EmailTemplate::find('de158cc0-fcf1-11e9-b369-fb192d37d9d2')->content;
 
-        $html = str_replace('##naam##', $this->order->customer->name, $orderText);
+        $html = str_replace('##naam##', $this->order->customer->firstname . ' ' . $this->order->customer->preposition . ' ' . $this->order->customer->lastname, $orderText);
 
         $template_html = view('webshop.emails.invoice')->with([
             'html' => $html,

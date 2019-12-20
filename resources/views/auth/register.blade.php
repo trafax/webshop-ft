@@ -11,9 +11,25 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-                        <div class="form-group">
-                            <label>{!! it('sign-up-name', 'Naam') !!}</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>{!! it('sign-up-firstname', 'Voorletters') !!}</label>
+                                    <input type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" value="{{ old('firstname') }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>{!! it('sign-up-preposition', 'Tussenvoegsel') !!}</label>
+                                    <input type="text" class="form-control @error('preposition') is-invalid @enderror" name="preposition" value="{{ old('preposition') }}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>{!! it('sign-up-lastname', 'Achternaam') !!}</label>
+                                    <input type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{ old('lastname') }}" required>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>{!! it('sign-up-email', 'E-mailadres') !!}</label>

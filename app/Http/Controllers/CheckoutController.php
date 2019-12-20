@@ -116,6 +116,7 @@ class CheckoutController extends Controller
             "description" => 'Bestelling ' . $order->nr,
             "redirectUrl" => route('checkout.return_payment', $order->id),
             "webhookUrl"  => route('checkout.webhook_payment'),
+            //"webhookUrl"  => 'http://mipage.nl/checkout/webhook',
             "method"      => $payment_method,
             "metadata" => [
                 "id" => $order->id,
