@@ -213,7 +213,7 @@
                                                 $('#related-products').load('{{ route('admin.product.edit', $product) }} #related');
                                             },
                                             error: function() {
-                                                alert('Artikel niet gevonden.');
+                                                alert('Product niet gevonden.');
                                             },
                                             dataType: 'json'
                                         });
