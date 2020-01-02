@@ -133,6 +133,18 @@ return [
         ],
         'agreed' => [
             'required' => 'U dient akkoord te gaan met de algemene voorwaarden.'
+        ],
+        'delivery_street' => [
+            'required_if' => 'Straatnaam is verplicht'
+        ],
+        'delivery_number' => [
+            'required_if' => 'Huisnummer is verplicht'
+        ],
+        'delivery_zipcode' => [
+            'required_if' => 'Postcode is verplicht'
+        ],
+        'delivery_city' => [
+            'required_if' => 'Woonplaats is verplicht'
         ]
     ],
 

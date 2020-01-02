@@ -29,9 +29,14 @@ class CustomerController extends Controller
             'street' => 'required',
             'number' => 'required',
             'zipcode' => 'required',
+            'telephone' => 'nullable|digits:10',
             'city' => 'required',
             'language_key' => 'required',
-            'email' => 'required|unique:users,email,'.$user->id.',id'
+            'email' => 'required|unique:users,email,'.$user->id.',id',
+            'delivery_street' => 'required_if:other_delivery,1',
+            'delivery_number' => 'required_if:other_delivery,1',
+            'delivery_zipcode' => 'required_if:other_delivery,1',
+            'delivery_city' => 'required_if:other_delivery,1'
         ]);
 
         $user->fill($request->all());
