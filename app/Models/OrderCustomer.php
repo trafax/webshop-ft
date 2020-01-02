@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
+use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class OrderCustomer extends Model
 {
+    use Uuids;
+
     public $table = 'order_customer';
 
     public $timestamps = false;
 
     public $incrementing = false;
 
-    public $primaryKey = 'order_id';
+    public $primaryKey = 'id';
 
     public $fillable = [
         'order_id', 'user_id', 'firstname', 'preposition', 'lastname', 'email', 'street', 'number', 'zipcode', 'city', 'language_key', 'telephone', 'other_delivery', 'delivery_street', 'delivery_number', 'delivery_language_key', 'delivery_zipcode', 'delivery_city', 'delivery_language_key'

@@ -12,7 +12,14 @@
                 </ol>
             </nav>
 
-            <div class="d-flex"><div class="ml-auto">{{ $orders->links() }}</div></div>
+            <div class="d-flex mb-2">
+                <div>
+                    <a href="{{ route('admin.order.create') }}" class="btn btn-primary">Maak bestelling</a>
+                </div>
+                <div class="ml-auto">
+                    {{ $orders->links() }}
+                </div>
+            </div>
 
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
@@ -36,7 +43,7 @@
                                 <tr class="{{ $order->status == 'pending' ? 'text-info' : '' }} {{ $order->status == 'paid' ? 'text-success' : '' }} {{ in_array($order->status, ['error', 'expired', 'failed', 'canceled']) ? 'text-danger' : '' }}">
                                     <td><a href="{{ route('admin.order.show', $order) }}">{{ $order->nr }}</a></td>
                                     <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
-                                    <td>{{ strtoupper($order->customer->country) }}</td>
+                                    <td>{{ @strtoupper($order->customer->country) }}</td>
                                     <td>€ {{ price($order->total) }}</td>
                                     <td>{{ $order->status }}</td>
                                     <td>{{ $order->order_status ? $order->order_status : ' - ' }}</td>

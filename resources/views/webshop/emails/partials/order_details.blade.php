@@ -74,10 +74,12 @@
         <tr>
             <td>
                 <strong>{{ $rule->sku }} : {{ $rule->title }}</strong>
-                @foreach ($rule->options as $option => $value)
-                    @php $variation = \App\Models\Variation::find($option) @endphp
-                    <br><small>{{ t($variation, 'title') }}: {{ $value }}</small>
-                @endforeach
+                @if (is_array($rule->option))
+                    @foreach ($rule->options as $option => $value)
+                        @php $variation = \App\Models\Variation::find($option) @endphp
+                        <br><small>{{ t($variation, 'title') }}: {{ $value }}</small>
+                    @endforeach
+                @endif
             </td>
             <td>{{ $rule->qty }}x</td>
             <td align="right">&euro; {{ price($rule->price) }}</td>

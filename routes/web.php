@@ -63,6 +63,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('order/{order}/destroy', 'OrderController@destroy')->name('order.destroy');
     Route::get('order/{order}/download_invoice', 'OrderController@download_invoice')->name('order.download_invoice');
     Route::put('order/{order}/update', 'OrderController@update')->name('order.update');
+    Route::get('order/create', 'OrderController@create')->name('order.create');
+    Route::post('order/store', 'OrderController@store')->name('order.store');
+    Route::get('order/add_invoice_rule', 'OrderController@add_invoice_rule')->name('order.add_invoice_rule');
+    Route::get('order/{orderRule}/delete_row', 'OrderController@delete_row')->name('order.delete_row');
+    Route::post('order/{order}/store_invoice_rule', 'OrderController@store_invoice_rule')->name('order.store_invoice_rule');
+
 
     Route::resource('form', 'FormController');
     Route::get('form/{form}/destroy', 'FormController@destroy')->name('form.destroy');
