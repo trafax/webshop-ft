@@ -162,7 +162,7 @@
                                         @foreach (\App\Models\Variation::where('selectable', 1)->orderBy('sort')->get() as $key => $variation)
                                             @php $rows = $rule->product->variations->where('title', $variation->title); @endphp
                                             @if ($rows->count() > 0)
-                                                <select class="form-control" name="rule[{{ $rule->id }}][options][{{ $variation->slug }}]">
+                                                <select class="form-control" name="rule[{{ $rule->id }}][options][{{ $variation->id }}]">
                                                 @foreach ($rows as $row)
                                                     @php
                                                         $price = '';
