@@ -16,6 +16,7 @@ try {
     require('tinymce/plugins/paste');
     require('tinymce/plugins/lists');
     require('tinymce/plugins/advlist');
+    require('@fancyapps/fancybox/dist/jquery.fancybox.min');
 
     window.simpleParallax = require('simple-parallax-js');
 

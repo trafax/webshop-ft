@@ -30,7 +30,9 @@
                     </ol>
                     <div class="carousel-inner">
                         @foreach($product->assets()->get() as $key => $asset)
-                            <div class="carousel-item main-image {{ $key == 0 ? 'active' : '' }}" style="background-image: url('{{ asset('storage/'.$asset->file) }}')"></div>
+                            <div class="carousel-item main-image {{ $key == 0 ? 'active' : '' }}" style="background-image: url('{{ asset('storage/'.$asset->file) }}')">
+                                <a href="{{ asset('storage/'.$asset->file) }}" class="stretched-link" data-fancybox="images"></a>
+                            </div>
                         @endforeach
                     </div>
                     <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
