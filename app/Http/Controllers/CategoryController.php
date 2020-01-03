@@ -128,4 +128,69 @@ public function index(Request $request, $slug, $url_variations = null)
 
         return redirect()->route('category', [$slug, implode('/', $variation_arguments)]);
     }
+
+    public function all($url_variations = null)
+    {
+        $active_variations = [];
+        $url_variations_explode = explode('/', $url_variations);
+        if ($url_variations_explode)
+        foreach ($url_variations_explode as $url_variation)
+        {
+            if ($url_variation)
+            {
+                $row_url_variation = explode(':', $url_variation);
+                $active_variations[$row_url_variation[0]] = $row_url_variation[1];
+            }
+        }
+
+        $all_products_ids = Product::select('id')->get()->pluck('id');
+        $all_variation_ids = ProductVariation::select('variation_id')->whereIn('product_id', $all_products_ids)->groupBy('variation_id')->get()->pluck('variation_id');
+        $variations_tmp = Variation::orderBy('sort')->findMany($all_variation_ids);
+        $variations = [];
+
+        foreach ($variations_tmp as $variation)
+        {
+            $values = ProductVariation::where('variation_id', $variation->id)->whereIn('product_id', $all_products_ids)->groupBy('title');
+            if ($variation->sort_by == 'number_in_string') {
+                $values = $values->orderByRaw('CAST(title as UNSIGNED) ASC');
+            }
+            else if ($variation->sort_by == 'title') {
+                $values = $values->orderBy('title');
+            }
+            else if ($variation->sort_by == 'price') {
+                $values = $values->orderBy('fixed_price')->orderBy('adding_price');
+            }
+            $values = $values->get(['title', 'slug']);
+            $variation->values = $values;
+            $variations[] = $variation;
+        }
+
+        // Select filtered products
+        $product_ids = $this->filter_products([
+            'product_ids' => $all_products_ids,
+            'variations' => $url_variations
+        ]);
+
+        if ($url_variations)
+        {
+            $products = Product::whereIn('id', $product_ids)->orderBy('price')->orderBy('title')->paginate(setting('products_pp'));
+        }
+        else
+        {
+            $products = Product::paginate(setting('products_pp'));
+        }
+
+        // $seo = [
+        //     'title' => t($category, 'seo[title]') ? t($category, 'seo[title]') : t($category, 'title'),
+        //     'keywords' => t($category, 'seo[keywords]'),
+        //     'description' => t($category, 'seo[description]')
+        // ];
+
+        $category = new Category();
+        $category->slug = 'all';
+        $category->title = 'Alle producten';
+        $breadcrumbs = [];
+
+        return view('webshop.category.index', compact('category', 'products', 'breadcrumbs', 'variations', 'active_variations', 'seo'));
+    }
 }

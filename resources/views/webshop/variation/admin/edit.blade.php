@@ -55,6 +55,7 @@
                                     <select name="sort_by" class="form-control col-2">
                                         <option value="title" {{ $variation->sort_by == 'title' ? 'selected' : '' }}>Titel</option>
                                         <option value="price" {{ $variation->sort_by == 'price' ? 'selected' : '' }}>Prijs</option>
+                                        <option value="number_in_string" {{ $variation->sort_by == 'number_in_string' ? 'selected' : '' }}>Getal in tekst</option>
                                     </select>
                                 </div>
                             </div>

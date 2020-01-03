@@ -17,7 +17,7 @@
         <div class="card-deck">
             @foreach ($categories as $key => $category)
                 <div class="card category mb-4">
-                    @if ($category->image)
+                    @if (isset($category->image) && $category->image)
                         <div class="image" style="background-image: url('{{ $category->image }}')"></div>
                     @endif
                     <div class="card-body">
