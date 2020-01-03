@@ -50,6 +50,14 @@
                                     <select name="sort_by" class="form-control col-2">
                                         <option value="title">Titel</option>
                                         <option value="price">Prijs</option>
+                                        <option value="number_in_string">Getal in tekst</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Toon aantal keer besteld in productenlijst</label>
+                                    <select name="show_ordered" class="form-control col-2">
+                                        <option value="0">Nee</option>
+                                        <option value="1">Ja</option>
                                     </select>
                                 </div>
                             </div>
