@@ -29,4 +29,12 @@ class ProductController extends Controller
 
         return view('webshop.product.index', compact('product', 'category', 'breadcrumbs', 'variations', 'seo'));
     }
+
+    public function search(Request $request)
+    {
+        $products = Product::where('title', 'LIKE', '%'.$request->get('search').'%')
+        ->orwhere('sku', 'LIKE', '%'.$request->get('search').'%')->get();
+
+        return view('webshop.product.search', compact('products', 'request'));
+    }
 }

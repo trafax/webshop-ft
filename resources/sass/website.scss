@@ -103,9 +103,19 @@ a {
 .card {
     &.category {
         max-width: 253px;
+        @media (max-width: 720px) {
+            display: inline-block !important;
+            flex: none;
+            max-width: 100%;
+        }
     }
     &.product {
         max-width: 253px;
+        @media (max-width: 720px) {
+            display: inline-block !important;
+            flex: none;
+            max-width: 100%;
+        }
     }
 }
 

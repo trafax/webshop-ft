@@ -14,7 +14,12 @@
 
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <span>Producten</span>
+                    <div>
+                        <form method="post" action="{{ route('admin.product.search') }}">
+                            @csrf
+                            <input type="text" name="search" placeholder="Zoek producten" class="form-control">
+                        </form>
+                    </div>
                     <a href="{{ route('admin.product.create') }}">Product toevoegen</a>
                 </div>
                 <div class="card-body">

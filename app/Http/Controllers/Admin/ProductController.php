@@ -118,4 +118,12 @@ class ProductController extends Controller
 
         return redirect()->back()->with('message', 'Product succesvol verwijderd.');
     }
+
+    public function search(Request $request)
+    {
+        $products = Product::where('title', 'LIKE', '%'.$request->get('search').'%')
+        ->orwhere('sku', 'LIKE', '%'.$request->get('search').'%')->get();
+
+        return view('webshop.product.admin.index', compact('products'));
+    }
 }

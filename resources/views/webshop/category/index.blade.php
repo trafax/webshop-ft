@@ -22,6 +22,18 @@
 
             <div class="col-md-3">
 
+                <form method="post" action="{{ route('product.search') }}">
+                    @csrf
+                    <div class="form-group mt-2">
+                        <div class="input-group">
+                            <input type="text" name="search" placeholder="Zoek een product..." class="form-control py-4">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><button class="bg-transparent border-0"><i class="fas fa-search"></i></button></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
                 {{-- FILTERS --}}
 
                 <div class="filters">
@@ -76,28 +88,7 @@
                     <div class="ml-auto">{{ $products->links() }}</div>
                 </div>
 
-                @if ($products->isNotEmpty())
-                    <div class="card-deck products">
-                        @foreach ($products as $key => $product)
-                        <div class="card product mb-4">
-                            @if ($product->status)
-                                <div class="sold-message">{!! t($product, 'status') !!}</div>
-                            @endif
-                            @if ($product->sold_out == 1)
-                                <div class="sold-out">{!! it('product-sold-out', 'Uitverkocht') !!}</div>
-                            @endif
-                            @if ($product->assets()->get()->first())
-                                <div class="image" style="background-image: url('/storage/{{ $product->assets()->get()->first()->file }}')"></div>
-                            @endif
-                            <div class="card-body">
-                                <h5 class="card-title">{{ t($product, 'title') }}</h5>
-                                <a href="{{ route('product', $product->slug) }}" class="stretched-link"></a>
-                            </div>
-                        </div>
-                        {!! ($key+1) % 3 == 0 ? '</div><div class="card-deck products">' : '' !!}
-                        @endforeach
-                    </div>
-                @endif
+                @include('webshop.category.partials.products')
 
             </div>
         </div>
