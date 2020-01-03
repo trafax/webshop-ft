@@ -130,7 +130,7 @@ class OrderController extends Controller
             {
                 foreach ($rule['options'] as $option_id => $option)
                 {
-                    $variation = ProductVariation::where(['product_id' => $product->id, 'variation_id' => $option_id])->first();
+                    $variation = ProductVariation::where(['product_id' => $product->id, 'slug' => $option])->first();
 
                     if ($variation->fixed_price > 0)
                     {
