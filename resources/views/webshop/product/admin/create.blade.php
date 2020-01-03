@@ -72,6 +72,10 @@
                                                 <option value="1">Ja</option>
                                             </select>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Toon melding bij product</label>
+                                            <input type="text" name="status" value="" class="form-control">
+                                        </div>
                                     </div>
                                 </div>
                             </div>

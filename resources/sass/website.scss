@@ -227,6 +227,19 @@ a {
     background: rgba($color: red, $alpha: 0.5);
 }
 
+.sold-message {
+    position: absolute;
+    top: 35%;
+    width: 100%;
+    transform: translateY(-35%);
+    padding: 10px;
+    text-align: center;
+    color: #FFF;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: rgba($color: #99bd3c, $alpha: 0.7);
+}
+
 .website-popup {
     padding: 10px;
     text-align: center;

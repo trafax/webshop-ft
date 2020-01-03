@@ -80,6 +80,9 @@
                     <div class="card-deck products">
                         @foreach ($products as $key => $product)
                         <div class="card product mb-4">
+                            @if ($product->status)
+                                <div class="sold-message">{!! t($product, 'status') !!}</div>
+                            @endif
                             @if ($product->sold_out == 1)
                                 <div class="sold-out">{!! it('product-sold-out', 'Uitverkocht') !!}</div>
                             @endif

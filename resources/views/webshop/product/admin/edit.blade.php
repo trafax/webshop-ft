@@ -81,6 +81,13 @@
                                                 <option value="1" {{ $product->featured ? 'selected' : '' }}>Ja</option>
                                             </select>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Toon melding bij product</label>
+                                            <div class="input-group">
+                                                <input type="text" name="status" value="{{ $product->status }}" class="form-control">
+                                                @include('language.admin.partials.translate', ['field' => 'status', 'parent_id' => $product->id])
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
