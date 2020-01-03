@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label>Hoogte</label>
+                                        <label>Hoogte (bv. 200px)</label>
                                         <input type="text" name="block_data[height]" value="{{ @$block->block_data['height'] }}" class="form-control">
                                     </div>
                                 </div>
