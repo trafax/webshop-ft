@@ -35,10 +35,13 @@ public function index(Request $request, $slug, $url_variations = null)
     foreach ($variations_tmp as $variation)
     {
         $values = ProductVariation::where('variation_id', $variation->id)->whereIn('product_id', $all_products_ids)->groupBy('title');
-        if ($variation->sort_by == 'title') {
+        if ($variation->sort_by == 'number_in_string') {
+            $values = $values->orderByRaw('CAST(title as UNSIGNED) ASC');
+        }
+        else if ($variation->sort_by == 'title') {
             $values = $values->orderBy('title');
         }
-        if ($variation->sort_by == 'price') {
+        else if ($variation->sort_by == 'price') {
             $values = $values->orderBy('fixed_price')->orderBy('adding_price');
         }
         $values = $values->get(['title', 'slug']);
