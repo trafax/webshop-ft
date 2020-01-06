@@ -180,7 +180,7 @@ public function index(Request $request, $slug, $url_variations = null)
         }
         else
         {
-            $products = Product::paginate(setting('products_pp'));
+            $products = Product::where('visible', 1)->paginate(setting('products_pp'));
         }
 
         // $seo = [
