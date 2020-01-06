@@ -146,7 +146,7 @@ public function index(Request $request, $slug, $url_variations = null)
             }
         }
 
-        $all_products_ids = Product::select('id')->get()->pluck('id');
+        $all_products_ids = Product::select('id')->where('visible', 1)->get()->pluck('id');
         $all_variation_ids = ProductVariation::select('variation_id')->whereIn('product_id', $all_products_ids)->groupBy('variation_id')->get()->pluck('variation_id');
         $variations_tmp = Variation::orderBy('sort')->findMany($all_variation_ids);
         $variations = [];
