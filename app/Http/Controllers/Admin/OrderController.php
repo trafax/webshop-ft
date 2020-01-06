@@ -146,36 +146,41 @@ class OrderController extends Controller
     {
         $order->fill($request->all());
 
-        foreach ($request->get('rule') as $id => $rule)
+        if (is_array($request->get('rule')))
         {
-            $orderRule = OrderRule::find($id);
-            $product = Product::find($orderRule->product_id);
-
-            $price = $product->price;
-            if (isset($rule['options']))
+            foreach ($request->get('rule') as $id => $rule)
             {
-                foreach ($rule['options'] as $option_id => $option)
-                {
-                    $variation = ProductVariation::where(['product_id' => $product->id, 'slug' => $option])->first();
+                $orderRule = OrderRule::find($id);
+                $product = Product::find($orderRule->product_id);
 
-                    if ($variation->fixed_price > 0)
+                $price = $product->price;
+                if (isset($rule['options']))
+                {
+                    foreach ($rule['options'] as $option_id => $option)
                     {
-                        $price = $variation->fixed_price;
-                    }
-                    if ($variation->adding_price > 0)
-                    {
-                        $price = $price + $variation->adding_price;
+                        $variation = ProductVariation::where(['product_id' => $product->id, 'slug' => $option])->first();
+
+                        if ($variation->fixed_price > 0)
+                        {
+                            $price = $variation->fixed_price;
+                        }
+                        if ($variation->adding_price > 0)
+                        {
+                            $price = $price + $variation->adding_price;
+                        }
                     }
                 }
+
+                $orderRule->qty = $rule['qty'];
+                $orderRule->options = isset($rule['options']) ? $rule['options'] : [];
+                $orderRule->price = $price * $rule['qty'];
+                $orderRule->save();
+
+                $this->update_order_price($order);
             }
-
-            $orderRule->qty = $rule['qty'];
-            $orderRule->options = isset($rule['options']) ? $rule['options'] : [];
-            $orderRule->price = $price * $rule['qty'];
-            $orderRule->save();
-
-            $this->update_order_price($order);
         }
+
+        $order->save();
 
         return redirect()->route('admin.order.index')->with('message', 'Status succesvol aangepast.');
     }
