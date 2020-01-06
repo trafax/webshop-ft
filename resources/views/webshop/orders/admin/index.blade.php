@@ -23,7 +23,14 @@
 
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <span>Bestellingen</span>
+                    <div class="row w-50">
+                        <div class="col-6">
+                            <form method="post" action="{{ route('admin.order.search') }}">
+                                @csrf
+                                <input type="text" name="search" placeholder="Zoek bestelling" class="form-control">
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover">
@@ -31,6 +38,7 @@
                             <tr>
                                 <th scope="col" class="border-top-0">Nr</th>
                                 <th scope="col" class="border-top-0">Datum</th>
+                                <th scope="col" class="border-top-0">Klant</th>
                                 <th scope="col" class="border-top-0">Landcode</th>
                                 <th scope="col" class="border-top-0">Prijs</th>
                                 <th scope="col" class="border-top-0">Betaling</th>
@@ -39,10 +47,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php $total = 0; @endphp
                             @foreach ($orders as $order)
+                                @php $total = $total + $order->total; @endphp
                                 <tr class="{{ $order->status == 'pending' ? 'text-info' : '' }} {{ $order->status == 'paid' ? 'text-success' : '' }} {{ in_array($order->status, ['error', 'expired', 'failed', 'canceled']) ? 'text-danger' : '' }}">
                                     <td><a href="{{ route('admin.order.show', $order) }}">{{ $order->nr }}</a></td>
                                     <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
+                                    <td>{{ $order->customer->firstname }} {{ $order->customer->preposition }} {{ $order->customer->lastname }}</td>
                                     <td>{{ @strtoupper($order->customer->language_key) }}</td>
                                     <td>€ {{ price($order->total) }}</td>
                                     <td>{{ $order->status }}</td>
@@ -57,6 +68,18 @@
                                 </tr>
                             @endforeach
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5"></td>
+                                <td colspan="2" class="text-right">Aantal</td>
+                                <td><?php echo count($orders) ?></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5"></td>
+                                <td colspan="2" class="text-right">Totaal</td>
+                                <td>&euro; <?php echo price($total) ?></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>

@@ -30,6 +30,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('webshop/product/search', 'ProductController@search')->name('product.search');
     Route::post('webshop/product/setViewMode/{show}', 'ProductController@setViewMode')->name('product.set_view_mode');
     Route::post('webshop/product/deleteSelected', 'ProductController@deleteSelected')->name('product.delete_selected');
+    Route::post('webshop/product/setSoldOut/{sold_out}', 'ProductController@setSoldOut')->name('product.set_sold_out');
 
     Route::resource('webshop/variation', 'VariationController');
     Route::get('webshop/variation/{variation}/destroy', 'VariationController@destroy')->name('variation.destroy');
@@ -71,6 +72,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('order/add_invoice_rule', 'OrderController@add_invoice_rule')->name('order.add_invoice_rule');
     Route::get('order/{orderRule}/delete_row', 'OrderController@delete_row')->name('order.delete_row');
     Route::post('order/{order}/store_invoice_rule', 'OrderController@store_invoice_rule')->name('order.store_invoice_rule');
+    Route::any('order/search', 'OrderController@search')->name('order.search');
 
 
     Route::resource('form', 'FormController');

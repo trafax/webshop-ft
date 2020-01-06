@@ -203,4 +203,17 @@ class OrderController extends Controller
         $order->total = $sub_total + $order->shipping;
         $order->save();
     }
+
+    public function search(Request $request)
+    {
+        $orders = Order::where('nr', 'LIKE', '%'.$request->get('search').'%')
+        ->orWhere('status', 'LIKE', '%'. $request->get('search') .'%')
+        ->orWhereHas('customer', function($q) use ($request) {
+            $q->where('lastname', 'LIKE',  '%'.$request->get('search').'%')
+            ->orWhere('firstname', 'LIKE',  '%'.$request->get('search').'%');
+        })
+        ->orderBy('nr', 'DESC')->paginate(1000);
+
+        return view('webshop.orders.admin.index', compact('orders'));
+    }
 }

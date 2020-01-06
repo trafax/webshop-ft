@@ -58,6 +58,8 @@
                                 <option value="{{ route('admin.product.delete_selected') }}">Verwijder geselecteerde</option>
                                 <option value="{{ route('admin.product.set_view_mode', 0) }}">Maak niet zichtbaar</option>
                                 <option value="{{ route('admin.product.set_view_mode', 1) }}">Maak zichtbaar</option>
+                                <option value="{{ route('admin.product.set_sold_out', 1) }}">Zet op uitverkocht</option>
+                                <option value="{{ route('admin.product.set_sold_out', 0) }}">Zet op beschikbaar</option>
                             </select>
                         </div>
                     </div>
@@ -87,6 +89,9 @@
                                 <th scope="col" class="border-top-0">SKU</th>
                                 <th scope="col" class="border-top-0">Productnaam</th>
                                 <th scope="col" class="border-top-0">Link</th>
+                                <th scope="col" class="border-top-0">
+
+                                </th>
                                 <th scope="col" class="border-top-0">Prijs</th>
                                 <th scope="col" class="border-top-0"></th>
                                 <th scope="col" class="border-top-0">Acties</th>
@@ -99,6 +104,9 @@
                                     <td>{{ $product->sku }}</td>
                                     <td>{!! $product->visible == 0 ? '<i class="fas fa-eye-slash"></i>' : '' !!} <a href="{{ route('admin.product.edit', $product) }}">{{ $product->title }}</a></td>
                                     <td class="small">product/{{ $product->slug }}</td>
+                                    <td class="small">
+                                        <?php echo $product->sold_out == 1 ? '<span class="text-danger">Uitverkocht</span>' : '' ?>
+                                    </td>
                                     <td>&euro; {{ $product->price }}</td>
                                     <td class="small">
                                         @foreach ($product->ordered() as $rule)

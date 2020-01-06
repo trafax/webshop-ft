@@ -173,4 +173,16 @@ class ProductController extends Controller
 
         echo 1;
     }
+
+    public function setSoldOut(Request $request, $sold_out)
+    {
+        foreach ($request->get('ids') as $id)
+        {
+            $product = Product::where('id', $id)->first();
+            $product->sold_out = $sold_out;
+            $product->save();
+        }
+
+        echo 1;
+    }
 }
