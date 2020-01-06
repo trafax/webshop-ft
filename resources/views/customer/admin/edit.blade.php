@@ -97,7 +97,7 @@
                                     <tbody>
                                         @foreach ($user->orders as $order)
                                             @php $order = $order->order; @endphp
-                                            <tr class="{{ $order->status == 'pending' ? 'text-info' : '' }} {{ $order->status == 'paid' ? 'text-success' : '' }} {{ in_array($order->status, ['error', 'expired', 'failed', 'canceled']) ? 'text-danger' : '' }}">
+                                            <tr class="{{ @$order->status == 'pending' ? 'text-info' : '' }} {{ @$order->status == 'paid' ? 'text-success' : '' }} {{ in_array(@$order->status, ['error', 'expired', 'failed', 'canceled']) ? 'text-danger' : '' }}">
                                                 <td><a href="{{ route('admin.order.show', $order) }}">{{ $order->nr }}</a></td>
                                                 <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
                                                 <td>€ {{ price($order->total) }}</td>
