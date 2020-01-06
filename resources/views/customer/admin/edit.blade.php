@@ -101,7 +101,7 @@
                                                 <td><a href="{{ route('admin.order.show', $order) }}">{{ $order->nr }}</a></td>
                                                 <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
                                                 <td>€ {{ price($order->total) }}</td>
-                                                <td>{{ $order->status }}</td>
+                                                <td>{{ @$order->status }}</td>
                                                 <td>{{ $order->order_status ? $order->order_status : ' - ' }}</td>
                                                 <td class="text-right">
                                                     @if ($order->status == 'paid')
