@@ -150,4 +150,27 @@ class ProductController extends Controller
 
         return view('webshop.product.admin.index', compact('products'));
     }
+
+    public function setViewMode(Request $request, $show)
+    {
+        foreach ($request->get('ids') as $id)
+        {
+            $product = Product::where('id', $id)->first();
+            $product->visible = $show;
+            $product->save();
+        }
+
+        echo 1;
+    }
+
+    public function deleteSelected(Request $request)
+    {
+        foreach ($request->get('ids') as $id)
+        {
+            $product = Product::where('id', $id)->first();
+            $product->delete();
+        }
+
+        echo 1;
+    }
 }

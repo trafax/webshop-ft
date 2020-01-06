@@ -27,6 +27,7 @@
     "dependencies": {
         "@fancyapps/fancybox": "^3.5.7",
         "bootstrap-colorpicker": "^3.1.2",
+        "checkboxes.js": "^1.2.2",
         "dropzone": "^5.5.1",
         "jquery-ui": "^1.12.1",
         "simple-parallax-js": "^5.1.0",

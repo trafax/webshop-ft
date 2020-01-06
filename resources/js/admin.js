@@ -12,6 +12,8 @@ try {
     require('tinymce/plugins/media');
     require('tinymce/plugins/image');
 
+    require('checkboxes.js/dist/jquery.checkboxes-1.2.2');
+
     window.sortable = require('jquery-ui/ui/widgets/sortable');
 
     window.filemanager = require('../../vendor/unisharp/laravel-filemanager/public/js/lfm.js');
@@ -33,6 +35,8 @@ try {
 } catch (e) {}
 
 $(function(){
+
+    $('.table').checkboxes('range', true);
 
     sort();
 

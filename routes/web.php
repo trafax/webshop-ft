@@ -28,6 +28,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('webshop/product', 'ProductController');
     Route::get('webshop/product/{product}/destroy', 'ProductController@destroy')->name('product.destroy');
     Route::post('webshop/product/search', 'ProductController@search')->name('product.search');
+    Route::post('webshop/product/setViewMode/{show}', 'ProductController@setViewMode')->name('product.set_view_mode');
+    Route::post('webshop/product/deleteSelected', 'ProductController@deleteSelected')->name('product.delete_selected');
 
     Route::resource('webshop/variation', 'VariationController');
     Route::get('webshop/variation/{variation}/destroy', 'VariationController@destroy')->name('variation.destroy');
