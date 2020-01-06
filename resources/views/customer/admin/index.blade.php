@@ -14,7 +14,14 @@
 
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <span>Klanten</span>
+                    <div class="row w-50">
+                        <div class="col-6">
+                            <form method="post" action="{{ route('admin.customer.search_by_product') }}">
+                                @csrf
+                                <input type="text" name="search" placeholder="Filter klanten op product" class="form-control">
+                            </form>
+                        </div>
+                    </div>
                     <a href="{{ route('admin.customer.create') }}">Klant toevoegen</a>
                 </div>
                 <div class="card-body">
@@ -22,6 +29,7 @@
                         <thead>
                             <tr>
                                 <th scope="col" class="border-top-0">Klantnaam</th>
+                                <th scope="col" class="border-top-0">E-mailadres</th>
                                 <th scope="col" class="border-top-0">Aantal bestellingen</th>
                                 <th scope="col" class="border-top-0">Totaal betaald <small>(zonder verzendkosten)</small></th>
                                 <th scope="col" class="border-top-0 text-right">Acties</th>
@@ -31,6 +39,7 @@
                             @foreach ($customers as $customer)
                                 <tr>
                                     <td><a href="{{ route('admin.customer.edit', $customer) }}">{{ $customer->firstname }} {{ $customer->preposition }} {{ $customer->lastname }}</a></td>
+                                    <td>{{ $customer->email }}</a></td>
                                     <td>{{ $customer->orders->count() }}</td>
                                     @php
                                     $total = $customer->orders->sum(function($order){

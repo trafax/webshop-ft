@@ -105,6 +105,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('related_product/insert', 'Related_productController@insert')->name('related_product.insert');
     Route::get('related_product/delete', 'Related_productController@delete')->name('related_product.delete');
 
+    Route::match(['get', 'post'], 'customer/search_by_product', 'CustomerController@searchByProduct')->name('customer.search_by_product');
     Route::resource('customer', 'CustomerController');
     Route::get('customer/{user_id}/destroy', 'CustomerController@destroy')->name('customer.destroy');
 });

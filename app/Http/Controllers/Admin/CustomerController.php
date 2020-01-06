@@ -67,4 +67,18 @@ class CustomerController extends Controller
 
         return redirect()->route('admin.customer.index')->with('message', 'Klant succesvol verwijderd.');
     }
+
+    public function searchByProduct(Request $request)
+    {
+        $customers = User::where('role', 'customer')
+        ->whereHas('orders', function($q) use ($request) {
+            $q->whereHas('rules', function($q) use ($request) {
+                $q->where('sku', 'LIKE',  '%'.$request->get('search').'%')
+                ->orWhere('title', 'LIKE',  '%'.$request->get('search').'%');
+            });
+        })
+        ->orderBy('lastname', 'ASC')->groupBy('id')->get();
+
+        return view('customer.admin.index', compact('customers'));
+    }
 }
