@@ -46,7 +46,15 @@ class OrderController extends Controller
         else
         {
             $request->validate([
-                'email' => 'unique:users,email'
+                'email' => 'unique:users,email',
+                'firstname' => 'required',
+                'lastname' => 'required',
+                'street' => 'required',
+                'number' => 'required',
+                'zipcode' => 'required',
+                'telephone' => 'nullable|digits:10',
+                'city' => 'required',
+                'language_key' => 'required',
             ]);
 
             $user = new User();
