@@ -35,6 +35,7 @@ public function index(Request $request, $slug, $url_variations = null)
     foreach ($variations_tmp as $variation)
     {
         $values = ProductVariation::where('variation_id', $variation->id)->whereIn('product_id', $all_products_ids)->groupBy('title');
+
         if ($variation->sort_by == 'number_in_string') {
             $values = $values->orderByRaw('CAST(title as UNSIGNED) ASC');
         }
@@ -44,7 +45,7 @@ public function index(Request $request, $slug, $url_variations = null)
         else if ($variation->sort_by == 'price') {
             $values = $values->orderBy('fixed_price')->orderBy('adding_price');
         }
-        $values = $values->get(['title', 'slug']);
+        $values = $values->get(['id', 'title', 'slug']);
         $variation->values = $values;
         $variations[] = $variation;
     }
@@ -163,7 +164,7 @@ public function index(Request $request, $slug, $url_variations = null)
             else if ($variation->sort_by == 'price') {
                 $values = $values->orderBy('fixed_price')->orderBy('adding_price');
             }
-            $values = $values->get(['title', 'slug']);
+            $values = $values->get(['id', 'title', 'slug']);
             $variation->values = $values;
             $variations[] = $variation;
         }

@@ -193,19 +193,42 @@
                                         <div class="card mb-4">
                                             <div class="card-header font-weight-bold">{{ $variation->title }}</div>
                                             <div class="card-body">
+                                                @php $text = ''; @endphp
+                                                @foreach ($product->variations->where('title', $variation->title) as $row)
+
+                                                    <div class="row">
+                                                        <div class="col-5">
+                                                            <div class="form-group">
+                                                                <input type="text" name="variations[{{ $row->pivot->id }}][title]" value="{{ $row->pivot->title }}" class="form-control" placeholder="Titel">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <input type="text" name="variations[{{ $row->pivot->id }}][fixed_price]" value="{{ $row->pivot->fixed_price }}" class="form-control" placeholder="Vaste prijs">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <input type="text" name="variations[{{ $row->pivot->id }}][adding_price]" value="{{ $row->pivot->adding_price }}" class="form-control" placeholder="Extra prijs">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                @include('language.admin.partials.translate', ['field' => 'title', 'parent_id' => $row->pivot->id])
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {{-- @php $text .= $row->pivot->title .
+                                                    ($row->pivot->fixed_price ? ', '. $row->pivot->fixed_price : '') .
+                                                    ($row->pivot->adding_price ? ', '. $row->pivot->adding_price : '') . "\n"
+                                                    @endphp --}}
+                                                @endforeach
                                                 <div class="form-group">
-                                                    @php $text = ''; @endphp
-                                                    @foreach ($product->variations->where('title', $variation->title) as $row)
-                                                        @php $text .= $row->pivot->title .
-                                                        ($row->pivot->fixed_price ? ', '. $row->pivot->fixed_price : '') .
-                                                        ($row->pivot->adding_price ? ', '. $row->pivot->adding_price : '') . "\n"
-                                                        @endphp
-                                                    @endforeach
-                                                    <textarea name="variations[{{ $variation->id }}]" rows="8" class="form-control" placeholder="naam, vaste prijs, meerprijs">{{ $text }}</textarea>
+                                                    <textarea name="new_variations[{{ $variation->id }}]" rows="8" class="form-control" placeholder="naam, vaste prijs, meerprijs"></textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                        {!! ($key+1) % 3 == 0 ? '</div><div class="card-group mb-4">' : '' !!}
+                                        {!! ($key+1) % 2 == 0 ? '</div><div class="card-group mb-4">' : '' !!}
                                     @endforeach
                                 </div>
                             </div>

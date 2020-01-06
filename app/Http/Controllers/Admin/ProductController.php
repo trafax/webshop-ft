@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductVariation;
 use App\Models\Variation;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -83,9 +85,23 @@ class ProductController extends Controller
         $product->categories()->detach();
         $product->categories()->attach($request->get('parent_id'));
 
+        foreach ($request->get('variations') as $id => $variation)
+        {
+            $variationObj = ProductVariation::find($id);
+            $variationObj->title = $variation['title'];
+            $variationObj->fixed_price = $variation['fixed_price'];
+            $variationObj->adding_price = $variation['adding_price'];
+            $variationObj->save();
+
+            if (empty($variation['title']))
+            {
+                $variationObj->delete();
+            }
+        }
+
         // Variations
-        $product->variations()->detach();
-        foreach ((array) $request->get('variations') as $variation_id => $variation)
+        //$product->variations()->detach();
+        foreach ((array) $request->get('new_variations') as $variation_id => $variation)
         {
             $rows = explode("\r\n", $variation);
             foreach ($rows as $key => $row)
@@ -98,13 +114,21 @@ class ProductController extends Controller
 
                 if ($title)
                 {
-                    $product->variations()->attach($variation_id, [
-                        'sort' => $key,
-                        'title' => $title,
-                        'slug' => Str::slug($title),
-                        'fixed_price' => $fixed_price,
-                        'adding_price' => $adding_price
-                    ]);
+                    $productVariation = new ProductVariation();
+                    $productVariation->product_id = $product->id;
+                    $productVariation->variation_id = $variation_id;
+                    $productVariation->title = $title;
+                    $productVariation->fixed_price = $fixed_price;
+                    $productVariation->adding_price = $adding_price;
+                    $productVariation->save();
+
+                    // $product->variations()->attach($variation_id, [
+                    //     'sort' => $key,
+                    //     'title' => $title,
+                    //     'slug' => Str::slug($title),
+                    //     'fixed_price' => $fixed_price,
+                    //     'adding_price' => $adding_price
+                    // ]);
                 }
             }
         }

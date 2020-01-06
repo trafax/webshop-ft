@@ -14,6 +14,7 @@ class CreateProductVariationTable extends Migration
     public function up()
     {
         Schema::create('product_variation', function (Blueprint $table) {
+            $table->uuid('id');
             $table->char('product_id');
             $table->char('variation_id');
             $table->string('title');

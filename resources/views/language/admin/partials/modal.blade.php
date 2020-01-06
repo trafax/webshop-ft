@@ -49,8 +49,10 @@
                         @endphp
                         @foreach ($languages as $key => $language)
                             <div class="tab-pane fade show {{ $key == 0 ? 'active' : '' }}" id="{{ $language->language }}" role="tabpanel" aria-labelledby="nav-home-tab">
-
-                                @if (request()->get('editor') == true)
+                                @if (request()->get('editor') == 'raw')
+                                    <br>
+                                    <textarea name="translate[{{ $language['language_key'] }}]" class="form-control" rows="8" placeholder="{{ $language->title }}">{{ t(request()->get('parent_id'), request()->get('field'), $language->language_key) }}</textarea>
+                                @elseif (request()->get('editor') == true || request()->get('editor') == 1)
                                     <br>
                                     <textarea name="translate[{{ $language['language_key'] }}]" class="editor form-control" placeholder="{{ $language->title }}">{{ t(request()->get('parent_id'), request()->get('field'), $language->language_key) }}</textarea>
                                 @else
@@ -62,6 +64,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input type="hidden" name="tab" value="{{ request()->get('tab') }}">
                     <input type="hidden" name="parent_id" value="{{ request()->get('parent_id') }}">
                     <input type="hidden" name="field" value="{{ request()->get('field') }}">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluit</button>

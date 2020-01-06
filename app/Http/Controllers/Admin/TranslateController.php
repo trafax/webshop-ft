@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Translation;
+use Illuminate\Support\Facades\Redirect;
 
 class TranslateController extends Controller
 {
@@ -31,6 +32,7 @@ class TranslateController extends Controller
             }
         }
 
-        return redirect()->back();
+        //return redirect()->back() . '' . $request->get('tab');
+        return Redirect::to(redirect()->back()->getTargetUrl() . $request->get('tab'));
     }
 }

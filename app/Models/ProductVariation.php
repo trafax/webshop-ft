@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductVariation extends Model
 {
-    public $table = 'product_variation';
+    use Uuids;
 
+    public $table = 'product_variation';
+    public $incrementing = false;
     public $timestamps = false;
 
     public $fillable = [

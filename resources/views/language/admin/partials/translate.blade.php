@@ -11,7 +11,8 @@ window.translate_{{ $function }} = function(){
     $.ajax({
         url: '{{ route('admin.translate') }}',
         method: 'GET',
-        data: {field: '{{ $field }}', parent_id: '{{ $parent_id }}', editor: '{{ isset($editor) && $editor ? true : false }}'},
+        //data: {field: '{{ $field }}', parent_id: '{{ $parent_id }}', editor: '{{ isset($editor) && $editor ? true : false }}'},
+        data: {field: '{{ $field }}', parent_id: '{{ $parent_id }}', editor: '{{ isset($editor) ? $editor : false }}', tab: window.location.hash},
         success: function(response)
         {
             $('body').prepend(response);
