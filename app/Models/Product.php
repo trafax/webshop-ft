@@ -57,7 +57,20 @@ class Product extends Model
 
     public function ordered()
     {
-        return $this->hasMany('App\Models\OrderRule', 'product_id', 'id')->selectRaw('*, sum(qty) as sum')->groupBy('options');
+        $rules = OrderRule::selectRaw('*, sum(qty) as sum')->where('product_id', $this->id)->groupBy('options')->get();
+
+        $array = [];
+        foreach ($rules as $rule)
+        {
+            if ($rule->order)
+            {
+                $array[] = $rule;
+            }
+        }
+
+        return $array;
+
+        //return $this->hasMany('App\Models\OrderRule', 'product_id', 'id')->selectRaw('*, sum(qty) as sum')->groupBy('options');
     }
 
     public function related()

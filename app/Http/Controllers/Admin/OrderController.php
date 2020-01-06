@@ -14,6 +14,8 @@ use App\Models\ProductVariation;
 use App\Models\ShippingRule;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -37,7 +39,23 @@ class OrderController extends Controller
     {
         $order_nr = (int) Order::orderBy('created_at', 'DESC')->pluck('nr')->first() + 1;
 
-        $user = User::find($request->get('id_user'));
+        if ($request->get('id_user'))
+        {
+            $user = User::find($request->get('id_user'));
+        }
+        else
+        {
+            $request->validate([
+                'email' => 'unique:users,email'
+            ]);
+
+            $user = new User();
+            $request->request->set('password', Hash::make(Str::random(8)));
+            $user->fill($request->all());
+            $user->save();
+
+            $user->customer()->create($request->all());
+        }
 
         $language_key = $user->customer->other_delivery == 1 ? $user->customer->delivery_language_key : $user->customer->language_key;
         $country = Country::where('language_key', $language_key)->first();

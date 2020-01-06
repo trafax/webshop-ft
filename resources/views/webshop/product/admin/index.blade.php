@@ -42,7 +42,7 @@
                                     <td class="small">product/{{ $product->slug }}</td>
                                     <td>&euro; {{ $product->price }}</td>
                                     <td class="small">
-                                        @foreach ($product->ordered as $rule)
+                                        @foreach ($product->ordered() as $rule)
                                             @foreach (\App\Models\Variation::where('show_ordered', 1)->get() as $variation)
                                                 {{ $rule->sum }}x {{ @$rule->options[$variation->id] }}<br>
                                             @endforeach
