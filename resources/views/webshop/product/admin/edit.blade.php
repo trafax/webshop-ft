@@ -88,6 +88,13 @@
                                                 @include('language.admin.partials.translate', ['field' => 'status', 'parent_id' => $product->id])
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Zichtbaar in website</label>
+                                            <select name="visible" class="form-control">
+                                                <option value="1">Ja</option>
+                                                <option value="0" {{ $product->visible == 0 ? 'selected' : '' }}>Nee</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 

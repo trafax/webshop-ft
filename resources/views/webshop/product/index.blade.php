@@ -116,18 +116,20 @@
             <h2 class="mt-4">{!! it('related-products-title', 'Gerelateerde artikelen') !!}</h2>
             <div class="card-deck products mt-4">
                 @foreach ($product->related as $related)
-                    <div class="card product mb-4">
-                        @if ($related->product->sold_out == 1)
-                            <div class="sold-out">{!! it('product-sold-out', 'Uitverkocht') !!}</div>
-                        @endif
-                        @if ($related->product->assets()->get()->first())
-                            <div class="image" style="background-image: url('/storage/{{ $related->product->assets()->get()->first()->file }}')"></div>
-                        @endif
-                        <div class="card-body">
-                            <h5 class="card-title">{{ t($related->product, 'title') }}</h5>
-                            <a href="{{ route('product', $related->product->slug) }}" class="stretched-link"></a>
+                    @if ($related->product->visible == 1)
+                        <div class="card product mb-4">
+                            @if ($related->product->sold_out == 1)
+                                <div class="sold-out">{!! it('product-sold-out', 'Uitverkocht') !!}</div>
+                            @endif
+                            @if ($related->product->assets()->get()->first())
+                                <div class="image" style="background-image: url('/storage/{{ $related->product->assets()->get()->first()->file }}')"></div>
+                            @endif
+                            <div class="card-body">
+                                <h5 class="card-title">{{ t($related->product, 'title') }}</h5>
+                                <a href="{{ route('product', $related->product->slug) }}" class="stretched-link"></a>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                     {!! $loop->iteration % 4 == 0 ? '</div><div class="card-deck products">' : '' !!}
                 @endforeach
             </div>

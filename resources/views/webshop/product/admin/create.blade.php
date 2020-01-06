@@ -76,6 +76,13 @@
                                             <label>Toon melding bij product</label>
                                             <input type="text" name="status" value="" class="form-control">
                                         </div>
+                                        <div class="form-group">
+                                            <label>Zichtbaar in website</label>
+                                            <select name="visible" class="form-control">
+                                                <option value="1">Ja</option>
+                                                <option value="0">Nee</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

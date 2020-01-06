@@ -47,6 +47,6 @@ class Category extends Model
 
     public function products()
     {
-        return $this->belongsToMany('App\Models\Product')->orderBy('price')->orderBy('title')->withPivot('category_id');
+        return $this->belongsToMany('App\Models\Product')->where('visible', 1)->orderBy('price')->orderBy('title')->withPivot('category_id');
     }
 }
