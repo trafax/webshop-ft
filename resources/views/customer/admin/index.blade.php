@@ -34,7 +34,7 @@
                                     <td>{{ $customer->orders->count() }}</td>
                                     @php
                                     $total = $customer->orders->sum(function($order){
-                                        if ($order->order->status == 'paid') {
+                                        if (@$order->order->status == 'paid') {
                                             return $order->rules->sum('price');
                                         }
                                     });
