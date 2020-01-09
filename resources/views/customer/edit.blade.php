@@ -43,7 +43,8 @@
 
                     <label class="bg-light d-block py-2 px-3">
                         <input type="hidden" name="other_delivery" value="0">
-                        <input type="checkbox" name="other_delivery" value="1" {!! $user->customer->other_delivery == 1 ? 'checked' : '' !!} onclick="$('#deliver_address').toggleClass('d-none')" class="mr-2"> Verzend bestelling naar een ander adres
+                        <input type="checkbox" name="other_delivery" value="1" {!! $user->customer->other_delivery == 1 ? 'checked' : '' !!} onclick="$('#deliver_address').toggleClass('d-none')" class="mr-2">
+                        {!! it('send_to_other_address', 'Verzend bestelling naar een ander adres') !!}
                     </label>
 
                     <div class="card mb-4 {!! $user->customer->other_delivery == 0 ? 'd-none' : '' !!}" id="deliver_address">
