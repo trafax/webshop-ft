@@ -9,7 +9,7 @@
             <ol class="breadcrumb bg-transparent p-0">
                 <li class="breadcrumb-item"><a href="{{ route('homepage') }}">{!! it('breadcrumbs_home', 'Home') !!}</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('webshop') }}">{!! it('breadcrumbs_webshop', 'Webshop') !!}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ it('search-title', 'Zoeken') }}</li>
+                <li class="breadcrumb-item active" aria-current="page">{!! it('search-title', 'Zoeken') !!}</li>
             </ol>
         </nav>
 
