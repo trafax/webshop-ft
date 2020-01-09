@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
 
-        <h1 class="mt-4">{{ it('search-title', 'Zoeken') }}</h1>
+        <h1 class="mt-4">{!! it('search-title', 'Zoeken') !!}</h1>
 
         <nav>
             <ol class="breadcrumb bg-transparent p-0">
