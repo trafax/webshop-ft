@@ -33,7 +33,7 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $products = Product::where('visible', 1)->where('title', 'LIKE', '%'.$request->get('search').'%')
-        ->orwhere('sku', 'LIKE', '%'.$request->get('search').'%')->get();
+        ->orwhere('sku', 'LIKE', '%'.$request->get('search').'%')->paginate(setting('products_pp'));
 
         return view('webshop.product.search', compact('products', 'request'));
     }

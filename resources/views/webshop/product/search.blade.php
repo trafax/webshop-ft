@@ -19,10 +19,27 @@
 
             <div class="col-md-12">
 
+                <form method="post" action="{{ route('product.search') }}">
+                    @csrf
+                    <div class="form-group mt-2">
+                        <div class="input-group">
+                            <input type="text" name="search" placeholder="Zoek een product..." class="form-control py-4">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><button class="bg-transparent border-0"><i class="fas fa-search"></i></button></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
                 {{-- PRODUCTS --}}
 
                 <div class="d-flex my-4">
                     U heeft gezocht op: {{ $request->get('search') }}
+                </div>
+
+                <div class="d-flex border-bottom mb-4">
+                    <div class="pt-1 mb-4">{!! it('pagination-page', 'Pagina') !!} {{ $products->currentPage() }} {!! it('pagination-page-from', 'van') !!} {{ $products->lastPage() }} - ({{ $products->count() }} {!! it('pagination-page-products', 'producten') !!})</div>
+                    <div class="ml-auto">{{ $products->links() }}</div>
                 </div>
 
                 @include('webshop.category.partials.products', ['cols_per_row' => 4])

@@ -123,7 +123,7 @@ Route::localized(function () {
     Route::post('form/send/{form}', 'FormController@send')->name('form.send');
 
     Route::get('webshop', 'WebshopController@index')->name('webshop');
-    Route::post('webshop/search', 'ProductController@search')->name('product.search');
+    Route::match(['post', 'get'], 'webshop/search', 'ProductController@search')->name('product.search');
     Route::get('category/all/{any?}', 'CategoryController@all')->name('category.all')->where('any', '.*');
     Route::get('category/{slug}/{any?}', 'CategoryController@index')->name('category')->where('any', '.*');
     Route::post('category/set_filter/{any?}', 'CategoryController@set_variations_filter')->name('category.set_variation_filter')->where('any', '.*');
