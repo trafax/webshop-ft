@@ -32,7 +32,7 @@ class CheckoutController extends Controller
             return redirect()->route('customer.edit')->with('error', 'U heeft nog niet alle gegevens ingevoerd.');
         }
 
-        if (round(Cart::total()) <= setting('minimum_order_taking'))
+        if (round(Cart::total()) + \App\Libraries\Cart::shipping() <= setting('minimum_order_taking'))
         {
             return redirect()->route('cart');
         }

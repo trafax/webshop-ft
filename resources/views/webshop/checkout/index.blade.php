@@ -94,6 +94,12 @@
                                 <span>{!! it('cart-qty', 'Aantal') !!}: {{ $item->qty }}x</span>
                                 <span class="ml-auto">&euro; {{ price($item->total) }}</span>
                             </div>
+                            <div class="small">
+                                @foreach ($item->options as $option => $value)
+                                    @php $variation = \App\Models\Variation::find($option) @endphp
+                                    <span class="d-block small">{{ @t($variation, 'title') }}: {{ $value }}</span>
+                                @endforeach
+                            </div>
                         </div>
                     @endforeach
                     <div class="mb-2 mt-4 ">
