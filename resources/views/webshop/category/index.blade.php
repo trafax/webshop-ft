@@ -90,6 +90,11 @@
 
                 @include('webshop.category.partials.products')
 
+                <div class="d-flex border-top pt-4 mt-2">
+                    <div class="pt-1 mb-4">{!! it('pagination-page', 'Pagina') !!} {{ $products->currentPage() }} {!! it('pagination-page-from', 'van') !!} {{ $products->lastPage() }} - ({{ $products->count() }} {!! it('pagination-page-products', 'producten') !!})</div>
+                    <div class="ml-auto">{{ $products->links() }}</div>
+                </div>
+
             </div>
         </div>
     </div>
