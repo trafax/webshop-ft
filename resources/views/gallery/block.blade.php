@@ -6,18 +6,20 @@
         </div>
     </div>
 
-    <div class="row gallery">
-        <div class="col-md-7">
-            <a href="/storage/{{ $gallery->assets->first()->file }}" data-fancybox="images"><img src="/storage/{{ $gallery->assets->first()->file }}" class="main-image"></a>
+    @if (is_array($gallery->assets) && count($gallery->assets) > 0)
+        <div class="row gallery">
+            <div class="col-md-7">
+                <a href="/storage/{{ $gallery->assets->first()->file }}" data-fancybox="images"><img src="/storage/{{ $gallery->assets->first()->file }}" class="main-image"></a>
+            </div>
+            <div class="col-md-5">
+                @foreach ($gallery->assets as $key => $asset)
+                @if ($key > 0)
+                    <a href="/storage/{{ $asset->file }}" data-fancybox="images" style="background-image: url('/storage/{{ $asset->file }}');" class="gallery-thumb"><img src="/storage/{{ $asset->file }}" class="d-none"></a>
+                @endif
+                @endforeach
+            </div>
         </div>
-        <div class="col-md-5">
-            @foreach ($gallery->assets as $key => $asset)
-            @if ($key > 0)
-                <a href="/storage/{{ $asset->file }}" data-fancybox="images" style="background-image: url('/storage/{{ $asset->file }}');" class="gallery-thumb"><img src="/storage/{{ $asset->file }}" class="d-none"></a>
-            @endif
-            @endforeach
-        </div>
-    </div>
+    @endif
 
     @if (Auth::user() && Auth::user()->role == 'admin')
         <div class="block-actions">
