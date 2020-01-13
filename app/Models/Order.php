@@ -45,7 +45,9 @@ class Order extends Model
 
     public static function most_ordered($limit)
     {
-        $products = OrderRule::selectRaw('product_id, options, SUM(qty) as total')->groupBy('product_id', 'options')->orderBy('total', 'DESC')->limit($limit)->get();
+        $products = OrderRule::selectRaw('product_id, options, SUM(qty) as total')->whereHas('order', function($q){
+            $q->where('status', 'paid');
+        })->groupBy('product_id', 'options')->orderBy('total', 'DESC')->limit($limit)->get();
 
         return $products;
     }
