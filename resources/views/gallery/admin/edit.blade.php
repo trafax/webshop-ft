@@ -33,7 +33,10 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Titel</label>
-                                            <input type="text" name="title" class="form-control" required value="{{ $gallery->title }}">
+                                            <div class="input-group">
+                                                <input type="text" name="title" class="form-control" required value="{{ $gallery->title }}">
+                                                @include('language.admin.partials.translate', ['field' => 'title', 'parent_id' => $gallery->id])
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

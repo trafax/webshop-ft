@@ -151,7 +151,7 @@
                                     <td>
                                         <input type="hidden" name="rule[{{ $rule->id }}][product_id]" value="{{ $rule->product_id }}">
                                         <strong>{{ $rule->sku }} : {{ $rule->title }}</strong>
-                                        @if (is_array($rule->option))
+                                        @if (is_array($rule->options))
                                             @foreach ($rule->options as $option => $value)
                                                 @php $variation = \App\Models\Variation::find($option) @endphp
                                                 <br><small>{{ t($variation, 'title') }}: {{ $value }}</small>

@@ -43,6 +43,7 @@
                             Webwinkel <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="{{ route('admin.overview') }}">Overzicht</a>
                                 <a class="dropdown-item" href="{{ route('admin.category.index') }}">Categorieën</a>
                                 <a class="dropdown-item" href="{{ route('admin.product.index') }}">Producten</a>
                                 <a class="dropdown-item" href="{{ route('admin.order.index') }}">Bestellingen</a>

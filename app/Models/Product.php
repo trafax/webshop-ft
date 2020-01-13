@@ -77,4 +77,14 @@ class Product extends Model
     {
         return $this->hasMany('App\Models\RelatedProduct', 'id', 'id');
     }
+
+    public function order_rules()
+    {
+        return $this->hasMany('App\Models\OrderRule', 'product_id', 'id');
+    }
+
+    public function count_order_rules()
+    {
+        return $this->hasMany('App\Models\OrderRule', 'product_id', 'id')->group_by('product_id')->sum('qty');
+    }
 }

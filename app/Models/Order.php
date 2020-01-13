@@ -31,4 +31,22 @@ class Order extends Model
     {
         return $this->hasOne('App\Models\OrderCustomer', 'order_id', 'id');
     }
+
+    public static function statics($year)
+    {
+        $statics['year'] = $year;
+
+        $statics['total'] = Order::where('status', 'paid')->whereYear('created_at', $year)->count();
+        $statics['total_amount'] = Order::selectRaw('SUM(sub_total) as total_amount')->where('status', 'paid')->whereYear('created_at', $year)->first()->total_amount;
+        $statics['total_shipping'] = Order::selectRaw('SUM(shipping) as total_shipping')->where('status', 'paid')->whereYear('created_at', $year)->first()->total_shipping;
+
+        return $statics;
+    }
+
+    public static function most_ordered($limit)
+    {
+        $products = OrderRule::selectRaw('product_id, options, SUM(qty) as total')->groupBy('product_id', 'options')->orderBy('total', 'DESC')->limit($limit)->get();
+
+        return $products;
+    }
 }

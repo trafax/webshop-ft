@@ -2,11 +2,11 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h1>{{ $gallery->title }}</h1>
+            <h1>{{ t($gallery, 'title') }}</h1>
         </div>
     </div>
 
-    @if (is_array($gallery->assets) && count($gallery->assets) > 0)
+    @if ($gallery->assets && count($gallery->assets) > 0)
         <div class="row gallery">
             <div class="col-md-7">
                 <a href="/storage/{{ $gallery->assets->first()->file }}" data-fancybox="images"><img src="/storage/{{ $gallery->assets->first()->file }}" class="main-image"></a>
