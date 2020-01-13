@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-deck mt-1">
+                        <div class="card-group mt-1">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title font-weight-bold">Formulier</h5>
@@ -73,6 +73,25 @@
                                         </div>
                                         <input type="hidden" name="parent_id" value="{{ $request->get('parent_id') }}">
                                         <input type="hidden" name="type" value="form">
+                                        <button class="btn btn-primary" type="submit">Plaats blok</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title font-weight-bold">Fotoalbum</h5>
+                                    <form method="post" action="{{ route('admin.block.store') }}">
+                                        @csrf
+                                        <p class="card-text">Dit blok toont het geselecteerde fotoalbum.</p>
+                                        <div class="d-inline float-left mr-2">
+                                            <select name="block_data[gallery_id]" class="form-control">
+                                                @foreach (\App\Models\Gallery::all() as $gallery)
+                                                    <option value="{{ $gallery->id }}">{{ $gallery->title }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="parent_id" value="{{ $request->get('parent_id') }}">
+                                        <input type="hidden" name="type" value="gallery">
                                         <button class="btn btn-primary" type="submit">Plaats blok</button>
                                     </form>
                                 </div>

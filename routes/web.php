@@ -108,6 +108,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::match(['get', 'post'], 'customer/search_by_product', 'CustomerController@searchByProduct')->name('customer.search_by_product');
     Route::resource('customer', 'CustomerController');
     Route::get('customer/{user_id}/destroy', 'CustomerController@destroy')->name('customer.destroy');
+
+    Route::resource('gallery', 'GalleryController');
+    Route::get('gallery/{gallery}/destroy', 'GalleryController@destroy')->name('gallery.destroy');
 });
 
 Route::localized(function () {

@@ -34,7 +34,7 @@
                 {{-- PRODUCTS --}}
 
                 <div class="d-flex my-4">
-                    U heeft gezocht op: {{ $request->get('search') }}
+                    {!! it('you-have-search-on', 'U heeft gezocht op:') !!} {{ $request->get('search') }}
                 </div>
 
                 <div class="d-flex border-bottom mb-4">

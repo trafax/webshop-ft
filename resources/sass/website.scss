@@ -263,3 +263,18 @@ a {
         color: #FFF;
     }
 }
+
+.gallery {
+    .main-image {
+        width: 100%;
+    }
+
+    .gallery-thumb {
+        max-width: 145px;
+        display: inline-block;
+        height: 125px;
+        width: 145px;
+        background-size: cover;
+        background-position: center;
+    }
+}
