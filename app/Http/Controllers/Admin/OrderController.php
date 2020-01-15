@@ -139,7 +139,7 @@ class OrderController extends Controller
     {
         $data = new AppOrder($order);
         $pdf = PDF::loadHTML($data->build()->html);
-        return $pdf->download('Factuur '. $order->nr . '.pdf');
+        return $pdf->stream('Factuur '. $order->nr . '.pdf');
     }
 
     public function update(Request $request, Order $order)
