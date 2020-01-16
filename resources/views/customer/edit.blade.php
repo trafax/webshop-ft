@@ -67,7 +67,7 @@
                             <div class="form-group">
                                 <label class="font-weight-bold">{!! it('delivery_country', 'Land') !!} *</label>
                                 <select name="delivery_language_key" class="form-control">
-                                    @foreach (App\Models\Country::get() as $country)
+                                    @foreach (App\Models\Country::orderBy('title', 'ASC')->get() as $country)
                                         <option value="{{ $country->language_key }}" {!! $user->customer->delivery_language_key == $country->language_key ? 'selected' : '' !!}>{{ t($country, 'title') }}</option>
                                     @endforeach
                                 </select>
@@ -122,7 +122,7 @@
                             <div class="form-group">
                                 <label class="font-weight-bold">{!! it('invoice_country', 'Land') !!} *</label>
                                 <select name="language_key" class="form-control">
-                                    @foreach (App\Models\Country::get() as $country)
+                                    @foreach (App\Models\Country::orderBy('title', 'ASC')->get() as $country)
                                         <option value="{{ $country->language_key }}" {!! $user->customer->language_key == $country->language_key ? 'selected' : '' !!}>{{ t($country, 'title') }}</option>
                                     @endforeach
                                 </select>
@@ -139,10 +139,12 @@
                     </div>
 
                     <div class="form-group d-flex mt-4">
-                        <button type="submit" class="btn btn-green mr-3">{!! it('profile_save', 'Sla mijn gegevens op') !!}</button>
 
                         @if (Gloudemans\Shoppingcart\Facades\Cart::count() > 0)
-                            <a href="{{ route('checkout') }}" class="btn btn-light">{!! it('continue_shopping', 'Ga verder met bestellen') !!}</a>
+                            {{-- <a href="{{ route('checkout') }}" class="btn btn-light">{!! it('continue_shopping', 'Ga verder met bestellen') !!}</a> --}}
+                            <button type="submit" class="btn btn-green mr-3">{!! it('continue_shopping', 'Ga verder met bestellen') !!}</button>
+                        @else
+                            <button type="submit" class="btn btn-green mr-3">{!! it('profile_save', 'Sla mijn gegevens op') !!}</button>
                         @endif
 
                     </div>

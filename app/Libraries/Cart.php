@@ -24,7 +24,7 @@ class Cart extends GloudemansCart
             return $total + ($cartItem->qty * $cartItem->price);
         }, 0);
 
-        $total += self::shipping();
+        $total += self::shipping(false, $decimals, $decimalPoint, $thousandSeperator, $total);
 
         return self::numberFormat($total, $decimals, $decimalPoint, $thousandSeperator);
     }
@@ -41,7 +41,7 @@ class Cart extends GloudemansCart
         return self::numberFormat($total, $decimals, $decimalPoint, $thousandSeperator);
     }
 
-    public static function shipping($display = false, $decimals = null, $decimalPoint = null, $thousandSeperator = null)
+    public static function shipping($display = false, $decimals = null, $decimalPoint = null, $thousandSeperator = null, $total = 0)
     {
         $shipping = Shipping::find('bc0cac10-fee5-11e9-8fe9-01a4a7e73204');
         $price = $shipping->default_price;
@@ -58,6 +58,11 @@ class Cart extends GloudemansCart
                 if ($shippingRule)
                 {
                     $price = $shippingRule->price;
+
+                    if ($total >= $shippingRule->free_from && $shippingRule->free_from > 0)
+                    {
+                        $price = 0;
+                    }
                 }
             }
         }

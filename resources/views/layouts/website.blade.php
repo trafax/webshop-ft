@@ -109,22 +109,22 @@
                     <div class="col-md-4 d-md-flex text-center text-lg-left mb-4 mb-md-0">
                         <div class="mr-md-4"><i class="fas fa-phone-square-alt"></i></div>
                         <div>
-                            <span class="font-weight-bold">Telefoonnummer</span><br>
-                            +316-10694149
+                            <span class="font-weight-bold">{!! it('footer-telephone', 'Telefoonnummer') !!}</span><br>
+                            {!! it('footer-telephone-value', '+316-10694149') !!}
                         </div>
                     </div>
                     <div class="col-md-4 d-md-flex text-center text-lg-left mb-4 mb-md-0">
                         <div class="mr-md-4"><i class="fas fa-envelope-square"></i></div>
                         <div>
-                            <span class="font-weight-bold">E-mailadres</span><br>
-                            info@floratuin.com
+                            <span class="font-weight-bold">{!! it('footer-email', 'E-mailadres') !!}</span><br>
+                            {!! it('footer-email-value', 'info@floratuin.com') !!}
                         </div>
                     </div>
                     <div class="col-md-4 d-md-flex text-center text-lg-left">
                         <div class="mr-md-4"><i class="fas fa-map-marked-alt"></i></div>
                         <div>
-                            <span class="font-weight-bold">Locatie</span><br>
-                            Rijksweg 85, 1787 PK Julianadorp
+                            <span class="font-weight-bold">{!! it('footer-location', 'Locatie') !!}</span><br>
+                            {!! it('footer-location-value', 'Rijksweg 85, 1787 PK Julianadorp') !!}
                         </div>
                     </div>
                 </div>
@@ -136,9 +136,9 @@
                     <div class="col d-flex">
                         <div>&copy; {{ date('Y') }} - <a href="https://vanspelden.nl/">van Spelden IT solutions</a></div>
                         <div class="ml-auto">
-                            <a href="{{ route('page', 'disclaimer') }}">Disclaimer</a> |
-                            <a href="{{ route('page', 'privacy-verklaring') }}">Privacy verklaring</a> |
-                            <a href="{{ route('page', 'contact') }}">Contact</a>
+                            <a href="{{ route('page', 'disclaimer') }}">{!! it('footer-disclaimer','Disclaimer') !!}</a> |
+                            <a href="{{ route('page', 'privacy-verklaring') }}">{!! it('footer-privacy', 'Privacy verklaring') !!}</a> |
+                            <a href="{{ route('page', 'contact') }}">{!! it('footer-contact', 'Contact') !!}</a>
                         </div>
                     </div>
                 </div>

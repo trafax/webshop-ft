@@ -60,7 +60,7 @@
                     <tr>
                         <td></td>
                         <td>{!! it('cart-shipping', 'Verzendkosten') !!}</td>
-                        <td>&euro; {{ App\Libraries\Cart::shipping(true) }}</td>
+                        <td>&euro; {{ App\Libraries\Cart::shipping(true, 2, null, null, App\Libraries\Cart::subtotal(2, '.')) }}</td>
                         <td></td>
                     </tr>
                     <tr>

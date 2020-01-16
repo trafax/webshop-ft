@@ -43,6 +43,11 @@ class CustomerController extends Controller
         $user->customer()->updateOrCreate(['user_id' => $user->id], $request->all());
         $user->save();
 
+        if (\Gloudemans\Shoppingcart\Facades\Cart::count() > 0)
+        {
+            return redirect()->route('checkout')->with('message', 'Uw gegevens zijn succesvol aangepast.');
+        }
+
         return redirect()->route('customer.edit')->with('message', 'Uw gegevens zijn succesvol aangepast.');
     }
 
