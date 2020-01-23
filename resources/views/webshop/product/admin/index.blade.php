@@ -62,6 +62,32 @@
                                     <option value="{{ route('admin.product.set_sold_out', 1) }}">Zet op uitverkocht</option>
                                     <option value="{{ route('admin.product.set_sold_out', 0) }}">Zet op beschikbaar</option>
                                 </select>
+                                <select class="form-control ml-4 filter-visible">
+                                    <option value="all">Toon</option>
+                                    <option value="visible">Toon zichtbare producten</option>
+                                    <option value="invisible">Toon niet zichtbare producten</option>
+                                </select>
+                                <script type="text/javascript">
+                                    $(function(){
+                                        $('.filter-visible').on('change', function(){
+                                            $('.product').addClass('d-none');
+
+                                            if ($(this).val() == 'all')
+                                            {
+                                                $('.product').removeClass('d-none');
+                                            }
+                                            if ($(this).val() == 'visible')
+                                            {
+                                                $('.table').find('[data-visible="visible"]').removeClass('d-none');
+                                            }
+                                            if ($(this).val() == 'invisible')
+                                            {
+                                                $('.table').find('[data-visible="invisible"]').removeClass('d-none');
+                                            }
+                                            //d
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -132,7 +158,7 @@
                         </thead>
                         <tbody>
                             @foreach ($products as $product)
-                                <tr>
+                                <tr class="product" data-visible="{{  $product->visible == 0 ? 'invisible' : 'visible' }}">
                                     <td><input type="checkbox" class="check" name="ids[]" value="{{ $product->id }}"></td>
                                     <td>{{ $product->sku }}</td>
                                     <td>{!! $product->visible == 0 ? '<i class="fas fa-eye-slash"></i>' : '' !!} <a href="{{ route('admin.product.edit', $product) }}">{{ $product->title }}</a></td>

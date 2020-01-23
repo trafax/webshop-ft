@@ -15,10 +15,6 @@ class ProductController extends Controller
 {
     public function index($url_variations = null)
     {
-        //$products = Product::get();
-
-        //dd($url_variations);
-
         $active_variations = [];
         $url_variations_explode = explode('/', $url_variations);
         if ($url_variations_explode)
