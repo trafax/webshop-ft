@@ -58,6 +58,15 @@ if (! function_exists('t'))
                 }
                 else
                 {
+                    if ($locale == 'en' && $parent_id->$field == 'Nieuw')
+                    {
+                        return 'New';
+                    }
+                    if ($locale == 'de' && $parent_id->$field == 'Nieuw')
+                    {
+                        return 'Neu';
+                    }
+
                     return $parent_id->$field;
                 }
             }
