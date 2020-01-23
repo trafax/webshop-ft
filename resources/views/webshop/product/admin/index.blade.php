@@ -63,9 +63,14 @@
                                     <option value="{{ route('admin.product.set_sold_out', 0) }}">Zet op beschikbaar</option>
                                 </select>
                                 <select class="form-control ml-4 filter-visible">
-                                    <option value="all">Toon</option>
+                                    <option value="all">Toon alles</option>
                                     <option value="visible">Toon zichtbare producten</option>
                                     <option value="invisible">Toon niet zichtbare producten</option>
+                                </select>
+                                <select class="form-control ml-4 filter-sold-out">
+                                    <option value="all">Toon alles</option>
+                                    <option value="1">Uitverkocht</option>
+                                    <option value="0">Niet uitverkocht</option>
                                 </select>
                                 <script type="text/javascript">
                                     $(function(){
@@ -84,7 +89,22 @@
                                             {
                                                 $('.table').find('[data-visible="invisible"]').removeClass('d-none');
                                             }
-                                            //d
+                                        });
+                                        $('.filter-sold-out').on('change', function(){
+                                            $('.product').addClass('d-none');
+
+                                            if ($(this).val() == 'all')
+                                            {
+                                                $('.product').removeClass('d-none');
+                                            }
+                                            if ($(this).val() == '1')
+                                            {
+                                                $('.table').find('[data-sold-out="1"]').removeClass('d-none');
+                                            }
+                                            if ($(this).val() == '0')
+                                            {
+                                                $('.table').find('[data-sold-out="0"]').removeClass('d-none');
+                                            }
                                         });
                                     });
                                 </script>
@@ -159,7 +179,7 @@
                         </thead>
                         <tbody>
                             @foreach ($products as $product)
-                                <tr class="product" data-visible="{{  $product->visible == 0 ? 'invisible' : 'visible' }}">
+                                <tr class="product" data-sold-out="{{ $product->sold_out == 1 ? '1' : '0' }}" data-visible="{{  $product->visible == 0 ? 'invisible' : 'visible' }}">
                                     <td><input type="checkbox" class="check" name="ids[]" value="{{ $product->id }}"></td>
                                     <td>{{ $product->sku }}</td>
                                     <td>{!! $product->visible == 0 ? '<i class="fas fa-eye-slash"></i>' : '' !!} <a href="{{ route('admin.product.edit', $product) }}">{{ $product->title }}</a></td>
