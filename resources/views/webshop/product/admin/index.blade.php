@@ -14,7 +14,7 @@
 
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
-                    <div class="row w-50">
+                    <div class="row w-75">
                         <div class="col-6">
                             <form method="post" action="{{ route('admin.product.search') }}">
                                 @csrf
@@ -53,19 +53,52 @@
                                 });
                             });
                             </script>
-                            <select class="form-control with-selected">
-                                <option value="">Met geselecteerde</option>
-                                <option value="{{ route('admin.product.delete_selected') }}">Verwijder geselecteerde</option>
-                                <option value="{{ route('admin.product.set_view_mode', 0) }}">Maak niet zichtbaar</option>
-                                <option value="{{ route('admin.product.set_view_mode', 1) }}">Maak zichtbaar</option>
-                                <option value="{{ route('admin.product.set_sold_out', 1) }}">Zet op uitverkocht</option>
-                                <option value="{{ route('admin.product.set_sold_out', 0) }}">Zet op beschikbaar</option>
-                            </select>
+                            <div class="d-flex w-100">
+                                <select class="form-control with-selected">
+                                    <option value="">Met geselecteerde</option>
+                                    <option value="{{ route('admin.product.delete_selected') }}">Verwijder geselecteerde</option>
+                                    <option value="{{ route('admin.product.set_view_mode', 0) }}">Maak niet zichtbaar</option>
+                                    <option value="{{ route('admin.product.set_view_mode', 1) }}">Maak zichtbaar</option>
+                                    <option value="{{ route('admin.product.set_sold_out', 1) }}">Zet op uitverkocht</option>
+                                    <option value="{{ route('admin.product.set_sold_out', 0) }}">Zet op beschikbaar</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <a href="{{ route('admin.product.create') }}">Product toevoegen</a>
                 </div>
-                <div class="card-body">
+                <div class="card-body filters">
+
+                        <form method="post" action="{{ route('admin.product.set_variation_filter') }}">
+                            @csrf
+                            <div class="card-deck">
+                                @foreach ($variations as $variation)
+                                    @if ($variation->hide == 0)
+                                        <div class="card mb-4">
+                                            <div class="card-header font-weight-bold py-1">{{ t($variation, 'title') }}</div>
+                                            <div class="card-body pb-2 px-3 pt-2 mb-0">
+                                                @foreach ($variation->values as $value)
+                                                    <div class="form-check">
+                                                        @php $checked = isset($active_variations[$variation->slug]) && in_array($value->slug, explode(',', $active_variations[$variation->slug])) ? 'checked' : '' @endphp
+                                                        <input type="checkbox" {{ $checked }} name="variations[{{ $variation->slug }}][]" class="form-check-input" value="{{ $value->slug }}" id="{{ $value->title }}">
+                                                        <label class="form-check-label" for="{{ $value->title }}">{{ t($value, 'title') }}</label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </form>
+
+                        <script>
+                        $(function(){
+                            $('.filters input[type="checkbox"]').change(function(){
+                                $('.filters form').submit();
+                            });
+                        });
+                        </script>
+
                     <table class="table table-hover" data-range="true" data-toggle="checkboxes">
                         <thead>
                             <tr>

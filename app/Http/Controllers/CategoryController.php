@@ -190,10 +190,10 @@ public function index(Request $request, $slug, $url_variations = null)
         //     'description' => t($category, 'seo[description]')
         // ];
 
-        $category = new Category();
-        $category->slug = 'all';
-        $category->title = 'Alle producten';
-        $breadcrumbs = [];
+        //$category = new Category();
+        //$category->slug = 'all';
+       // $category->title = 'Alle producten';
+        //$breadcrumbs = [];
 
         return view('webshop.category.index', compact('category', 'products', 'breadcrumbs', 'variations', 'active_variations', 'seo'));
     }
