@@ -93,8 +93,8 @@
                     </div>
                     <a href="{{ route('admin.product.create') }}">Product toevoegen</a>
                 </div>
-                <div class="card-body filters">
-
+                <div class="card-body">
+                    <div class="filters">
                         <form method="post" action="{{ route('admin.product.set_variation_filter') }}">
                             @csrf
                             <div class="card-deck">
@@ -116,14 +116,15 @@
                                 @endforeach
                             </div>
                         </form>
+                    </div>
 
-                        <script>
-                        $(function(){
-                            $('.filters input[type="checkbox"]').change(function(){
-                                $('.filters form').submit();
-                            });
+                    <script>
+                    $(function(){
+                        $('.filters input[type="checkbox"]').change(function(){
+                            $('.filters form').submit();
                         });
-                        </script>
+                    });
+                    </script>
 
                     <table class="table table-hover" data-range="true" data-toggle="checkboxes">
                         <thead>
