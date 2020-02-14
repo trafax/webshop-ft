@@ -25,11 +25,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('webshop/category/{category}/destroy', 'CategoryController@destroy')->name('category.destroy');
     Route::post('webshop/category/sort', 'CategoryController@sort')->name('category.sort');
 
+    Route::match(['get', 'post'], 'webshop/product/search', 'ProductController@search')->name('product.search');
     Route::get('webshop/product/filter', 'ProductController@index');
     Route::resource('webshop/product', 'ProductController');
     Route::get('webshop/product/filter/{any?}', 'ProductController@index')->name('product')->where('any', '.*');
     Route::get('webshop/product/{product}/destroy', 'ProductController@destroy')->name('product.destroy');
-    Route::post('webshop/product/search', 'ProductController@search')->name('product.search');
     Route::post('webshop/product/setViewMode/{show}', 'ProductController@setViewMode')->name('product.set_view_mode');
     Route::post('webshop/product/deleteSelected', 'ProductController@deleteSelected')->name('product.delete_selected');
     Route::post('webshop/product/setSoldOut/{sold_out}', 'ProductController@setSoldOut')->name('product.set_sold_out');

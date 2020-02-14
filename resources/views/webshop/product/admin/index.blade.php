@@ -118,7 +118,7 @@
                         <form method="post" action="{{ route('admin.product.set_variation_filter') }}">
                             @csrf
                             <div class="card-deck">
-                                @foreach ($variations as $variation)
+                                @foreach ($variations ?? [] as $variation)
                                     @if ($variation->hide == 0)
                                         <div class="card mb-4">
                                             <div class="card-header font-weight-bold py-1">{{ t($variation, 'title') }}</div>

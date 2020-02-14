@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="container">
-        <h1 class="mt-4">Winkelwagen</h1>
+        <h1 class="mt-4">{!! it('shopping-cart-header', 'Winkelwagen') !!}</h1>
 
         <nav>
             <ol class="breadcrumb bg-transparent p-0">
@@ -92,8 +92,8 @@
 
         @else
 
-            <p class="text-center font-weight-bold">{!! it('cart-is-empty', 'Er zit niks in je winkelmandje') !!}</p>
-            <p class="text-center"><a href="{{ route('webshop') }}" class="btn btn-green">{!! it('cart-return-to-webshop', 'Ga naar webshop') !!}</a></p>
+            <div class="text-center font-weight-bold mt-4">{!! it('cart-is-empty', 'Er zit niks in je winkelmandje') !!}</div>
+            <div class="text-center mt-4"><a href="{{ route('webshop') }}" class="btn btn-green">{!! it('cart-return-to-webshop', 'Ga naar webshop') !!}</a></div>
 
         @endif
 
