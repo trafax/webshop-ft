@@ -193,7 +193,7 @@ class ProductController extends Controller
         foreach ($request->get('variations') as $id => $variation)
         {
             $variationObj = ProductVariation::find($id);
-            $variationObj->title = $variation['title'];
+            $variationObj->title = $variation['title'] ?? '';
             $variationObj->fixed_price = $variation['fixed_price'] ?? 0;
             $variationObj->adding_price = $variation['adding_price'] ?? 0;
             $variationObj->slug = Str::slug($variation['title']);
