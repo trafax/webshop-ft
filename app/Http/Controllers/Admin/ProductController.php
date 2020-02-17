@@ -137,6 +137,7 @@ class ProductController extends Controller
         $request->validate(['title' => 'required']);
 
         $product = new Product();
+        $request->request->set('price', $request->get('price') ?? 0 );
         $product->fill($request->all());
         $product->save();
 
@@ -193,8 +194,8 @@ class ProductController extends Controller
         {
             $variationObj = ProductVariation::find($id);
             $variationObj->title = $variation['title'];
-            $variationObj->fixed_price = $variation['fixed_price'];
-            $variationObj->adding_price = $variation['adding_price'];
+            $variationObj->fixed_price = $variation['fixed_price'] ?? 0;
+            $variationObj->adding_price = $variation['adding_price'] ?? 0;
             $variationObj->slug = Str::slug($variation['title']);
             $variationObj->save();
 

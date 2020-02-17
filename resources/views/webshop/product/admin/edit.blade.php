@@ -205,12 +205,12 @@
                                                         </div>
                                                         <div class="col">
                                                             <div class="form-group">
-                                                                <input type="text" name="variations[{{ $row->pivot->id }}][fixed_price]" value="{{ $row->pivot->fixed_price }}" class="form-control" placeholder="Vaste prijs">
+                                                                <input type="text" name="variations[{{ $row->pivot->id }}][fixed_price]" value="{{ $row->pivot->fixed_price ?? '' }}" class="form-control" placeholder="Vaste prijs">
                                                             </div>
                                                         </div>
                                                         <div class="col">
                                                             <div class="form-group">
-                                                                <input type="text" name="variations[{{ $row->pivot->id }}][adding_price]" value="{{ $row->pivot->adding_price }}" class="form-control" placeholder="Extra prijs">
+                                                                <input type="text" name="variations[{{ $row->pivot->id }}][adding_price]" value="{{ $row->pivot->adding_price ?? '' }}" class="form-control" placeholder="Extra prijs">
                                                             </div>
                                                         </div>
                                                         <div class="col">
