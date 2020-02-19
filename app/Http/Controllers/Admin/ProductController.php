@@ -190,21 +190,23 @@ class ProductController extends Controller
         $product->categories()->detach();
         $product->categories()->attach($request->get('parent_id'));
 
-        foreach ($request->get('variations') as $id => $variation)
+        if (is_array($request->get('variations')))
         {
-            if (isset($variation['title']))
+            foreach ($request->get('variations') as $id => $variation)
             {
                 $variationObj = ProductVariation::find($id);
+
+                if (empty($variation['title']))
+                {
+                    $variationObj->delete();
+                    continue;
+                }
+
                 $variationObj->title = $variation['title'] ?? '';
                 $variationObj->fixed_price = $variation['fixed_price'] ?? 0;
                 $variationObj->adding_price = $variation['adding_price'] ?? 0;
                 $variationObj->slug = Str::slug($variation['title']);
                 $variationObj->save();
-
-                if (empty($variation['title']))
-                {
-                    $variationObj->delete();
-                }
             }
         }
 

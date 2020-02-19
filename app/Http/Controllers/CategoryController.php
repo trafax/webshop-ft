@@ -184,16 +184,16 @@ public function index(Request $request, $slug, $url_variations = null)
             $products = Product::where('visible', 1)->paginate(setting('products_pp'));
         }
 
-        // $seo = [
-        //     'title' => t($category, 'seo[title]') ? t($category, 'seo[title]') : t($category, 'title'),
-        //     'keywords' => t($category, 'seo[keywords]'),
-        //     'description' => t($category, 'seo[description]')
-        // ];
+        $category = new Category();
+        $category->slug = 'all';
+        $category->title = 'Alle producten';
+        $breadcrumbs = [];
 
-        //$category = new Category();
-        //$category->slug = 'all';
-       // $category->title = 'Alle producten';
-        //$breadcrumbs = [];
+        $seo = [
+            'title' => t($category, 'seo[title]') ? t($category, 'seo[title]') : t($category, 'title'),
+            'keywords' => t($category, 'seo[keywords]'),
+            'description' => t($category, 'seo[description]')
+        ];
 
         return view('webshop.category.index', compact('category', 'products', 'breadcrumbs', 'variations', 'active_variations', 'seo'));
     }
