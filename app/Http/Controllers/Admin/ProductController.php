@@ -167,7 +167,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->route('admin.product.index')->with('message', 'Product succesvol toegevoegd.');
+        return redirect()->route('admin.product.edit', $product)->with('message', 'Product succesvol toegevoegd.');
     }
 
     public function edit(Product $product)
@@ -245,7 +245,7 @@ class ProductController extends Controller
             }
         }
 
-        return redirect()->route('admin.product.index')->with('message', 'Product succesvol aangepast.');
+        return redirect()->route('admin.product.edit', $product)->with('message', 'Product succesvol aangepast.');
     }
 
     public function destroy(Product $product)
