@@ -57,11 +57,11 @@ class ProductController extends Controller
 
         if ($url_variations)
         {
-            $products = Product::whereIn('id', $product_ids)->orderBy('price')->orderBy('sku')->get();
+            $products = Product::whereIn('id', $product_ids)->orderByRaw('CAST(sku as UNSIGNED) ASC')->orderBy('sku')->get();
         }
         else
         {
-            $products = Product::orderBy('sku')->get();
+            $products = Product::orderByRaw('CAST(sku as UNSIGNED) ASC')->get();
         }
 
         return view('webshop.product.admin.index', compact('products', 'variations', 'active_variations'));
