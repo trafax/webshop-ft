@@ -57,11 +57,11 @@ class ProductController extends Controller
 
         if ($url_variations)
         {
-            $products = Product::whereIn('id', $product_ids)->orderBy('price')->orderBy('title')->get();
+            $products = Product::whereIn('id', $product_ids)->orderBy('price')->orderBy('sku')->get();
         }
         else
         {
-            $products = Product::get();
+            $products = Product::orderBy('sku')->get();
         }
 
         return view('webshop.product.admin.index', compact('products', 'variations', 'active_variations'));
