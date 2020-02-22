@@ -193,5 +193,7 @@ return [
         'title'                 => 'titel',
         'username'              => 'gebruikersnaam',
         'year'                  => 'jaar',
+        'fname'                 => 'Voornaam',
+        'lname'                 => 'Achternaam',
     ],
 ];

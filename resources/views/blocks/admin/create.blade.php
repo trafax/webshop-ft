@@ -97,6 +97,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card-group mt-1">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title font-weight-bold">Mailchimp</h5>
+                                    <form method="post" action="{{ route('admin.block.store') }}">
+                                        @csrf
+                                        <p class="card-text">Dit blok toont een inschrijfformulier.</p>
+                                        <input type="hidden" name="parent_id" value="{{ $request->get('parent_id') }}">
+                                        <input type="hidden" name="type" value="mailchimp">
+                                        <button class="btn btn-primary" type="submit">Plaats blok</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane fade show" id="webshop" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="card-group">

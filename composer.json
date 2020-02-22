@@ -19,6 +19,7 @@
         "laravel/helpers": "^1.1",
         "laravel/tinker": "^1.0",
         "mollie/mollie-api-php": "2.0",
+        "spatie/laravel-newsletter": "^4.7",
         "unisharp/laravel-filemanager": "~1.8",
         "webpatser/laravel-uuid": "^3.0"
     },

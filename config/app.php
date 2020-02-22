@@ -229,6 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Uuid' => Webpatser\Uuid\Uuid::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Newsletter' => Spatie\LaravelNewsletter\Newsletter::class,
     ],
 
 ];
