@@ -16,14 +16,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Voornaam</label>
+                                    <label>{!! it('mailchimp-fname', 'Voornaam') !!}</label>
                                     <input type="text" name="fname" class="form-control" required>
                                     @error('fname') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Achternaam</label>
+                                    <label>{!! it('mailchimp-lname', 'Achternaam') !!}</label>
                                     <input type="text" name="lname" class="form-control" required>
                                     @error('lname') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
@@ -32,14 +32,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>E-mailadres</label>
+                                    <label>{!! it('mailchimp-email', 'E-mailadres') !!}</label>
                                     <input type="email" name="email" class="form-control" required>
                                     @error('email') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-green">Inschrijven</button>
+                            <button class="btn btn-green">{!! it('mailchimp-btn', 'Inschrijven') !!}</button>
                         </div>
                     </form>
                </div>
