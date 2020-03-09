@@ -33,4 +33,9 @@ class Variation extends Model
     {
         return $this->belongsToMany('App\Models\Product');
     }
+
+    public function options()
+    {
+        return $this->hasMany(ProductVariation::class, 'variation_id', 'id')->groupBy('title');
+    }
 }

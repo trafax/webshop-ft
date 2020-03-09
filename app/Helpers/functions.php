@@ -29,7 +29,7 @@ if (! function_exists('get_country_by_key'))
 
 if (! function_exists('t'))
 {
-    function t($parent_id, $field, $locale = '')
+    function t($parent_id, $field, $locale = '', $default = '')
     {
         if (! $locale)
         {
@@ -72,6 +72,9 @@ if (! function_exists('t'))
             }
             else
             {
+                if ($default != '') {
+                    return $default;
+                }
                 return '';
             }
         }

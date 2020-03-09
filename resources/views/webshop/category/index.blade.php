@@ -48,7 +48,7 @@
                                             <div class="form-check">
                                                 @php $checked = isset($active_variations[$variation->slug]) && in_array($value->slug, explode(',', $active_variations[$variation->slug])) ? 'checked' : '' @endphp
                                                 <input type="checkbox" {{ $checked }} name="variations[{{ $variation->slug }}][]" class="form-check-input" value="{{ $value->slug }}" id="{{ $value->title }}">
-                                                <label class="form-check-label" for="{{ $value->title }}">{{ t($value, 'title') }}</label>
+                                                <label class="form-check-label" for="{{ $value->title }}">{{ t($value->slug, 'title', '', $value->title) }}</label>
                                             </div>
                                         @endforeach
                                     </div>

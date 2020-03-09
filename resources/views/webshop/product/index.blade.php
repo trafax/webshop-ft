@@ -90,7 +90,7 @@
                                                 $price = '+ (&euro; '.$row->pivot->adding_price.')';
                                             }
                                         @endphp
-                                        <option value="{{ $row->pivot->slug }}" {!! $data_attr !!}>{{ t($row->pivot, 'title') }} {!! $price !!}</option>
+                                        <option value="{{ $row->pivot->slug }}" {!! $data_attr !!}>{{ t($row->pivot->slug, 'title', '', $row->pivot->title) }} {!! $price !!}</option>
                                     @endforeach
                                     </select>
                                 </div>

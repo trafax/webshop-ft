@@ -24,7 +24,7 @@
                         <nav>
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="nav-home" aria-selected="true">Basis</a>
-                                {{-- <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#options" role="tab" aria-controls="nav-home" aria-selected="true">Opties</a> --}}
+                                <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#options" role="tab" aria-controls="nav-home" aria-selected="true">Opties</a>
                             </div>
                         </nav>
                         <div class="tab-content pt-4" id="nav-tabContent">
@@ -66,9 +66,20 @@
                                     </select>
                                 </div>
                             </div>
-                            {{-- <div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="nav-home-tab">
-
-                            </div> --}}
+                            <div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="nav-home-tab">
+                                <div class="row">
+                                @foreach ($variation->options as $option)
+                                    <div class="col col-md-3">
+                                        <div class="d-flex my-2 p-2" style="border: #EFEFEF solid 1px;">
+                                            <label>{{ $option->title }}</label>
+                                            <div class="ml-auto">
+                                            @include('language.admin.partials.translate', ['field' => 'title', 'parent_id' => $option->slug])
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary">Opslaan</button>

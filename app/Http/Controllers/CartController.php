@@ -34,7 +34,7 @@ class CartController extends Controller
                     $price = $price + $variation->adding_price;
                 }
 
-                $option[$variation->variation->id] = $variation->title;
+                $option[$variation->variation->id] = t($variation->slug, 'title', '', $variation->title);
             }
         }
 
