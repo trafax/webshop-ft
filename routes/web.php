@@ -136,9 +136,11 @@ Route::localized(function () {
     Route::match(['post', 'get'], 'webshop/search', 'ProductController@search')->name('product.search');
     Route::get('category/all/{any?}', 'CategoryController@all')->name('category.all')->where('any', '.*');
     Route::get('category/{slug}/{any?}', 'CategoryController@index')->name('category')->where('any', '.*');
+    Route::get('webshop/category/{slug}/{any?}', 'CategoryController@index')->name('category')->where('any', '.*');
     Route::post('category/set_filter/{any?}', 'CategoryController@set_variations_filter')->name('category.set_variation_filter')->where('any', '.*');
 
     Route::get('product/{slug}', 'ProductController@index')->name('product');
+    Route::get('webshop/product/{slug}', 'ProductController@index')->name('product');
 
     Route::get('cart', 'CartController@index')->name('cart');
     Route::post('cart/store/{product}', 'CartController@store')->name('cart.store');
