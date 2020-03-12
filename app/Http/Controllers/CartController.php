@@ -59,6 +59,8 @@ class CartController extends Controller
     {
         Cart::remove($row_id);
 
+        session()->forget('order_id');
+
         return redirect()->back();
     }
 }

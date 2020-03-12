@@ -91,7 +91,7 @@ class CheckoutController extends Controller
 
             $request->session()->put('order_id', $order_nr);
 
-            Mail::to(Auth::user())->cc(setting('send_orders_to'))->send(new AppOrder($order));
+            //Mail::to(Auth::user())->cc(setting('send_orders_to'))->send(new AppOrder($order));
         }
         else
         {
@@ -141,6 +141,7 @@ class CheckoutController extends Controller
         // Verstuur factuur naar klant
         if ($payment->isPaid() && ! $payment->hasRefunds() && ! $payment->hasChargebacks())
         {
+            Mail::to($order->customer->email)->cc(setting('send_orders_to'))->send(new AppOrder($order));
             Mail::to($order->customer->email)->cc(setting('send_orders_to'))->send(new Invoice($order));
         }
     }
