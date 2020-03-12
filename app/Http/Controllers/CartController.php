@@ -19,6 +19,8 @@ class CartController extends Controller
         $price = $product->price;
         $option = [];
 
+        session()->forget('order_id');
+
         if (is_array($request->get('options')))
         {
             foreach ($request->get('options') as $option_slug)
