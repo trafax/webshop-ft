@@ -10,7 +10,7 @@ class Featured_articlesController extends Controller
 {
     public function block(Block $block)
     {
-        $products = Product::where('featured', 1);
+        $products = Product::where(['featured' => 1, 'visible' => 1]);
 
         if (isset($block->block_data['total_products']))
         {
