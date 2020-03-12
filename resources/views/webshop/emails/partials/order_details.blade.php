@@ -1,6 +1,6 @@
 <table width="700" style="width: 100% !important; margin-top: 10px;">
     <tr>
-        <td valign="top" style="width: 50%  !important;">
+        <td valign="top" style="width: 60%  !important;">
             <h2>Factuurgegevens</h2>
             <table cellspacing="0" style="width: 100% !important;">
                 <tr>
