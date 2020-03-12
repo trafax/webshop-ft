@@ -18,6 +18,11 @@
                     <div class="card-body">
                         <h2>{!! it('login_existing_title', 'Inloggen bestaande klant') !!}</h2>
                         {!! it('login_existing_description', '&nbsp;', true) !!}
+
+                        @foreach ($errors->all() as $error)
+                            <div class="alert alert-warning mt-0">{{ $error }}</div>
+                        @endforeach
+
                         <form method="post" action="{{ route('login') }}">
                             @csrf
                             <div class="form-group">
