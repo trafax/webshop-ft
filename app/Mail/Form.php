@@ -36,6 +36,6 @@ class Form extends Mailable
         return $this->view('form.email.form')->with([
             'form' => $this->form,
             'request' => $this->request
-        ])->subject(t($this->form, 'title'))->from('noreply@floratuin.com');
+        ])->subject(t($this->form, 'title'))->from('info@floratuin.com', 'Floratuin Julianadorp');
     }
 }
