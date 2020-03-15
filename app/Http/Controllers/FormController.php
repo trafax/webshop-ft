@@ -50,6 +50,14 @@ class FormController extends Controller
             $request->validate($validationRules);
         }
 
+        $ch = curl_init('https://google.com/recaptcha/api/siteverify?secret=6LdkcuEUAAAAALxdXzKWWicfQghkraxnBwTTJ-KH&response=' . $request->get('g_token'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = json_decode(curl_exec($ch), true);
+
+        if ($response['success'] != TRUE) {
+            return redirect()->back()->with('message', 'Er is een fout opgetreden, probeert u het nogmaals.');
+        }
+
         $email = Mail::to($form->send_to_email);
         if ($send_to_subscriber)
         {

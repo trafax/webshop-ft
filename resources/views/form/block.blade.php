@@ -39,7 +39,21 @@
                     @endswitch
                 @endforeach
 
-                <button type="submit" name="submit" class="btn btn-green">{!! it('form-submit-'. $form->id, 'Verzend') !!}</button>
+                <script src="https://www.google.com/recaptcha/api.js?render=6LdkcuEUAAAAACIERIxSlg7g4WaJtKDL15m9QzhJ"></script>
+                <script>
+                    function setToken()
+                    {
+                        grecaptcha.ready(function() {
+                            grecaptcha.execute('6LdkcuEUAAAAACIERIxSlg7g4WaJtKDL15m9QzhJ', {action: 'homepage'}).then(function(token) {
+                                $('[name=g_token]').val(token);
+                            });
+                        });
+                    }
+
+                    setToken();
+                </script>
+                <input type="hidden" name="g_token" value="">
+                <button type="submit" name="submit" onclick="return setToken()" class="btn btn-green">{!! it('form-submit-'. $form->id, 'Verzend') !!}</button>
             </form>
         </div>
 
