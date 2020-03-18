@@ -62,6 +62,7 @@
                                     <div class="form-group">
                                         <label>Tekst voor in de popup</label>
                                         <textarea class="editor" name="popup_content">{!! setting('popup_content') !!}</textarea>
+                                        @include('language.admin.partials.translate', ['field' => 'popup_content', 'parent_id' => 'settings', 'editor' => true])
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="webshop" role="tabpanel" aria-labelledby="nav-profile-tab">

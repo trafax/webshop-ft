@@ -134,7 +134,9 @@
                         <p class="text-warning">{!! it('checkout-order-already-placed', 'De bestelling is al geplaatst. Deze dient enkel nog betaald te worden.') !!}</p>
                         <button type="submit" class="btn btn-green mt-3 float-right">{!! it('checkout-do-payment', 'Afrekenen') !!}</button>
                     @else
-                        <p class="mt-3"><label><input type="checkbox" name="agreed" value="1"> {!! it('checkout-conditions', 'Ik plaats een bestelling en ga akkoord met de <a href="/algemene-voorwaarden">algemene voorwaarden</a>') !!}</label></p>
+                        <p class="mt-3 mb-0"><label><input type="checkbox" name="newsletter" value="1"> {!! it('checkout-newsletter', 'Ik wil mij inschrijven voor de nieuwsbrief') !!}</label></p>
+
+                        <p class="mt-0"><label><input type="checkbox" name="agreed" value="1"> {!! it('checkout-conditions', 'Ik plaats een bestelling en ga akkoord met de <a href="/algemene-voorwaarden">algemene voorwaarden</a>') !!}</label></p>
                         <button type="submit" class="btn btn-green mt-3 float-right mb-4">{!! it('checkout-do-payment', 'Afrekenen') !!}</button>
                     @endif
                 </div>

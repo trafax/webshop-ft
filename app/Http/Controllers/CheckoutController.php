@@ -12,6 +12,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Newsletter;
 
 class CheckoutController extends Controller
 {
@@ -51,6 +52,11 @@ class CheckoutController extends Controller
         $request->validate([
             'agreed' => 'required'
         ]);
+
+        // Inschrijven nieuwsbrief
+        if (Newsletter::isSubscribed(Auth::user()->email) == false && $request->get('newsletter') == 1) {
+            Newsletter::subscribe(Auth::user()->email, ['FNAME' => Auth::user()->firstname, 'LNAME' => Auth::user()->preposition . ' ' . Auth::user()->lastname]);
+        }
 
         if (! $request->session()->get('order_id'))
         {

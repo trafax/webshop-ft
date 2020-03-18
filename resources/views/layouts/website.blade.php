@@ -30,7 +30,7 @@
     @section('popup')
         @if (setting('show_popup'))
             <div class="website-popup" style="{!! setting('popup-bg') ? 'background-color: ' . setting('popup-bg') : '' !!}">
-                {!! setting('popup_content') !!}
+                {!! t('settings', 'popup_content', '', setting('popup_content')) !!}
             </div>
         @endif
     @show
