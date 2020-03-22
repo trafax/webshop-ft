@@ -111,7 +111,9 @@
                             </div>
                         </div>
                     </div>
-                    <a href="{{ route('admin.product.create') }}">Product toevoegen</a>
+                </div>
+                <div class="pt-3 pr-4 text-right">
+                    <a href="{{ route('admin.product.create') }}" class="btn btn-success">Product toevoegen</a>
                 </div>
                 <div class="card-body">
                     <div class="filters">
