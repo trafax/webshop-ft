@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Barryvdh\DomPDF\ServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -230,6 +231,7 @@ return [
         'Uuid' => Webpatser\Uuid\Uuid::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Newsletter' => Spatie\LaravelNewsletter\Newsletter::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

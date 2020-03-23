@@ -116,6 +116,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('gallery/{gallery}/destroy', 'GalleryController@destroy')->name('gallery.destroy');
 
     Route::get('overview', 'OverviewController@index')->name('overview');
+
+    Route::get('import', 'ImportController@index');
 });
 
 Route::localized(function () {
