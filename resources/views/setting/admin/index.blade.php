@@ -25,6 +25,7 @@
                                     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#translations" role="tab" aria-controls="nav-profile" aria-selected="false">Vertalingen</a>
                                     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#google" role="tab" aria-controls="nav-profile" aria-selected="false">Google</a>
                                     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#seo" role="tab" aria-controls="nav-profile" aria-selected="false">SEO</a>
+                                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#css" role="tab" aria-controls="nav-profile" aria-selected="false">CSS</a>
                                 </div>
                             </nav>
                             <div class="tab-content pt-4" id="nav-tabContent">
@@ -133,6 +134,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="tab-pane fade" id="css" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                    <textarea name="custom_css" class="form-control mb-4" rows="10">{{ setting('custom_css') }}</textarea>
                                 </div>
                             </div>
                             <div>

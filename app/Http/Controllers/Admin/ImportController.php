@@ -14,10 +14,12 @@ class ImportController extends Controller
 {
     public function index()
     {
+        /**
         Category::truncate();
         Product::truncate();
         ProductVariation::truncate();
 
         Excel::import(new ProductsImport, storage_path('app/Zomerbollen_lijst_2020.xlsx'));
+        **/
     }
 }
