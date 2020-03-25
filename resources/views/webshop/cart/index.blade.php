@@ -38,8 +38,7 @@
                                             <span class="d-block small">{!! it('webshop-product-sku', 'Artikelnummer') !!}: {{ $item->id->sku }}</span>
                                         @endif
                                         @foreach ($item->options as $option => $value)
-                                            @php $option = App\Models\ProductVariation::where('slug', $option)->first() @endphp
-                                            @php $variation = \App\Models\Variation::find($option->variation_id ?? 0) @endphp
+                                            @php $variation = \App\Models\Variation::find($option) @endphp
                                             <span class="d-block small">{{ @t($variation, 'title') }}: {{ $value }}</span>
                                         @endforeach
                                     </div>
