@@ -97,7 +97,7 @@
                             <div class="small">
                                 @foreach ($item->options as $option => $value)
                                     @php $option = App\Models\ProductVariation::where('slug', $option)->first() @endphp
-                                    @php $variation = \App\Models\Variation::find($option->variation_id) @endphp
+                                    @php $variation = \App\Models\Variation::find($option->variation_id ?? 0) @endphp
                                     <span class="d-block small">{{ @t($variation, 'title') }}: {{ $value }}</span>
                                 @endforeach
                             </div>
