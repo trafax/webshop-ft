@@ -76,7 +76,8 @@
                 <strong>{{ $rule->sku }} : {{ $rule->title }}</strong>
                 @if (is_array($rule->options))
                     @foreach ($rule->options as $option => $value)
-                        @php $variation = \App\Models\Variation::find($option) @endphp
+                        @php $option = App\Models\ProductVariation::where('slug', $option)->first() @endphp
+                        @php $variation = \App\Models\Variation::find($option->variation_id) @endphp
                         <br><small>{{ t($variation, 'title') }}: {{ $value }}</small>
                     @endforeach
                 @endif
