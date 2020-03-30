@@ -63,7 +63,18 @@
                     @if ($product->sku)
                         <div class="description mb-2 font-weight-bold">{!! it('webshop-product-sku', 'Artikelnummer') !!}: {{ $product->sku }}</div>
                     @endif
-                    <div class="specs">{!! t($product, 'specs') !!}</div>
+
+                    <div class="specs">
+                        @php
+                            if ($category->specs)
+                                $specs = t($category, 'specs');
+                            else
+                                $specs = t($product, 'specs');
+                        @endphp
+
+                        {!! $specs !!}
+                    </div>
+
                     <div class="mt-2 mb-2 default_price" data-default_price="{{ $product->price }}">
                         <span class="price">&euro; {{ price($product->price) }}</span>
                     </div>

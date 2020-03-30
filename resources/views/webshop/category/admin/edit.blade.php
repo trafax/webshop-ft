@@ -26,6 +26,7 @@
                                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="nav-home" aria-selected="true">Basis</a>
                                 <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#images" role="tab" aria-controls="nav-home" aria-selected="true">Afbeeldingen</a>
                                 <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#google" role="tab" aria-controls="nav-profile" aria-selected="false">Zoekmachine</a>
+                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#specs" role="tab" aria-controls="nav-profile" aria-selected="false">Specificaties</a>
                             </div>
                         </nav>
                         <div class="tab-content pt-4" id="nav-tabContent">
@@ -102,6 +103,17 @@
                                         <textarea name="seo[description]" class="form-control">{{ $category->seo['description'] }}</textarea>
                                         @include('language.admin.partials.translate', ['field' => 'seo[description]', 'parent_id' => $category->id])
                                     </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="specs" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                <label>Specs</label>
+                                <br>
+                                <div class="p-2 bg-warning mb-3">
+                                    <label class="m-0"><input type="checkbox" name="place_in_all" value="1" class="checkbox mr-2"> Plaats deze tekst in alle producten bij het veld specificaties.</label>
+                                </div>
+                                <div class="form-group">
+                                    <textarea name="specs" class="form-control editor">{{ $category->specs }}</textarea>
+                                    @include('language.admin.partials.translate', ['field' => 'specs', 'parent_id' => $category->id, 'editor' => true])
                                 </div>
                             </div>
                         </div>

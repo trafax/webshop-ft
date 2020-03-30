@@ -44,6 +44,13 @@ class CategoryController extends Controller
     {
         $request->validate(['title' => 'required']);
 
+        if ($request->get('place_in_all') == 1) {
+            foreach ($category->products as $product) {
+                $product->specs = $request->get('specs');
+                $product->save();
+            }
+        }
+
         $category->fill($request->all());
         $category->save();
 
