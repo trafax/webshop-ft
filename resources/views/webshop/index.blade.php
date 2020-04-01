@@ -36,7 +36,7 @@
                     @endif
                     <div class="card-body">
                         <h5 class="card-title">{!! t($category, 'title') !!}</h5>
-                        <p class="card-text">{!! $category->description !!}</p>
+                        {{-- <p class="card-text">{!! $category->description !!}</p> --}}
                         <a href="{{ route('category', $category->slug) }}" class="stretched-link"></a>
                     </div>
                 </div>

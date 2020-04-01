@@ -47,6 +47,7 @@ class CategoryController extends Controller
         if ($request->get('place_in_all') == 1) {
             foreach ($category->products as $product) {
                 $product->specs = $request->get('specs');
+                $product->description = $request->get('description');
                 $product->save();
             }
         }

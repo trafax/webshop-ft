@@ -55,7 +55,16 @@
                     </div>
                 @endif
 
-                <div class="description">{!! t($product, 'description') !!}</div>
+                <div class="description">
+                    @php
+                            if ($category->description)
+                                $description = t($category, 'description');
+                            else
+                                $description = t($product, 'description');
+                        @endphp
+
+                        {!! $description !!}
+                </div>
             </div>
             <div class="col-md-6">
                 <form method="post" action="{{ route('cart.store', $product) }}">

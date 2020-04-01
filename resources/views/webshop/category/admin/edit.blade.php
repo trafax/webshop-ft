@@ -59,11 +59,6 @@
                                                 @endphp
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Tekst</label>
-                                            <textarea name="description" class="form-control editor" rows="6">{{ $category->description }}</textarea>
-                                            @include('language.admin.partials.translate', ['field' => 'description', 'parent_id' => $category->id, 'editor' => true])
-                                        </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -106,14 +101,19 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="specs" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                <label>Specs</label>
-                                <br>
                                 <div class="p-2 bg-warning mb-3">
-                                    <label class="m-0"><input type="checkbox" name="place_in_all" value="1" class="checkbox mr-2"> Plaats deze tekst in alle producten bij het veld specificaties.</label>
+                                    <label class="m-0"><input type="checkbox" name="place_in_all" value="1" class="checkbox mr-2"> Plaats deze specificaties en tekst in alle producten.</label>
                                 </div>
+                                <hr>
+                                <label>Specificaties</label>
                                 <div class="form-group">
                                     <textarea name="specs" class="form-control editor">{{ $category->specs }}</textarea>
                                     @include('language.admin.partials.translate', ['field' => 'specs', 'parent_id' => $category->id, 'editor' => true])
+                                </div>
+                                <div class="form-group">
+                                    <label>Tekst</label>
+                                    <textarea name="description" class="form-control editor" rows="6">{{ $category->description }}</textarea>
+                                    @include('language.admin.partials.translate', ['field' => 'description', 'parent_id' => $category->id, 'editor' => true])
                                 </div>
                             </div>
                         </div>
