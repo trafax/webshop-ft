@@ -124,7 +124,15 @@ Route::localized(function () {
 
     Auth::routes();
 
-    Route::get('/', 'HomepageController@index')->name('homepage');
+    Route::get('home', 'HomepageController@index');
+
+    if (setting('landingpage') ?? 0 == 1) {
+        Route::get('/', 'LandingpageController@index');
+        Route::get('/home', 'HomepageController@index')->name('homepage');
+    } else {
+        Route::get('/', 'HomepageController@index')->name('homepage');
+    }
+    Route::get('landingpage', 'LandingpageController@index');
 
     Route::get('import', 'ImportController@index');
 

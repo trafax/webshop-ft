@@ -26,6 +26,7 @@
                                     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#google" role="tab" aria-controls="nav-profile" aria-selected="false">Google</a>
                                     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#seo" role="tab" aria-controls="nav-profile" aria-selected="false">SEO</a>
                                     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#css" role="tab" aria-controls="nav-profile" aria-selected="false">CSS</a>
+                                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#landing" role="tab" aria-controls="nav-profile" aria-selected="false">Landingspagina</a>
                                 </div>
                             </nav>
                             <div class="tab-content pt-4" id="nav-tabContent">
@@ -137,6 +138,23 @@
                                 </div>
                                 <div class="tab-pane fade" id="css" role="tabpanel" aria-labelledby="nav-profile-tab">
                                     <textarea name="custom_css" class="form-control mb-4" rows="10">{{ setting('custom_css') }}</textarea>
+                                </div>
+                                <div class="tab-pane fade" id="landing" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                    <div class="form-group">
+                                        <label>Activeer landingspagina</label>
+                                        <select class="form-control col-md-4" name="landingpage">
+                                            <option value="0">Nee</option>
+                                            <option value="1" {{ setting('landingpage') == 1 ? 'selected' : '' }}>Ja</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Achtergrond afbeelding</label>
+                                        @include('partials.filemanager.admin.input', [
+                                            'type' => 'image',
+                                            'name' => 'landing_bg',
+                                            'value' => setting('landing_bg')
+                                        ])
+                                    </div>
                                 </div>
                             </div>
                             <div>

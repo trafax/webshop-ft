@@ -1,4 +1,4 @@
-<div class="modal" tabindex="-1" role="dialog">
+<div class="modal" role="dialog">
     <script>
     $(function(){
         //$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
