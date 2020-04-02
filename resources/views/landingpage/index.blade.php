@@ -74,6 +74,29 @@
 </head>
 <body class="h-100">
 
+    <div class="header border-bottom">
+
+        <div class="container">
+            <div class="d-flex px-3">
+                <div class="ml-auto">
+                    <div class="dropdown d-inline language-selector">
+                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @php $active_language = \App\Models\Language::where('language_key', config('app.locale'))->first(); @endphp
+                            <img src="{{ asset('img/flags/'.strtoupper($active_language->language_key).'.png') }}">{{ t($active_language, 'title') }}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            @foreach (\App\Models\Language::orderBy('sort')->get() as $language)
+                                @if (config('app.locale') != $language->language_key)
+                                    <a class="dropdown-item" href="/language/set/{{ $language->id }}"><img src="{{ asset('img/flags/'.strtoupper($language->language_key).'.png') }}"> {{ t($language, 'title') }}</a>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div class="container h-100">
     <div class="row h-100">
         <div class="col align-center">
