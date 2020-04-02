@@ -31,6 +31,7 @@
                 background-image: url('{{ asset(setting('landing_bg')) }}');
                 background-size: cover;
                 background-position: center;
+                backgroud-repeat: no-repeat;
             }
         @endif
         .white-tr-bg {
