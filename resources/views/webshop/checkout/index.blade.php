@@ -109,7 +109,7 @@
                         </div>
                         <div class="d-flex border-bottom py-1">
                             <span>{!! it('cart-shipping', 'Verzendkosten') !!}</span>
-                            <span class="ml-auto">&euro; {{ App\Libraries\Cart::shipping(true) }}</span>
+                            <span class="ml-auto">&euro; {{ App\Libraries\Cart::shipping(true, 2, null, null, App\Libraries\Cart::subtotal(2, '.')) }}</span>
                         </div>
                         <div class="d-flex border-bottom py-1">
                             <span>{!! it('cart-tax', 'BTW (9%)') !!}</span>

@@ -68,8 +68,8 @@
 
 <div style="border-top: #CCC solid 1px; width: 100%; margin: 20px 0px; width: 100%;"></div>
 
-<table width="700" cellpadding="5" style="width: 100% !important;">
-
+<div>
+	<table width="700" style="width: 100% !important; margin-top: 10px;">
     @foreach ($order->rules as $rule)
         <tr>
             <td>
@@ -86,6 +86,14 @@
         </tr>
         <tr><td colspan="3"><div style="border-bottom: #CCC solid 1px;"></div></td></tr>
     @endforeach
+
+	</table>
+</div>
+
+
+<div class="page-break-before"></div>
+
+<table width="700" cellpadding="5" style="width: 100% !important; page-break-before: always;">
 
     <tr><td colspan="3"><div style="margin-top: 10px;"></div></td></tr>
 

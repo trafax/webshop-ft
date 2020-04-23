@@ -15,9 +15,13 @@
         td {
             width: auto !important;
         }
+		.page-break {
+			page-break-after: always;
+		}
     </style>
 </head>
 <body>
+		&nbsp;<div>
     <table cellpadding="0" cellspacing="0" border="0" style="table-layout: fixed;" align="center" width="700">
         <tr>
             <td style="padding: 20px 0;" width="100%">
@@ -45,5 +49,6 @@
             </td>
         </tr>
     </table>
+	</div>
 </body>
 </html>
