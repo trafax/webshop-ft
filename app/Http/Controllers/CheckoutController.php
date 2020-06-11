@@ -141,8 +141,11 @@ class CheckoutController extends Controller
 
         // Order status opslaan
         $order = Order::findOrFail($payment->metadata->id);
-        $order->status = $payment->status;
-        $order->save();
+
+        if ($order->status != 'paid') {
+            $order->status = $payment->status;
+            $order->save();
+        }
 
         // Verstuur factuur naar klant
         if ($payment->isPaid() && ! $payment->hasRefunds() && ! $payment->hasChargebacks())
