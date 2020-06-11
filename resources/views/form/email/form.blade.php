@@ -10,7 +10,7 @@
                 <br>
 
                 <table  style="width: 700px !important; margin-top: 10px;">
-                    @foreach ($request->all() as $field => $value)
+                    @foreach ($request->except('_method', '_token') as $field => $value)
                         @php
                             $value = is_array($value) ? implode(', ', $value) : $value;
                         @endphp
