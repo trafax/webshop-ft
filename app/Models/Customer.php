@@ -10,7 +10,7 @@ class Customer extends Model
     public $timestamps = false;
     protected $primaryKey = 'user_id';
 
-    protected $connection= 'mysql_other';
+    protected $connection= 'mysql_user';
 
     public $fillable = [
         'user_id', 'street', 'number', 'zipcode', 'city', 'language_key', 'telephone', 'other_delivery', 'delivery_street', 'delivery_number', 'delivery_language_key', 'delivery_zipcode', 'delivery_city', 'delivery_country'

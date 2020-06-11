@@ -15,6 +15,13 @@ class OrderController extends Controller
             $query->where('user_id', Auth::user()->id);
         })->orderBy('created_at', 'DESC')->orderBy('nr', 'DESC')->get();
 
+        // Get other orders
+        $other_orders = Order::on('mysql_other')->whereHas('customer', function ($query) {
+            $query->where('user_id', Auth::user()->id);
+        })->orderBy('created_at', 'DESC')->orderBy('nr', 'DESC')->get();
+
+        $orders = $orders->merge($other_orders);
+
         return view('webshop.orders.index', compact('orders'));
     }
 
@@ -22,7 +29,13 @@ class OrderController extends Controller
     {
         $order = Order::where('id', $id)->whereHas('customer', function ($query) {
             $query->where('user_id', Auth::user()->id);
-        })->firstOrFail();
+        })->first();
+
+		if (! $order) {
+            $order = Order::on('mysql_other')->where('id', $id)->whereHas('customer', function ($query) {
+                $query->where('user_id', Auth::user()->id);
+            })->firstOrFail();
+        }
 
         return view('webshop.orders.show', compact('order'));
     }
@@ -31,7 +44,13 @@ class OrderController extends Controller
     {
         $order = Order::where('id', $id)->whereHas('customer', function ($query) {
             $query->where('user_id', Auth::user()->id);
-        })->firstOrFail();
+        })->first();
+
+		if (! $order) {
+			$order = Order::on('mysql_other')->where('id', $id)->whereHas('customer', function ($query) {
+				$query->where('user_id', Auth::user()->id);
+			})->firstOrFail();
+		}
 
         $data = new AppOrder($order);
         $pdf = PDF::loadHTML($data->build()->html);
