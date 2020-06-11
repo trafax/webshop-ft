@@ -15,6 +15,8 @@ class User extends Authenticatable
     use Notifiable;
     use Uuids;
 
+    protected $connection= 'mysql_other';
+
     public $incrementing = false;
 
     /**
