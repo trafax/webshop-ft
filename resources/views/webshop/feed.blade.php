@@ -15,7 +15,7 @@
                     <g:condition>new</g:condition>
                     <g:availability>in stock</g:availability>
                     @if ($product->assets()->get()->first()->file ?? null)
-                        <g:image_link>{{ site_url('/storage/'. $product->assets()->get()->first()->file ) }}</g:image_link>
+                        <g:image_link>{{ url('/storage/'. $product->assets()->get()->first()->file ) }}</g:image_link>
                     @endif
                     <g:brand>{{ $product->categories->first()->title }}</g:brand>
                     <g:mpn>{{ $product->sku }}</g:mpn>
