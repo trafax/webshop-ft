@@ -126,6 +126,8 @@ Route::localized(function () {
 
     Route::get('home', 'HomepageController@index');
 
+    Route::get('feed', 'WebshopController@products_feed');
+
     if (setting('landingpage') ?? 0 == 1) {
         Route::get('/', 'LandingpageController@index');
         Route::get('/home', 'HomepageController@index')->name('homepage');

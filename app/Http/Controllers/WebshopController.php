@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class WebshopController extends Controller
@@ -22,5 +23,15 @@ class WebshopController extends Controller
 
 
         return view('webshop.index', compact('categories'));
+    }
+
+    public function products_feed()
+    {
+        $products = Product::where('visible', 1)->where('sold_out', 0)->get();
+
+        //return view('webshop.feed');
+        return response()->view('webshop.feed', compact('products'))->withHeaders([
+            'Content-Type' => 'text/xml'
+        ]);
     }
 }
