@@ -27,7 +27,11 @@
     <style type="text/css">
         {!! setting('custom_css') !!}
     </style>
-    <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a43609110c4d794a6bc591c19/f86640d5ac714ed4e1abd6b48.js");</script>
+
+
+<script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/a43609110c4d794a6bc591c19/f86640d5ac714ed4e1abd6b48.js");</script>
+
+
 </head>
 <body>
 
