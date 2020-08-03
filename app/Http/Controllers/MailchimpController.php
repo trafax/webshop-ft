@@ -70,6 +70,8 @@ class MailchimpController extends Controller
             }
         }
 
+        echo 'Done!';
+
         //$result = $mailchimp->delete('/ecommerce/stores/666816fab4/products/' . $product->sku);
 
         // $result = $mailchimp->post('/ecommerce/stores/666816fab4/products', [
