@@ -53,7 +53,7 @@
                                 <tr class="{{ $order->status == 'pending' ? 'text-info' : '' }} {{ $order->status == 'paid' ? 'text-success' : '' }} {{ in_array($order->status, ['error', 'expired', 'failed', 'canceled']) ? 'text-danger' : '' }}">
                                     <td><a href="{{ route('admin.order.show', $order) }}">{{ $order->nr }}</a></td>
                                     <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
-                                    <td>{{ $order->customer->firstname }} {{ $order->customer->preposition }} {{ $order->customer->lastname }}</td>
+                                    <td>{{ $order->customer->firstname ?? '' }} {{ $order->customer->preposition ?? '' }} {{ $order->customer->lastname ?? '' }}</td>
                                     <td>{{ @strtoupper($order->customer->language_key) }}</td>
                                     <td>€ {{ price($order->total) }}</td>
                                     <td>{{ $order->status }}</td>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b44d187bd345ba653f70e48e8d76f24c",
+    "content-hash": "c4576bd71bae3e3726a43e1c12a51a2b",
     "packages": [
         {
             "name": "0.0.0/composer-include-files",
@@ -1164,6 +1164,51 @@
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
+            "name": "jhut89/mailchimp3php",
+            "version": "3.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Jhut89/Mailchimp-API-3.0-PHP.git",
+                "reference": "56e10b29393b52b81bead2577e5f88845499c278"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Jhut89/Mailchimp-API-3.0-PHP/zipball/56e10b29393b52b81bead2577e5f88845499c278",
+                "reference": "56e10b29393b52b81bead2577e5f88845499c278",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "php": ">=7.2.0",
+                "phpunit/phpunit": "^5",
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MailchimpAPI\\": "src/",
+                    "MailchimpTests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "John Hutcheson",
+                    "email": "hutch@theresearchgrp.com"
+                }
+            ],
+            "description": "A php library for version 3.0 of MailChimp's API",
+            "homepage": "https://github.com/Jhut89/Mailchimp-API-3.0-PHP",
+            "time": "2020-05-20T13:20:01+00:00"
+        },
+        {
             "name": "kalnoy/nestedset",
             "version": "v5.0.1",
             "source": {
@@ -2141,6 +2186,49 @@
                 "enum"
             ],
             "time": "2020-02-14T08:15:52+00:00"
+        },
+        {
+            "name": "nblakefriend/mailchimp-apiv3",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nblakefriend/MailChimp-API3.0-Wrapper.git",
+                "reference": "f4e94d72009cbd2c8ff2d8df5d4be40bda40e177"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nblakefriend/MailChimp-API3.0-Wrapper/zipball/f4e94d72009cbd2c8ff2d8df5d4be40bda40e177",
+                "reference": "f4e94d72009cbd2c8ff2d8df5d4be40bda40e177",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0.0",
+                "php": ">=5.3.19"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MailChimp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nathan Friend",
+                    "email": "nblakefriend@gmail.com"
+                }
+            ],
+            "description": "Complete PHP Wrapper for MailChimp API v3.0.",
+            "homepage": "https://github.com/nblakefriend/MailChimp-API3.0-Wrapper.git",
+            "keywords": [
+                "api",
+                "mailchimp",
+                "php"
+            ],
+            "time": "2016-11-20T00:41:06+00:00"
         },
         {
             "name": "nesbot/carbon",

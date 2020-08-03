@@ -196,6 +196,8 @@ class ProductController extends Controller
             {
                 $variationObj = ProductVariation::find($id);
 
+                if (! @$variationObj->title ?? NULL) continue;
+
                 if (empty($variation['title']))
                 {
                     $variationObj->delete();

@@ -144,6 +144,8 @@ Route::localized(function () {
 
     Route::post('mailchimp/subscribe', 'MailchimpController@subscribe')->name('mailchimp.subscribe');
 
+    Route::get('mailchimp/product', 'MailchimpController@product');
+
     Route::get('webshop', 'WebshopController@index')->name('webshop');
     Route::match(['post', 'get'], 'webshop/search', 'ProductController@search')->name('product.search');
     Route::get('category/all/{any?}', 'CategoryController@all')->name('category.all')->where('any', '.*');
