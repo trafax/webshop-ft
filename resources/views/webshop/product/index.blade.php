@@ -80,7 +80,7 @@
                         {!! $description !!}
                 </div>
 
-                <a href="javascript:;" onclick="window.toggleDescription()" class="btn btn-green">{!! it('product-read-more', 'Lees meer') !!}</a>
+                <a href="javascript:;" onclick="window.toggleDescription()" class="btn btn-green mt-3">{!! it('product-read-more', 'Lees meer') !!}</a>
             </div>
             <div class="col-md-6">
                 <form method="post" action="{{ route('cart.store', $product) }}">
