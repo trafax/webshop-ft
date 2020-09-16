@@ -58,7 +58,7 @@
                 <script>
                     $(function(){
                         window.toggleDescription = function(){
-                            var $object = $('.description');
+                            var $object = $('.c_description');
                             if ($object.css('height') == '200px') {
                                 $object.removeAttr('style');
                             } else {
@@ -69,7 +69,7 @@
                     });
                 </script>
 
-                <div class="description" style="height: 200px; overflow: hidden;">
+                <div class="description c_description" style="height: 200px; overflow: hidden;">
                     @php
                             if ($category->description)
                                 $description = t($category, 'description');
@@ -80,7 +80,7 @@
                         {!! $description !!}
                 </div>
 
-                <a href="javascript:;" onclick="window.toggleDescription()">{!! it('product-read-more', 'Lees meer') !!}</a>
+                <a href="javascript:;" onclick="window.toggleDescription()" class="btn btn-green">{!! it('product-read-more', 'Lees meer') !!}</a>
             </div>
             <div class="col-md-6">
                 <form method="post" action="{{ route('cart.store', $product) }}">

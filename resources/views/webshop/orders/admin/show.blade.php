@@ -32,6 +32,7 @@
                                             <option value="Is betaald" {{ $order->order_status == 'Is betaald' ? 'selected' : '' }}>Is betaald</option>
                                             <option value="In behandeling" {{ $order->order_status == 'In behandeling' ? 'selected' : '' }}>In behandeling</option>
                                             <option value="Verzonden en voltooid" {{ $order->order_status == 'Verzonden en voltooid' ? 'selected' : '' }}>Verzonden en voltooid</option>
+                                            <option value="Geannuleerd" {{ $order->order_status == 'Geannuleerd' ? 'selected' : '' }}>Geannuleerd</option>
                                         </select>
                                     </div>
                                 </div>
@@ -163,6 +164,9 @@
                                             @php $rows = $rule->product->variations->where('title', $variation->title); @endphp
                                             @if ($rows->count() > 0)
                                                 <select class="form-control" name="rule[{{ $rule->id }}][options][{{ $variation->id }}]">
+													@foreach ($rule->options as $var => $opt)
+														<option value="{{ $opt }}">{{ $opt }}</option>
+													@endforeach
                                                 @foreach ($rows as $row)
                                                     @php
                                                         $price = '';
@@ -175,7 +179,8 @@
                                                             $price = '+ (&euro; '.$row->pivot->adding_price.')';
                                                         }
                                                     @endphp
-                                                    <option {{ @in_array($row->pivot->slug, $rule->options) ? 'selected' : '' }} value="{{ $row->pivot->slug }}">{{ $row->pivot->title }} {!! $price !!}</option>
+                                                    {{-- <option {{ @in_array($row->pivot->slug, $rule->options) ? 'selected' : '' }} value="{{ $row->pivot->slug }}">{{ $row->pivot->title }} {!! $price !!}</option> --}}
+													<option value="{{ $row->pivot->slug }}">{{ $row->pivot->title }} {!! $price !!}</option>
                                                 @endforeach
                                                 </select>
                                             @endif

@@ -49,6 +49,10 @@ class CheckoutController extends Controller
     {
         //session()->forget('order_id');
 
+        if (! Auth::user()) {
+            return redirect()->route('customer');
+        }
+
         $request->validate([
             'agreed' => 'required'
         ]);

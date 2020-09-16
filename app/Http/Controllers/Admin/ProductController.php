@@ -194,7 +194,7 @@ class ProductController extends Controller
         {
             foreach ($request->get('variations') as $id => $variation)
             {
-                $variationObj = ProductVariation::find($id);
+                $variationObj = ProductVariation::where('id', $id)->where('product_id', $product->id)->first();
 
                 if (! @$variationObj->title ?? NULL) continue;
 
