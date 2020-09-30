@@ -65,6 +65,11 @@ class Cart extends GloudemansCart
                     }
                 }
             }
+        } else {
+            if ($total >= $shipping->free_from && $shipping->free_from > 0) {
+
+                $price = 0;
+            }
         }
 
         return $display == true ? self::numberFormat($price, $decimals, $decimalPoint, $thousandSeperator) : $price;

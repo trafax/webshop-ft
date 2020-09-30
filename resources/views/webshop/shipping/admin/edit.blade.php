@@ -39,6 +39,10 @@
                                             <label>Standaard prijs</label>
                                             <input type="text" name="default_price" class="form-control" value="{{ $shipping->default_price }}" required>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Gratis vanaf</label>
+                                            <input type="text" name="free_from" class="form-control" value="{{ $shipping->free_from }}">
+                                        </div>
                                     </div>
                                 </div>
                             </div>

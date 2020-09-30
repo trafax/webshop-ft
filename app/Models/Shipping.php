@@ -14,7 +14,7 @@ class Shipping extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'title', 'default_price'
+        'title', 'default_price', 'free_from'
     ];
 
     public function rules()

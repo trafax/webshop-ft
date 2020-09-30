@@ -1,4 +1,4 @@
-<table width="700" style="width: 100% !important; margin-top: 10px;">
+<table width="700" style="width: 700px !important; margin-top: 10px;">
     <tr>
         <td valign="top" style="width: 60%  !important;">
             <h2>Factuurgegevens</h2>
@@ -68,8 +68,8 @@
 
 <div style="border-top: #CCC solid 1px; width: 100%; margin: 20px 0px; width: 100%;"></div>
 
-<div>
-	<table width="700" style="width: 100% !important; margin-top: 10px;">
+
+<table width="700" style="width: 700px !important; margin-top: 10px;">
     @foreach ($order->rules as $rule)
         <tr>
             <td>
@@ -85,15 +85,19 @@
             <td align="right">&euro; {{ price($rule->price) }}</td>
         </tr>
         <tr><td colspan="3"><div style="border-bottom: #CCC solid 1px;"></div></td></tr>
+
+		@if($loop->iteration == 10 || ($loop->iteration % 15 == 0 && $loop->iteration > 16))
+			</table>
+<div class="page-break"></div>
+<table width="700" style="width: 700px !important; margin-top: 10px;">
+		@endif
+
     @endforeach
-
 	</table>
-</div>
 
 
-<div class="page-break-before"></div>
 
-<table width="700" cellpadding="5" style="width: 100% !important; page-break-before: always;">
+<table width="700" cellpadding="5" style="width: 700px !important;">
 
     <tr><td colspan="3"><div style="margin-top: 10px;"></div></td></tr>
 

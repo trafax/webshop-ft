@@ -21,22 +21,11 @@
     </style>
 </head>
 <body>
-		&nbsp;<div>
-    <table cellpadding="0" cellspacing="0" border="0" style="table-layout: fixed;" align="center" width="700">
-        <tr>
-            <td style="padding: 20px 0;" width="100%">
-
-                <table width="700">
-                    <tr>
-                        <td><a href="{{ url('/') }}"><img width="250" src="{{ url('/img/floratuin.png') }}"></a></td>
-                    </tr>
-                </table>
-
-                <div style="border-top: #CCC solid 1px; width: 100%; margin-top: 20px; width: 700px;"></div>
-
-                @yield('content')
-
-                <div style="border-top: #CCC solid 1px; width: 100%; margin-top: 60px; width: 700px;"></div>
+	<div><img width="250" style="width: 250px;" src="{{ url('/img/floratuin.png') }}"></div>
+	<div style="border-top: #CCC solid 1px; margin-top: 20px; width: 700px;"></div>
+				<div style="height: 20px;"></div>
+	@yield('content')
+                <div style="border-top: #CCC solid 1px; margin-top: 60px; width: 700px;"></div>
 
                 <table width="700" style="width: 700px !important;">
                     <tr>
@@ -45,10 +34,5 @@
                         </td>
                     </tr>
                 </table>
-
-            </td>
-        </tr>
-    </table>
-	</div>
 </body>
 </html>
