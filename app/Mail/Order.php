@@ -33,6 +33,7 @@ class Order extends Mailable
     public function build()
     {
         $orderText = EmailTemplate::find('2fddb530-fcec-11e9-b393-9f27738fd848')->content;
+        $orderText = t('2fddb530-fcec-11e9-b393-9f27738fd848', 'content', NULL, $orderText);
 
         $html = str_replace('##naam##', $this->order->customer->firstname . ' ' . $this->order->customer->preposition . ' ' . $this->order->customer->lastname, $orderText);
         $html = str_replace('##gegevens##', view('webshop.emails.partials.order_details')->with('order', $this->order)->render(), $html);

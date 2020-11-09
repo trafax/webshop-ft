@@ -193,7 +193,9 @@
                                     <td class="small">
                                         @foreach ($product->ordered() as $rule)
                                             @foreach (\App\Models\Variation::where('show_ordered', 1)->get() as $variation)
-                                                {{ $rule->sum }}x {{ @$rule->options[$variation->id] }}<br>
+                                                @if (@$rule->options[$variation->id])
+                                                    {{ $rule->sum }}x {{ @$rule->options[$variation->id] }}<br>
+                                                @endif
                                             @endforeach
                                         @endforeach
                                     </td>

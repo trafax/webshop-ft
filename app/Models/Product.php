@@ -62,7 +62,7 @@ class Product extends Model
         $array = [];
         foreach ($rules as $rule)
         {
-            if ($rule->order)
+            if ($rule->order())
             {
                 $array[] = $rule;
             }

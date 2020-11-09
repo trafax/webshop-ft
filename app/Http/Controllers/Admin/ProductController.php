@@ -8,8 +8,10 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariation;
 use App\Models\Variation;
+use App\Traits\Uuids;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Webpatser\Uuid\Uuid;
 
 class ProductController extends Controller
 {
@@ -157,6 +159,7 @@ class ProductController extends Controller
                 if ($title)
                 {
                     $product->variations()->attach($variation_id, [
+                        'id' => Uuid::generate(),
                         'sort' => $key,
                         'title' => $title,
                         'slug' => Str::slug($title),
@@ -204,6 +207,7 @@ class ProductController extends Controller
                     continue;
                 }
 
+                $variationObj->id = $id ? $id : Uuid::generate();
                 $variationObj->title = $variation['title'] ?? '';
                 $variationObj->fixed_price = $variation['fixed_price'] ?? 0;
                 $variationObj->adding_price = $variation['adding_price'] ?? 0;

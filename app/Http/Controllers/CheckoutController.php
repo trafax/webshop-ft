@@ -133,6 +133,8 @@ class CheckoutController extends Controller
             ],
         ]);
 
+        //Mail::to($order->customer->email)->cc(setting('send_orders_to'))->send(new AppOrder($order));
+
         return redirect($payment->getCheckoutUrl(), 303);
     }
 

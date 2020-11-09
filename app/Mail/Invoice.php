@@ -36,6 +36,7 @@ class Invoice extends Mailable
         $pdf = $pdf->stream();
 
         $orderText = EmailTemplate::find('de158cc0-fcf1-11e9-b369-fb192d37d9d2')->content;
+		$orderText = t('de158cc0-fcf1-11e9-b369-fb192d37d9d2', 'content', NULL, $orderText);
 
         $html = str_replace('##naam##', $this->order->customer->firstname . ' ' . $this->order->customer->preposition . ' ' . $this->order->customer->lastname, $orderText);
 
