@@ -7,8 +7,8 @@
         @foreach ($products as $product)
             @if ($product->price > 0)
                 <item>
-                    <g:id>{{ Str::slug($product->title . ' ' . $product->categories->first()->title) }}</g:id>
-                    <title>{{ $product->title }}</title>
+                    <g:id>{{ Str::slug($product->title ?? '' . ' ' . $product->categories->first()->title ?? '') }}</g:id>
+                    <title>{{ $product->title ?? '' }}</title>
                     <description>{{ $product->description }}</description>
                     <link>{{ route('product', $product->slug) }}</link>
                     <g:price>{{ $product->price ? $product->price : '0,01' }} EUR</g:price>
@@ -17,7 +17,7 @@
                     @if ($product->assets()->get()->first()->file ?? null)
                         <g:image_link>{{ url('/storage/'. $product->assets()->get()->first()->file ) }}</g:image_link>
                     @endif
-                    <g:brand>{{ $product->categories->first()->title }}</g:brand>
+                    <g:brand>{{ $product->categories->first()->title ?? '' }}</g:brand>
                     <g:mpn>{{ $product->sku }}</g:mpn>
                 </item>
             @endif

@@ -33,9 +33,9 @@ class CheckoutController extends Controller
             return redirect()->route('customer.edit')->with('error', 'U heeft nog niet alle gegevens ingevoerd.');
         }
 
-        if (round(Cart::total()) + \App\Libraries\Cart::shipping() <= setting('minimum_order_taking'))
+        if (round(Cart::total()) + \App\Libraries\Cart::shipping() < setting('minimum_order_taking'))
         {
-            return redirect()->route('cart');
+            return redirect()->route('cart')->with('error', it('minimum-order-taking', 'U heeft de minimale ordergrootte van € '. setting('minimum_order_taking') .' nog niet bereikt.'));
         }
 
         $mollie = new \Mollie\Api\MollieApiClient();

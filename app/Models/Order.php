@@ -43,10 +43,10 @@ class Order extends Model
         return $statics;
     }
 
-    public static function most_ordered($limit)
+    public static function most_ordered($limit, $year = 0)
     {
-        $products = OrderRule::selectRaw('product_id, options, SUM(qty) as total')->whereHas('order', function($q){
-            $q->where('status', 'paid');
+        $products = OrderRule::selectRaw('product_id, options, SUM(qty) as total')->whereHas('order', function($q) use ($year) {
+            $q->where('status', 'paid')->whereRaw('YEAR(created_at) = ?', $year);
         })->groupBy('product_id', 'options')->orderBy('total', 'DESC')->limit($limit)->get();
 
         return $products;

@@ -1,5 +1,9 @@
 @extends('layouts.website')
 
+@section('js-head')
+gtag('event', 'conversion', { 'send_to': 'AW-877666406/xm3uCNTokO0BEObAwKID', 'transaction_id': '' });
+@endsection
+
 @section('content')
     <div class="container">
         <nav class="mt-4">

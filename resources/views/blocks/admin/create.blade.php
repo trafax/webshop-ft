@@ -110,6 +110,18 @@
                                     </form>
                                 </div>
                             </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title font-weight-bold">Advertentie</h5>
+                                    <form method="post" action="{{ route('admin.block.store') }}">
+                                        @csrf
+                                        <p class="card-text">Dit blok toont een advertentieblok.</p>
+                                        <input type="hidden" name="parent_id" value="{{ $request->get('parent_id') }}">
+                                        <input type="hidden" name="type" value="advertention">
+                                        <button class="btn btn-primary" type="submit">Plaats blok</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="tab-pane fade show" id="webshop" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -170,6 +182,32 @@
                                         </div>
                                         <input type="hidden" name="parent_id" value="{{ $request->get('parent_id') }}">
                                         <input type="hidden" name="type" value="new_articles">
+                                        <button class="btn btn-primary" type="submit">Plaats blok</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-group mt-1">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title font-weight-bold">Zoeken in webshop</h5>
+                                    <form method="post" action="{{ route('admin.block.store') }}">
+                                        @csrf
+                                        <p class="card-text">Dit blok toont een zoekbalk.</p>
+                                        <input type="hidden" name="parent_id" value="{{ $request->get('parent_id') }}">
+                                        <input type="hidden" name="type" value="webshop_search">
+                                        <button class="btn btn-primary" type="submit">Plaats blok</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title font-weight-bold">Webshop uitgelichte categorieen</h5>
+                                    <form method="post" action="{{ route('admin.block.store') }}">
+                                        @csrf
+                                        <p class="card-text">Dit blok toont de uitgelichte categorieen van de webshop.</p>
+                                        <input type="hidden" name="parent_id" value="{{ $request->get('parent_id') }}">
+                                        <input type="hidden" name="type" value="webshop_index">
                                         <button class="btn btn-primary" type="submit">Plaats blok</button>
                                     </form>
                                 </div>

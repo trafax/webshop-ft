@@ -119,3 +119,29 @@ if (! function_exists('it'))
         return $return;
     }
 }
+
+if (! function_exists('t_raw'))
+{
+    function t_raw($parent_id, $value)
+    {
+        $locale = config('app.locale');
+
+        $translation = Translation::where([
+            'parent_id' => $parent_id,
+            'field' => $parent_id
+        ]);
+
+        $translation->where('language_key', $locale);
+
+        if (isset($translation->first()->value))
+        {
+            $return = $translation->first()->value;
+        }
+        else
+        {
+            $return = $value;
+        }
+
+        return $return;
+    }
+}

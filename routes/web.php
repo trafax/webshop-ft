@@ -34,6 +34,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('webshop/product/deleteSelected', 'ProductController@deleteSelected')->name('product.delete_selected');
     Route::post('webshop/product/setSoldOut/{sold_out}', 'ProductController@setSoldOut')->name('product.set_sold_out');
     Route::post('webshop/set_filter', 'ProductController@set_variations_filter')->name('product.set_variation_filter');
+    Route::get('webshop/product/season/{any}/{season}', 'ProductController@index')->name('product.season');
 
     Route::resource('webshop/variation', 'VariationController');
     Route::get('webshop/variation/{variation}/destroy', 'VariationController@destroy')->name('variation.destroy');
@@ -66,6 +67,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('emailTemplate', 'EmailTemplateController');
 
     Route::get('order', 'OrderController@index')->name('order.index');
+    // Route::get('order/create', 'OrderController@create')->name('order.create');
     Route::get('order/{order}/show', 'OrderController@show')->name('order.show');
     Route::get('order/{order}/destroy', 'OrderController@destroy')->name('order.destroy');
     Route::get('order/{order}/download_invoice', 'OrderController@download_invoice')->name('order.download_invoice');
@@ -76,6 +78,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('order/{orderRule}/delete_row', 'OrderController@delete_row')->name('order.delete_row');
     Route::post('order/{order}/store_invoice_rule', 'OrderController@store_invoice_rule')->name('order.store_invoice_rule');
     Route::any('order/search', 'OrderController@search')->name('order.search');
+    Route::get('order/{status}', 'OrderController@index')->name('order.filter');
 
 
     Route::resource('form', 'FormController');
@@ -101,6 +104,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     Route::get('parallax/{block}/edit', 'ParallaxController@edit')->name('parallax.edit');
     Route::put('parallax/{block}/update', 'ParallaxController@update')->name('parallax.update');
+
+    Route::get('advertention/{block}/edit', 'AdvertentionController@edit')->name('advertention.edit');
+    Route::put('advertention/{block}/update', 'AdvertentionController@update')->name('advertention.update');
 
     Route::get('featured_articles/{block}/edit', 'Featured_articlesController@edit')->name('featured.edit');
     Route::put('featured_articles/{block}/update', 'Featured_articlesController@update')->name('featured.update');

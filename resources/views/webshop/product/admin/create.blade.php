@@ -87,23 +87,46 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                <div class="form-group">
-                                    <label>Plaats in</label>
-                                    <select class="form-control" name="parent_id[]" multiple size="20">
-                                        @php
-                                            $tree = function ($categories, $prefix = '') use (&$tree)
-                                            {
-                                                foreach ($categories as $obj)
+                                <label>Plaats in</label>
+                                <small class="d-block">Selecteer er meerdere tegelijk door de knop ctrl ingedrukt te houden.</small>
+                                <hr>
+                                <div class="row">
+                                    <div class="col">
+                                        Voorjaars categorieen
+                                        <select class="form-control" name="parent_id[]" multiple size="20">
+                                            @php
+                                                $tree = function ($categories, $prefix = '') use (&$tree)
                                                 {
-                                                    echo '<option value="'.$obj->id.'">'. $prefix.' '.$obj->title . '</option>';
+                                                    foreach ($categories as $obj)
+                                                    {
+                                                        echo '<option value="'.$obj->id.'">'. $prefix.' '.$obj->title . '</option>';
 
-                                                    $tree($obj->children, $prefix.'-');
-                                                }
-                                            };
+                                                        $tree($obj->children, $prefix.'-');
+                                                    }
+                                                };
 
-                                            echo $tree($categories);
-                                        @endphp
-                                    </select>
+                                                echo $tree($spring_categories);
+                                            @endphp
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        Zomer categorieen
+                                        <select class="form-control" name="parent_id[]" multiple size="20">
+                                            @php
+                                                $tree = function ($categories, $prefix = '') use (&$tree)
+                                                {
+                                                    foreach ($categories as $obj)
+                                                    {
+                                                        echo '<option value="'.$obj->id.'">'. $prefix.' '.$obj->title . '</option>';
+
+                                                        $tree($obj->children, $prefix.'-');
+                                                    }
+                                                };
+
+                                                echo $tree($summer_categories);
+                                            @endphp
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="variations" role="tabpanel" aria-labelledby="nav-profile-tab">

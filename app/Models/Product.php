@@ -42,7 +42,7 @@ class Product extends Model
 
     public function variations()
     {
-        return $this->belongsToMany('App\Models\Variation')->orderBy('fixed_price')->withPivot('id', 'sort', 'slug', 'title', 'fixed_price', 'adding_price')->orderBy('pivot_sort');
+        return $this->belongsToMany('App\Models\Variation')->orderBy('fixed_price')->withPivot('id', 'sort', 'slug', 'title', 'fixed_price', 'adding_price', 'sold_out')->orderBy('pivot_sort');
     }
 
     public function filtered()

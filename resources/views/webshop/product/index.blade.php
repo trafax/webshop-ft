@@ -21,7 +21,7 @@
         <hr>
 
         <div class="row product">
-            <div class="col-md-6">
+            <div class="col-md-6 pb-2">
                 <div id="carousel" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         @foreach($product->assets()->get() as $key => $asset)
@@ -69,20 +69,21 @@
                     });
                 </script>
 
-                <div class="description c_description" style="height: 200px; overflow: hidden;">
-                    @php
-                            if ($category->description)
-                                $description = t($category, 'description');
-                            else
-                                $description = t($product, 'description');
-                        @endphp
+                @php
+                    if ($category->description)
+                        $description = t($category, 'description');
+                    else
+                        $description = t($product, 'description');
+                @endphp
 
+                @if ($description)
+                    <div class="description c_description" style=" height: 200px; overflow: hidden;">
                         {!! $description !!}
-                </div>
-
-                <a href="javascript:;" onclick="window.toggleDescription()" class="btn btn-green mt-3">{!! it('product-read-more', 'Lees meer') !!}</a>
+                    </div>
+                    <a href="javascript:;" onclick="window.toggleDescription()" class="btn btn-green mt-3">{!! it('product-read-more', 'Lees meer') !!}</a>
+                @endif
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 pb-2">
                 <form method="post" action="{{ route('cart.store', $product) }}">
                     @csrf
                     @if ($product->sku)
@@ -106,7 +107,7 @@
 
                     @if ($product->sold_out == 0)
                         @foreach ($variations as $key => $variation)
-                            @php $rows = $product->variations->where('title', $variation->title); @endphp
+                            @php $rows = $product->variations->where('title', $variation->title)->where('pivot.sold_out', 0); @endphp
                             @if ($rows->count() > 0)
                                 <div class="form-group">
                                     <label>{{ t($variation, 'title') }}</label>
@@ -137,6 +138,18 @@
                             <label>{!! it('webshop-product-qty', 'Aantal') !!}</label>
                             <input type="text" name="qty" value="1" class="form-control col-md-3">
                         </div>
+
+                        @php
+                            $available_from = @$product->categories()->whereNotIn('id', ['095f3790-3cf1-11ea-ba3d-cd54ccfc87f5', '5ec7af50-6e7e-11ea-9eff-0b0a479b45dc'])->first()->available_from ?? null;
+                        @endphp
+                        @if ($available_from)
+                            <div class="description mb-2">
+                                <div class="alert alert-warning" role="alert">
+                                    <b>{!! it('webshop-product-available_from', 'Beschikbaar vanaf') !!}:</b> {{ $available_from }}
+                                </div>
+                            </div>
+                        @endif
+
                         <button type="submit" class="btn btn-green">{!! it('webshop-product-add-to-cart', 'Plaats in winkelwagen') !!}</button>
                     @else
 

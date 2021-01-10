@@ -15,14 +15,14 @@ use Webpatser\Uuid\Uuid;
 
 class ProductController extends Controller
 {
-    public function index($url_variations = null)
+    public function index($url_variations = null, $season = 0)
     {
         $active_variations = [];
         $url_variations_explode = explode('/', $url_variations);
         if ($url_variations_explode)
         foreach ($url_variations_explode as $url_variation)
         {
-            if ($url_variation)
+            if ($url_variation && $url_variation != 'null')
             {
                 $row_url_variation = explode(':', $url_variation);
                 $active_variations[$row_url_variation[0]] = $row_url_variation[1];
@@ -57,13 +57,17 @@ class ProductController extends Controller
             'variations' => $url_variations
         ]);
 
-        if ($url_variations)
+        if ($url_variations && $url_variations != 'null')
         {
-            $products = Product::whereIn('id', $product_ids)->orderByRaw('CAST(sku as UNSIGNED) ASC')->orderBy('sku')->get();
+            $products = Product::whereIn('id', $product_ids)->whereHas('categories', function ($query) use ($season) {
+                $query->where('season', $season);
+            })->orderByRaw('CAST(sku as UNSIGNED) ASC')->orderBy('sku')->get();
         }
         else
         {
-            $products = Product::orderByRaw('CAST(sku as UNSIGNED) ASC')->get();
+            $products = Product::whereHas('categories', function ($query) use ($season) {
+                $query->where('season', $season);
+            })->orderByRaw('CAST(sku as UNSIGNED) ASC')->get();
         }
 
         return view('webshop.product.admin.index', compact('products', 'variations', 'active_variations'));
@@ -128,10 +132,11 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Category::get()->toTree();
+        $spring_categories = Category::where('season', 0)->get()->toTree();
+        $summer_categories = Category::where('season', 1)->get()->toTree();
         $variations = Variation::orderBy('sort')->get();
 
-        return view('webshop.product.admin.create', compact('categories', 'variations'));
+        return view('webshop.product.admin.create', compact('spring_categories', 'summer_categories', 'variations'));
     }
 
     public function store(Request $request)
@@ -175,12 +180,13 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $categories = Category::get()->toTree();
+        $spring_categories = Category::where('season', 0)->get()->toTree();
+        $summer_categories = Category::where('season', 1)->get()->toTree();
         $variations = Variation::orderBy('sort')->get();
 
         //dd($product);
 
-        return view('webshop.product.admin.edit', compact('product', 'categories', 'variations'));
+        return view('webshop.product.admin.edit', compact('product', 'spring_categories', 'summer_categories', 'variations'));
     }
 
     public function update(Request $request, Product $product)
@@ -212,6 +218,7 @@ class ProductController extends Controller
                 $variationObj->fixed_price = $variation['fixed_price'] ?? 0;
                 $variationObj->adding_price = $variation['adding_price'] ?? 0;
                 $variationObj->slug = Str::slug($variation['title']);
+                $variationObj->sold_out = is_null(@$variation['sold_out']) ? 1 : 0;
                 $variationObj->save();
             }
         }

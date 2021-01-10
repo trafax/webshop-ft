@@ -164,9 +164,11 @@
                                             @php $rows = $rule->product->variations->where('title', $variation->title); @endphp
                                             @if ($rows->count() > 0)
                                                 <select class="form-control" name="rule[{{ $rule->id }}][options][{{ $variation->id }}]">
-													@foreach ($rule->options as $var => $opt)
-														<option value="{{ $opt }}">{{ $opt }}</option>
-													@endforeach
+                                                    @if (is_array($rule->options))
+                                                        @foreach ($rule->options as $var => $opt)
+                                                            <option value="{{ $opt }}">{{ $opt }}</option>
+                                                        @endforeach
+                                                    @endif
                                                 @foreach ($rows as $row)
                                                     @php
                                                         $price = '';

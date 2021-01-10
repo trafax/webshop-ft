@@ -65,6 +65,27 @@
                                             <label>Link <small>optioneel</small></label>
                                             <input type="text" name="slug" value="{{ $category->slug }}" class="form-control">
                                         </div>
+                                        <div class="form-group">
+                                            <label>Seizoen</label>
+                                            <select name="season" class="form-control">
+                                                <option value="0">Voorjaar</option>
+                                                <option value="1" {{  $category->season == 1 ? 'selected' : '' }}>Zomer</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Toon categorie in uitgelicht</label>
+                                            <select name="featured" class="form-control">
+                                                <option value="0">Nee</option>
+                                                <option value="1" {{ $category->featured ? 'selected' : '' }}>Ja</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Beschikbaar vanaf</label>
+                                            <div class="input-group">
+                                                <input type="text" name="available_from" class="form-control" value="{{ $category->available_from }}">
+                                                @include('language.admin.partials.translate', ['field' => 'available_from', 'parent_id' => $category->id])
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

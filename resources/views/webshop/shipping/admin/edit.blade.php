@@ -93,7 +93,7 @@
 
                                         <li class="list-group-item">
                                             <div class="row">
-                                                <div class="col"><a href="javascript:;" class="edit-rule-{{ $rule->id }}">{{ $rule->country->title }}</a></div>
+                                                <div class="col"><a href="javascript:;" class="edit-rule-{{ $rule->id }}">{{ $rule->country->title ?? '' }}</a></div>
                                                 <div class="col">€ {{ price($rule->price) }}</div>
                                                 <div class="col text-right"><a href="{{ route('admin.rule.destroy', $rule) }}" onclick="return confirm('Regel verwijderen?')"><i class="fas fa-times"></i></a></div>
                                             </div>

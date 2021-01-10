@@ -45,7 +45,8 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="{{ route('admin.overview') }}">Overzicht</a>
                                 <a class="dropdown-item" href="{{ route('admin.category.index') }}">Categorieën</a>
-                                <a class="dropdown-item" href="{{ route('admin.product.index') }}">Producten</a>
+                                <a class="dropdown-item" href="{{ route('admin.product.season', ['null', '0']) }}">Voorjaars producten</a>
+                                <a class="dropdown-item" href="{{ route('admin.product.season', ['null', '1']) }}">Zomer producten</a>
                                 <a class="dropdown-item" href="{{ route('admin.order.index') }}">Bestellingen</a>
                                 <a class="dropdown-item" href="{{ route('admin.customer.index') }}">Klanten</a>
                                 <a class="dropdown-item" href="{{ route('admin.variation.index') }}">Variaties</a>

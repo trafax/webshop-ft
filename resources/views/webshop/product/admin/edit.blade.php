@@ -100,25 +100,52 @@
 
                             </div>
                             <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                <div class="form-group">
-                                    <label>Plaats in</label>
-                                    <small class="d-block">Selecteer er meerdere tegelijk door de knop ctrl ingedrukt te houden.</small>
-                                    <select class="form-control" name="parent_id[]" multiple size="20">
-                                        @php
-                                            $tree = function ($categories, $prefix = '') use (&$tree, $product)
-                                            {
-                                                foreach ($categories as $obj)
+                                <label>Plaats in</label>
+                                <small class="d-block">Selecteer er meerdere tegelijk door de knop ctrl ingedrukt te houden.</small>
+                                <hr>
+                                <div class="row">
+                                    <div class="col">
+                                        Voorjaars categorieen
+                                        <select class="form-control" name="parent_id[]" multiple size="20">
+                                            @php
+                                                $tree = function ($categories, $prefix = '') use (&$tree, $product)
                                                 {
-                                                    $selected = in_array($obj->id, $product->categories->pluck('id')->toArray()) ? 'selected' : '';
-                                                    echo '<option value="'.$obj->id.'" '. $selected .'>'. $prefix.' '.$obj->title . '</option>';
+                                                    foreach ($categories as $obj)
+                                                    {
+                                                        $selected = in_array($obj->id, $product->categories->pluck('id')->toArray()) ? 'selected' : '';
+                                                        echo '<option value="'.$obj->id.'" '. $selected .'>'. $prefix.' '.$obj->title . '</option>';
 
-                                                    $tree($obj->children, $prefix.'-');
-                                                }
-                                            };
+                                                        $tree($obj->children, $prefix.'-');
+                                                    }
+                                                };
 
-                                            echo $tree($categories);
-                                        @endphp
-                                    </select>
+                                                echo $tree($spring_categories);
+                                            @endphp
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        Zomer categorieen
+                                        <select class="form-control" name="parent_id[]" multiple size="20">
+                                            @php
+                                                $tree = function ($categories, $prefix = '') use (&$tree, $product)
+                                                {
+                                                    foreach ($categories as $obj)
+                                                    {
+                                                        $selected = in_array($obj->id, $product->categories->pluck('id')->toArray()) ? 'selected' : '';
+                                                        echo '<option value="'.$obj->id.'" '. $selected .'>'. $prefix.' '.$obj->title . '</option>';
+
+                                                        $tree($obj->children, $prefix.'-');
+                                                    }
+                                                };
+
+                                                echo $tree($summer_categories);
+                                            @endphp
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+
+
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -198,6 +225,14 @@
                                                 @foreach ($product->variations->where('title', $variation->title) as $row)
 
                                                     <div class="row">
+                                                        <div class="col-1">
+                                                            <div class="form-group">
+                                                                <div class="custom-control custom-switch mt-2" title="Beschikbaar">
+                                                                    <input type="checkbox" value="0" class="custom-control-input" {{ $row->pivot->sold_out == 0 ? 'checked' : '' }} id="customSwitch{{ $row->pivot->id }}" name="variations[{{ $row->pivot->id }}][sold_out]">
+                                                                    <label class="custom-control-label" for="customSwitch{{ $row->pivot->id }}"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="col-5">
                                                             <div class="form-group">
                                                                 <input type="text" name="variations[{{ $row->pivot->id }}][title]" value="{{ $row->pivot->title }}" class="form-control" placeholder="Titel">
@@ -215,6 +250,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <div class="form-group">
+
                                                                 @include('language.admin.partials.translate', ['field' => 'title', 'parent_id' => $row->pivot->id])
                                                             </div>
                                                         </div>

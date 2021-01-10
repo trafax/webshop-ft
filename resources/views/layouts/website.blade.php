@@ -9,6 +9,8 @@
 
         ga('create', 'UA-81032033-1', 'auto');
         ga('send', 'pageview');
+        gtag('config', 'AW-877666406');
+        @yield('js-head')
     </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -96,6 +98,22 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a href="{{ route('homepage') }}" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdown_voorjaar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! it('dropdown-zomer', 'Voorjaar') !!}</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown_voorjaar">
+                                @foreach(App\Models\Category::where('season', 0)->get() as $dropdown_category)
+                                    <a class="dropdown-item" href="{{ route('category', $dropdown_category->slug) }}">{{ t($dropdown_category, 'title') }}</a>
+                                @endforeach
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdown_zomer" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! it('dropdown-zomer', 'Zomer') !!}</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown_zomer">
+                                @foreach(App\Models\Category::where('season', 1)->get() as $dropdown_category)
+                                    <a class="dropdown-item" href="{{ route('category', $dropdown_category->slug) }}">{{ t($dropdown_category, 'title') }}</a>
+                                @endforeach
+                            </div>
                         </li>
                         @foreach ($menu_items as $menu_item)
                             <li class="nav-item {{ $menu_item->children()->count() > 0 ? 'dropdown' : '' }}">

@@ -15,6 +15,12 @@
 
         <hr>
 
+        @if (Session::has('error'))
+            <div class="alert alert-danger">
+                {!! Session::get('error') !!}
+            </div>
+        @endif
+
         @if (Cart::count() > 0)
 
             <table class="table table-borderless shopping-cart border">

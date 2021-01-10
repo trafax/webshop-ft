@@ -19,10 +19,15 @@ use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index($status = '')
     {
-        $orders = Order::orderBy('created_at', 'DESC')->orderBy('nr', 'DESC')->paginate(25);
-        return view('webshop.orders.admin.index', compact('orders'));
+        $orders = Order::orderBy('created_at', 'DESC');
+        if ($status) {
+            $orders = $orders->where('order_status', $status);
+        }
+        $orders = $orders->orderBy('nr', 'DESC')->paginate(25);
+
+        return view('webshop.orders.admin.index', compact('orders', 'status'));
     }
 
     public function show(Order $order)

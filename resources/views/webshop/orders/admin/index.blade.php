@@ -30,6 +30,24 @@
                                 <input type="text" name="search" placeholder="Zoek bestelling" class="form-control">
                             </form>
                         </div>
+                        <div class="col-6">
+                            <script type="text/javascript">
+                                $(function(){
+                                    $('.status').on('change', function(){
+                                        var value = $('.status').val();
+                                        window.location.href = '/admin/order/' + encodeURIComponent(value);
+                                    });
+                                });
+                            </script>
+                            <select class="form-control status">
+                                <option value="">Filter op status</option>
+                                <option value="">Alle bestellingen</option>
+                                <option value="Is betaald" {{ $status == 'Is betaald' ? 'selected' : '' }}>Is betaald</option>
+                                <option value="In behandeling" {{ $status == 'In behandeling' ? 'selected' : '' }}>In behandeling</option>
+                                <option value="Verzonden en voltooid" {{ $status == 'Verzonden en voltooid' ? 'selected' : '' }}>Verzonden en voltooid</option>
+                                <option value="Geannuleerd" {{ $status == 'Geannuleerd' ? 'selected' : '' }}>Geannuleerd</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -50,7 +68,7 @@
                             @php $total = 0; @endphp
                             @foreach ($orders as $order)
                                 @php $total = $total + $order->total; @endphp
-                                <tr class="{{ $order->status == 'pending' ? 'text-info' : '' }} {{ $order->status == 'paid' ? 'text-success' : '' }} {{ in_array($order->status, ['error', 'expired', 'failed', 'canceled']) ? 'text-danger' : '' }}">
+                            <tr class="order_rule {{ $order->status == 'pending' ? 'text-info' : '' }} {{ $order->status == 'paid' ? 'text-success' : '' }} {{ in_array($order->status, ['error', 'expired', 'failed', 'canceled']) ? 'text-danger' : '' }}" data-status="{{ @$order->order_status }}">
                                     <td><a href="{{ route('admin.order.show', $order) }}">{{ $order->nr }}</a></td>
                                     <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
                                     <td>{{ $order->customer->firstname ?? '' }} {{ $order->customer->preposition ?? '' }} {{ $order->customer->lastname ?? '' }}</td>

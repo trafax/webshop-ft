@@ -14,7 +14,7 @@ class ProductVariation extends Model
     public $timestamps = false;
 
     public $fillable = [
-        'product_id', 'variation_id', 'title', 'slug', 'fixed_price', 'adding_price', 'sort'
+        'product_id', 'variation_id', 'title', 'slug', 'fixed_price', 'adding_price', 'sort', 'sold_out'
     ];
 
     public function scopeSlugs($query, $slugs)

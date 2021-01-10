@@ -24,6 +24,7 @@
                             <th scope="col" class="border-top-0">Categorienaam</th>
                             <th scope="col" class="border-top-0">Link</th>
                             <th scope="col" class="border-top-0">Producten</th>
+                            <th scope="col" class="border-top-0">Seizoen</th>
                             <th scope="col" class="border-top-0">Acties</th>
                             </tr>
                         </thead>
@@ -38,6 +39,7 @@
                                             <td><a href="'. route('admin.category.edit', $category) .'">'. $prefix . ' ' . $category->title .'</a></td>
                                             <td class="small">category/'. $category->slug .'</td>
                                             <td>'. $category->products()->count() .'</td>
+                                            <td>'. ($category->season == 1 ? 'Zomer' : 'Voorjaar') .'</td>
                                             <td>
                                                 <a href="'. route('admin.category.destroy', $category) .'" onclick="return confirm(\'Categorie verwijderen?\')">verwijder</a>
                                             </td>

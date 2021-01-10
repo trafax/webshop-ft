@@ -19,6 +19,17 @@ class CartController extends Controller
         $price = $product->price;
         $option = [];
 
+
+        foreach (Cart::content() as $item) {
+            if ($item->id->categories[0]->season != $product->categories[0]->season) {
+                return redirect()->back()->with('modal', [
+                    'title' => it('cart-modal-other-season-title', 'Bestellen niet mogelijk'),
+                    'content' => it('cart-modal-other-season-description', 'Dit product behoort tot een ander seizoen. Deze kunnen niet samen besteld worden.'),
+                    'buttons' => '<button type="button" class="btn btn-primary" data-dismiss="modal">'. it('cart-modal-other-season-continue', 'Verder winkelen') .'</button>'
+                ]);
+            }
+        }
+
         session()->forget('order_id');
 
         if (is_array($request->get('options')))
