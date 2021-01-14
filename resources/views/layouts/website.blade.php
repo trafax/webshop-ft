@@ -99,6 +99,9 @@
                         <li class="nav-item">
                             <a href="{{ route('homepage') }}" class="nav-link">Home</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('webshop') }}" class="nav-link">Webshop</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown_voorjaar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! it('dropdown-zomer', 'Voorjaar') !!}</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown_voorjaar">
