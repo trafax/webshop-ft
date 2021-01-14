@@ -67,10 +67,27 @@
 
                                 </div>
                                 <div class="col-md-6">
+                                    <script>
+                                        function delFile(id) {
+                                            $.ajax({
+                                                headers: {
+                                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                },
+                                                type: "get",
+                                                url: "/admin/asset/delete/" + id,
+                                                data: '',
+                                                dataType: "json",
+                                                success: function (response) {
+                                                }
+                                            });
+
+                                            $('#' + id).remove();
+                                        }
+                                    </script>
                                     @forelse ($block->assets as $asset)
                                         <div class="mb-3" id="{{ $asset->id }}">
                                             <div class="thumb" style="background-image: url('/storage/{{ $asset->file }}'); width: 100%; height: 200px; background-suize: cover; background-position: center;">
-                                                <a href="javascript:;" onclick="return delFile('{{ route('admin.asset.delete', $asset) }}')">X</a>
+                                                <a href="javascript:;" onclick="return delFile('{{ $asset->id }}')">X</a>
                                             </div>
                                             <script>
                                                 $(function(){
@@ -84,7 +101,6 @@
                                                             data: {id: $(this).data('id'), "file_data[link]": $(this).val()},
                                                             dataType: "json",
                                                             success: function (response) {
-                                                                alert('done');
                                                             }
                                                         });
                                                     })
