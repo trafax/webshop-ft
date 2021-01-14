@@ -55,4 +55,11 @@ class AssetController extends Controller
         return response()->json(['location' => '/storage/'.$path]);
 
     }
+
+    public function update(Request $request)
+    {
+        $asset = Asset::find($request->get('id'));
+        $asset->file_data = $request->get('file_data');
+        $asset->save();
+    }
 }

@@ -12,6 +12,10 @@ class Asset extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'parent_id', 'file', 'sort'
+        'parent_id', 'file', 'sort', 'file_data'
+    ];
+
+    public $casts = [
+        'file_data' => 'array'
     ];
 }

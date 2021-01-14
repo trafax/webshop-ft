@@ -47,6 +47,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('asset/upload_tinymce', 'AssetController@upload_tinymce')->name('asset.upload_tinymce');
     Route::get('asset/delete/{asset}/{hash?}', 'AssetController@delete')->name('asset.delete');
     Route::post('asset/sort', 'AssetController@sort')->name('asset.sort');
+    Route::post('asset/update', 'AssetController@update')->name('asset.update');
+
 
     Route::resource('language', 'LanguageController');
     Route::get('language/{language}/destroy', 'LanguageController@destroy')->name('language.destroy');

@@ -30,4 +30,9 @@ class Block extends Model
             return new Asset();
         });
     }
+
+    public function assets()
+    {
+        return $this->hasMany('App\Models\Asset', 'parent_id', 'id');
+    }
 }
