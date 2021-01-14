@@ -271,7 +271,10 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $products = Product::where('title', 'LIKE', '%'.$request->get('search').'%')
-        ->orwhere('sku', 'LIKE', '%'.$request->get('search').'%')->get();
+        ->orwhere('sku', 'LIKE', '%'.$request->get('search').'%')
+        ->orWhereHas('categories', function($query) use ($request) {
+            $query->where('title', $request->get('search'));
+        })->get();
 
         return view('webshop.product.admin.index', compact('products'));
     }
