@@ -87,7 +87,7 @@
                                     @forelse ($block->assets as $asset)
                                         <div class="mb-3" id="{{ $asset->id }}">
                                             <div class="thumb" style="background-image: url('/storage/{{ $asset->file }}'); width: 100%; height: 200px; background-suize: cover; background-position: center;">
-                                                <a href="javascript:;" onclick="return delFile('{{ $asset->id }}')">X</a>
+                                                <a href="javascript:;" onclick="return delFile('{{ $asset->id }}')" style="color: red; font-weight: bold; font-size: 20px; margin: 20px; display: block; position: relative; top: 10px;">X</a>
                                             </div>
                                             <script>
                                                 $(function(){
