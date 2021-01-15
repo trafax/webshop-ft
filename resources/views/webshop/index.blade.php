@@ -30,5 +30,7 @@
 
         @include('webshop.partials.webshop_index')
 
+        {!! it('webshop-index-page-description', 'Plaats hier de tekst', true) !!}
+
     </div>
 @endsection

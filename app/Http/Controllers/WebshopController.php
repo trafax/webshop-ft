@@ -22,7 +22,9 @@ class WebshopController extends Controller
         // $categories[99999]->description = '';
 
 
-        return view('webshop.index', compact('categories'));
+        return view('webshop.index')->with([
+            'categories' => $categories,
+        ]);
     }
 
     public function products_feed()
