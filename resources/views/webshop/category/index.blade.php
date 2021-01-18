@@ -21,9 +21,8 @@
 
 
             @if ($category->children->count() > 0)
-
                 {{-- SUBCATEGORIES --}}
-                @include('webshop.partials.webshop_index', ['categories' => $category->children])
+                @include('webshop.partials.webshop_index', ['categories' => $childs ?? []])
 
             @else
                 <div class="row">

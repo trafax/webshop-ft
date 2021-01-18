@@ -26,6 +26,7 @@ public function index(Request $request, $slug, $url_variations = null)
     }
 
     $category = Category::where('slug', $slug)->firstOrFail();
+    $childs = Category::defaultOrder()->descendantsOf($category->id);
 
     $variations = [];
     $all_products_ids = $category->products()->select('id')->get()->pluck('id');
@@ -73,7 +74,7 @@ public function index(Request $request, $slug, $url_variations = null)
         'description' => t($category, 'seo[description]')
     ];
 
-    return view('webshop.category.index', compact('category', 'products', 'breadcrumbs', 'variations', 'active_variations', 'seo'));
+    return view('webshop.category.index', compact('category', 'products', 'breadcrumbs', 'variations', 'active_variations', 'seo', 'childs'));
 }
 
     public function filter_products($variations = [])

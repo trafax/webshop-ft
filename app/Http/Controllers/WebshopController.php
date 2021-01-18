@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Block;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -21,9 +22,11 @@ class WebshopController extends Controller
         // $categories[99999]->image = '';
         // $categories[99999]->description = '';
 
+        $blocks = Block::where('parent_id', 'webshop')->orderBy('sort')->get();
 
         return view('webshop.index')->with([
             'categories' => $categories,
+            'blocks' => $blocks
         ]);
     }
 
