@@ -102,7 +102,7 @@
                         <li class="nav-item">
                             <a href="{{ route('webshop') }}" class="nav-link">Webshop</a>
                         </li>
-                        {{-- <li class="nav-item dropdown">
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown_voorjaar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! it('dropdown-zomer', 'Voorjaar') !!}</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown_voorjaar">
                                 @foreach(App\Models\Category::where('season', 0)->get() as $dropdown_category)
@@ -117,7 +117,7 @@
                                     <a class="dropdown-item" href="{{ route('category', $dropdown_category->slug) }}">{{ t($dropdown_category, 'title') }}</a>
                                 @endforeach
                             </div>
-                        </li> --}}
+                        </li>
                         @foreach ($menu_items as $menu_item)
                             <li class="nav-item {{ $menu_item->children()->count() > 0 ? 'dropdown' : '' }}">
                                 @if ($menu_item->children()->count() > 0)
