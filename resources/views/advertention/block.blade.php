@@ -8,7 +8,7 @@
         </ol>
         <div class="carousel-inner">
             @foreach($block->assets()->get() as $key => $asset)
-                <div class="carousel-item main-image {{ $key == 0 ? 'active' : '' }}" style="background-image: url('{{ asset('storage/'.$asset->file) }}'); height: {{ @$block->block_data['image_height'] }};">
+                <div class="carousel-item main-image {{ $key == 0 ? 'active' : '' }}" style="background-image: url('{{ asset('storage/'.$asset->file) }}'); background-size: cover; background-position: center; height: {{ @$block->block_data['image_height'] }};">
                     <a href="{{ $asset->file_data['link'] ?? '' }}" class="stretched-link"></a>
                 </div>
             @endforeach
