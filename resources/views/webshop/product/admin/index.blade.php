@@ -2,7 +2,7 @@
 
 @section('content')
 
-@php $getYear = request()->get('year') ? request()->get('year') : date('Y', strtotime(\App\Models\Order::groupByRaw('YEAR(created_at)')->orderBy('created_at', 'DESC')->latest()->first()))  @endphp
+@php $getYear = request()->get('year') ? request()->get('year') : date('Y', strtotime(\App\Models\Order::groupByRaw('YEAR(created_at)')->orderBy('created_at', 'DESC')->latest()->first()->created_at))  @endphp
 
 <div class="container">
     <div class="row">
