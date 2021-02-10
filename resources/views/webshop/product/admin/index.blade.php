@@ -1,6 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
+
+@php $getYear = request()->get('year') ? request()->get('year') : date('Y') @endphp
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -175,7 +178,14 @@
 
                                 </th>
                                 <th scope="col" class="border-top-0">Prijs</th>
-                                <th scope="col" class="border-top-0"></th>
+                                <th scope="col" class="border-top-0">
+                                    Besteld
+                                    <select name="year" class="d-block" onchange="window.location.href = '?year=' + $(this).val()">
+                                        @foreach (\App\Models\Order::groupByRaw('YEAR(created_at)')->orderBy('created_at', 'DESC')->get() as $year)
+                                            <option {{ $getYear == date('Y', strtotime($year->created_at)) ? 'selected' : '' }} value="{{ date('Y', strtotime($year->created_at)) }}">{{ date('Y', strtotime($year->created_at)) }}</option>
+                                        @endforeach
+                                    </select>
+                                </th>
                                 <th scope="col" class="border-top-0">Acties</th>
                             </tr>
                         </thead>
@@ -191,7 +201,7 @@
                                     </td>
                                     <td>&euro; {{ $product->price }}</td>
                                     <td class="small">
-                                        @foreach ($product->ordered() as $rule)
+                                        @foreach ($product->ordered($getYear) as $rule)
                                             @foreach (\App\Models\Variation::where('show_ordered', 1)->get() as $variation)
                                                 @if (@$rule->options[$variation->id])
                                                     {{ $rule->sum }}x {{ @$rule->options[$variation->id] }}<br>

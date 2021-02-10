@@ -18,6 +18,7 @@ class ProductController extends Controller
     public function index($url_variations = null, $season = 0)
     {
         $active_variations = [];
+
         $url_variations_explode = explode('/', $url_variations);
         if ($url_variations_explode)
         foreach ($url_variations_explode as $url_variation)
@@ -51,7 +52,7 @@ class ProductController extends Controller
             $variations[] = $variation;
         }
 
-        // Select filtered products
+        // // Select filtered products
         $product_ids = $this->filter_products([
             'product_ids' => $all_products_ids,
             'variations' => $url_variations
@@ -67,7 +68,7 @@ class ProductController extends Controller
         {
             $products = Product::whereHas('categories', function ($query) use ($season) {
                 $query->where('season', $season);
-            })->orderByRaw('CAST(sku as UNSIGNED) ASC')->get();
+            })->get();
         }
 
         return view('webshop.product.admin.index', compact('products', 'variations', 'active_variations'));

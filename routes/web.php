@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Lang;
 Route::get('admin', 'Auth\LoginController@showLoginForm');
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'auth:admin'], function () {
 
+    Route::get('export', 'ExportController@index');
+
     Route::get('page/tinymce', 'PageController@tinymce_links');
     Route::resource('page', 'PageController');
     Route::get('page/{page}/destroy', 'PageController@destroy')->name('page.destroy');

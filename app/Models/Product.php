@@ -55,9 +55,9 @@ class Product extends Model
         return $this->hasMany('App\Models\Asset', 'parent_id', 'id')->orderBy('sort');
     }
 
-    public function ordered()
+    public function ordered($year = '')
     {
-        $rules = OrderRule::selectRaw('*, sum(qty) as sum')->where('product_id', $this->id)->groupBy('options')->get();
+        $rules = OrderRule::selectRaw('*, sum(qty) as sum')->whereHas('order', function($q) use ($year) {return $q->whereRaw('YEAR(created_at) = '. $year);})->where('product_id', $this->id)->groupBy('options')->get();
 
         $array = [];
         foreach ($rules as $rule)
