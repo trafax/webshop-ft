@@ -105,7 +105,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown_voorjaar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! it('dropdown-spring', 'Voorjaar') !!}</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown_voorjaar">
-                                @foreach(App\Models\Category::where('season', 0)->get() as $dropdown_category)
+                                @foreach(App\Models\Category::where('season', 0)->where('visible', 1)->orderBy('_lft')->get() as $dropdown_category)
                                     <a class="dropdown-item" href="{{ route('category', $dropdown_category->slug) }}">{{ t($dropdown_category, 'title') }}</a>
                                 @endforeach
                             </div>
@@ -113,7 +113,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown_zomer" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{!! it('dropdown-zomer', 'Zomer') !!}</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown_zomer">
-                                @foreach(App\Models\Category::where('season', 1)->get() as $dropdown_category)
+                                @foreach(App\Models\Category::where('season', 1)->where('visible', 1)->orderBy('_lft')->get() as $dropdown_category)
                                     <a class="dropdown-item" href="{{ route('category', $dropdown_category->slug) }}">{{ t($dropdown_category, 'title') }}</a>
                                 @endforeach
                             </div>

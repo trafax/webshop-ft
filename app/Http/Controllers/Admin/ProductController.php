@@ -68,7 +68,7 @@ class ProductController extends Controller
         {
             $products = Product::whereHas('categories', function ($query) use ($season) {
                 $query->where('season', $season);
-            })->get();
+            })->orderBy('sku')->get();
         }
 
         return view('webshop.product.admin.index', compact('products', 'variations', 'active_variations'));
@@ -275,7 +275,7 @@ class ProductController extends Controller
         ->orwhere('sku', 'LIKE', '%'.$request->get('search').'%')
         ->orWhereHas('categories', function($query) use ($request) {
             $query->where('title', $request->get('search'));
-        })->get();
+        })->orderBy('sku')->get();
 
         return view('webshop.product.admin.index', compact('products'));
     }

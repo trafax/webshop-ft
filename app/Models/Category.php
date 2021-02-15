@@ -21,7 +21,7 @@ class Category extends Model
     public $incrementing = false;
 
     public $fillable = [
-        'parent_id', 'title', 'description', 'specs', 'seo', 'slug', 'image', '_lft', '_rgt', 'old_id', 'season', 'featured', 'available_from'
+        'parent_id', 'title', 'description', 'specs', 'seo', 'slug', 'image', '_lft', '_rgt', 'old_id', 'season', 'featured', 'available_from', 'visible'
     ];
 
     public $casts =[

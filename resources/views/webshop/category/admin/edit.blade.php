@@ -66,6 +66,13 @@
                                             <input type="text" name="slug" value="{{ $category->slug }}" class="form-control">
                                         </div>
                                         <div class="form-group">
+                                            <label>Zichtbaar</label>
+                                            <select name="visible" class="form-control">
+                                                <option value="1">Ja</option>
+                                                <option value="0" {{  $category->visible == 0 ? 'selected' : '' }}>Nee</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
                                             <label>Seizoen</label>
                                             <select name="season" class="form-control">
                                                 <option value="0">Voorjaar</option>

@@ -11,7 +11,7 @@ class WebshopController extends Controller
 {
     public function index()
     {
-        $categories = Category::where('parent_id', NULL)->orderBy('_lft')->get()->toTree();
+        $categories = Category::where('parent_id', NULL)->where('visible', 1)->orderBy('_lft')->get()->toTree();
         $app = \app();
 
         // $categories[99999] = $app->make('stdClass');

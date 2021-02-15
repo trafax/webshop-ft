@@ -36,7 +36,7 @@
                                     {
                                         echo '
                                         <tr id="'.$category->id.'">
-                                            <td><a href="'. route('admin.category.edit', $category) .'">'. $prefix . ' ' . $category->title .'</a></td>
+                                            <td><a href="'. route('admin.category.edit', $category) .'">'. ( $category->visible == 0 ? '<i class="fas fa-eye-slash"></i>' : '') . $prefix . ' ' . $category->title .'</a></td>
                                             <td class="small">category/'. $category->slug .'</td>
                                             <td>'. $category->products()->count() .'</td>
                                             <td>'. ($category->season == 1 ? 'Zomer' : 'Voorjaar') .'</td>

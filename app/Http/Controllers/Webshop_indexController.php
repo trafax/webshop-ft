@@ -10,7 +10,7 @@ class Webshop_indexController extends Controller
 {
     public function block(Block $block)
     {
-        $categories = Category::where('parent_id', NULL)->where('featured', 1)->orderBy('_lft')->get()->toTree();
+        $categories = Category::where('visible', 1)->where('featured', 1)->orderBy('_lft')->get();
 
         return view('webshop.blocks.webshop_index', compact('block', 'categories'));
     }
