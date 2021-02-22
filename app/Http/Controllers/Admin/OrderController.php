@@ -214,7 +214,7 @@ class OrderController extends Controller
         $order->save();
     }
 
-    public function search(Request $request)
+    public function search(Request $request, $status = '')
     {
         $orders = Order::where('nr', 'LIKE', '%'.$request->get('search').'%')
         ->orWhere('status', 'LIKE', '%'. $request->get('search') .'%')
@@ -224,6 +224,6 @@ class OrderController extends Controller
         })
         ->orderBy('nr', 'DESC')->paginate(1000);
 
-        return view('webshop.orders.admin.index', compact('orders'));
+        return view('webshop.orders.admin.index', compact('orders', 'status'));
     }
 }
