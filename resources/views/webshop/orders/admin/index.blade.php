@@ -74,7 +74,7 @@
                                     <td>{{ $order->customer->firstname ?? '' }} {{ $order->customer->preposition ?? '' }} {{ $order->customer->lastname ?? '' }}</td>
                                     <td>{{ @strtoupper($order->customer->language_key) }}</td>
                                     <td>€ {{ price($order->total) }}</td>
-                                    <td>{{ $order->status }}</td>
+                                    <td>{{ ($order->status ?? '') }}</td>
                                     <td>{{ ($order->order_status ?? NULL) ? $order->order_status : ' - ' }}</td>
                                     <td class="text-right">
                                         @if ($order->status == 'paid')
