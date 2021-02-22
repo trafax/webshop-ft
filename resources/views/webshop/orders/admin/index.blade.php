@@ -77,7 +77,7 @@
                                     <td>{{ ($order->status ?? '') }}</td>
                                     <td>{{ ($order->order_status ?? NULL) ? $order->order_status : ' - ' }}</td>
                                     <td class="text-right">
-                                        @if ($order->status == 'paid')
+                                        @if (($order->status ?? '') == 'paid')
                                             <a href="{{ route('admin.order.download_invoice', $order) }}">download</a> |
                                         @endif
                                         <a href="{{ route('admin.order.show', $order) }}">bekijk</a> |
