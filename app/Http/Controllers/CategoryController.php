@@ -26,7 +26,7 @@ public function index(Request $request, $slug, $url_variations = null)
     }
 
     $category = Category::where('slug', $slug)->firstOrFail();
-    $childs = Category::defaultOrder()->descendantsOf($category->id);
+    $childs = Category::where('visible', 1)->defaultOrder()->descendantsOf($category->id);
 
     $variations = [];
     $all_products_ids = $category->products()->select('id')->get()->pluck('id');

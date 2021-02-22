@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function index($slug)
     {
-        $product = Product::where('slug', $slug)->firstOrFail();
+        $product = Product::where('slug', $slug)->where('visible', 1)->firstOrFail();
 
         $category = last($product->categories()->get()->toArray());
         $category = (object) $category;

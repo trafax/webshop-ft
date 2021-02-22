@@ -165,11 +165,11 @@ class OrderController extends Controller
                     {
                         $variation = ProductVariation::where(['product_id' => $product->id, 'slug' => $option])->first();
 
-                        if ($variation->fixed_price > 0)
+                        if (($variation->fixed_price ?? null) > 0)
                         {
                             $price = $variation->fixed_price;
                         }
-                        if ($variation->adding_price > 0)
+                        if (($variation->adding_price ?? null ) > 0)
                         {
                             $price = $price + $variation->adding_price;
                         }

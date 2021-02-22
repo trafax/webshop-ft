@@ -68,14 +68,14 @@
                             @php $total = 0; @endphp
                             @foreach ($orders as $order)
                                 @php $total = $total + $order->total; @endphp
-                            <tr class="order_rule {{ $order->status == 'pending' ? 'text-info' : '' }} {{ $order->status == 'paid' ? 'text-success' : '' }} {{ in_array($order->status, ['error', 'expired', 'failed', 'canceled']) ? 'text-danger' : '' }}" data-status="{{ @$order->order_status }}">
+                            <tr class="order_rule {{ ($order->status ?? '') == 'pending' ? 'text-info' : '' }} {{ ($order->status ?? '') == 'paid' ? 'text-success' : '' }} {{ in_array(($order->status ?? ''), ['error', 'expired', 'failed', 'canceled']) ? 'text-danger' : '' }}" data-status="{{ @$order->order_status ?? '' }}">
                                     <td><a href="{{ route('admin.order.show', $order) }}">{{ $order->nr }}</a></td>
                                     <td>{{ $order->created_at->format('d-m-Y H:i') }}</td>
                                     <td>{{ $order->customer->firstname ?? '' }} {{ $order->customer->preposition ?? '' }} {{ $order->customer->lastname ?? '' }}</td>
                                     <td>{{ @strtoupper($order->customer->language_key) }}</td>
                                     <td>€ {{ price($order->total) }}</td>
                                     <td>{{ $order->status }}</td>
-                                    <td>{{ $order->order_status ? $order->order_status : ' - ' }}</td>
+                                    <td>{{ ($order->order_status ?? NULL) ? $order->order_status : ' - ' }}</td>
                                     <td class="text-right">
                                         @if ($order->status == 'paid')
                                             <a href="{{ route('admin.order.download_invoice', $order) }}">download</a> |
