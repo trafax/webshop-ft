@@ -11,6 +11,7 @@ class CartController extends Controller
 {
     public function index()
     {
+        //dd(Cart::content());
         return view('webshop.cart.index');
     }
 
@@ -47,7 +48,8 @@ class CartController extends Controller
                     $price = $price + $variation->adding_price;
                 }
 
-                $option[$variation->variation->id] = t($variation->slug, 'title', '', $variation->slug);
+                //$option[$variation->variation->id] = t($variation->slug, 'title', '', $variation->slug);
+                $option[$variation->variation->id] = $variation->slug;
             }
         }
 
