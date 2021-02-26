@@ -38,7 +38,7 @@
                                         ["Maand", ""],
                                         @foreach ($months as $key => $month)
                                             ['{{ $months[$key] }}',
-                                                {{ App\Models\Order::where('status', 'paid')->whereRaw('month(created_at) = ?', ($key+1))->whereRaw('year(created_at) = ?', $year)->get()->sum('total') }},
+                                                {{ App\Models\Order::where('status', 'paid')->where('order_status', '!=', 'Geannuleerd')->whereRaw('month(created_at) = ?', ($key+1))->whereRaw('year(created_at) = ?', $year)->get()->sum('total') }},
                                             ],
                                         @endforeach
                                     ]);
@@ -67,7 +67,7 @@
                                         ["Maand", ""],
                                         @foreach ($months as $key => $month)
                                             ['{{ $months[$key] }}',
-                                                {{ App\Models\Order::where('status', 'paid')->whereRaw('month(created_at) = ?', ($key+1))->whereRaw('year(created_at) = ?', $year)->get()->count() }},
+                                                {{ App\Models\Order::where('status', 'paid')->where('order_status', '!=', 'Geannuleerd')->whereRaw('month(created_at) = ?', ($key+1))->whereRaw('year(created_at) = ?', $year)->get()->count() }},
                                             ],
                                         @endforeach
                                     ]);
@@ -103,7 +103,7 @@
                                         ["Maand", ""],
                                         @foreach ($months as $key => $month)
                                             ['{{ $months[$key] }}',
-                                                {{ App\Models\Order::where('status', 'paid')->whereRaw('month(created_at) = ?', ($key+1))->whereRaw('year(created_at) = ?', $year)->get()->sum('total') }},
+                                                {{ App\Models\Order::where('status', 'paid')->where('order_status', '!=', 'Geannuleerd')->whereRaw('month(created_at) = ?', ($key+1))->whereRaw('year(created_at) = ?', $year)->get()->sum('total') }},
                                             ],
                                         @endforeach
                                     ]);
@@ -131,7 +131,7 @@
                                         ["Maand", ""],
                                         @foreach ($months as $key => $month)
                                             ['{{ $months[$key] }}',
-                                                {{ App\Models\Order::where('status', 'paid')->whereRaw('month(created_at) = ?', ($key+1))->whereRaw('year(created_at) = ?', $year)->get()->count() }},
+                                                {{ App\Models\Order::where('status', 'paid')->where('order_status', '!=', 'Geannuleerd')->whereRaw('month(created_at) = ?', ($key+1))->whereRaw('year(created_at) = ?', $year)->get()->count() }},
                                             ],
                                         @endforeach
                                     ]);
