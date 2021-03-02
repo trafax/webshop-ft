@@ -36,9 +36,9 @@ class Order extends Model
     {
         $statics['year'] = $year;
 
-        $statics['total'] = Order::where('status', 'paid')->where('order_status', '!=', 'Geannuleerd')->whereYear('created_at', $year)->count();
-        $statics['total_amount'] = Order::selectRaw('SUM(sub_total) as total_amount')->where('status', 'paid')->where('order_status', '!=', 'Geannuleerd')->whereYear('created_at', $year)->first()->total_amount;
-        $statics['total_shipping'] = Order::selectRaw('SUM(shipping) as total_shipping')->where('status', 'paid')->where('order_status', '!=', 'Geannuleerd')->whereYear('created_at', $year)->first()->total_shipping;
+        $statics['total'] = Order::where('status', 'paid')->where(function($q){ return $q->where('order_status', '!=', 'Geannuleerd')->orWhere('order_status', NULL); })->whereYear('created_at', $year)->count();
+        $statics['total_amount'] = Order::selectRaw('SUM(sub_total) as total_amount')->where('status', 'paid')->where(function($q){ return $q->where('order_status', '!=', 'Geannuleerd')->orWhere('order_status', NULL); })->whereYear('created_at', $year)->first()->total_amount;
+        $statics['total_shipping'] = Order::selectRaw('SUM(shipping) as total_shipping')->where('status', 'paid')->where(function($q){ return $q->where('order_status', '!=', 'Geannuleerd')->orWhere('order_status', NULL); })->whereYear('created_at', $year)->first()->total_shipping;
 
         return $statics;
     }
@@ -46,7 +46,7 @@ class Order extends Model
     public static function most_ordered($limit, $year = 0)
     {
         $products = OrderRule::selectRaw('product_id, options, SUM(qty) as total')->whereHas('order', function($q) use ($year) {
-            $q->where('status', 'paid')->where('order_status', '!=', 'Geannuleerd')->whereRaw('YEAR(created_at) = ?', $year);
+            $q->where('status', 'paid')->where(function($q){ return $q->where('order_status', '!=', 'Geannuleerd')->orWhere('order_status', NULL); })->whereRaw('YEAR(created_at) = ?', $year);
         })->groupBy('product_id', 'options')->orderBy('total', 'DESC')->limit($limit)->get();
 
         return $products;
