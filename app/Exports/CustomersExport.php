@@ -2,13 +2,19 @@
 
 namespace App\Exports;
 
-use App\Models\Customer;
+use App\Models\User;
+use Illuminate\Contracts\View\View as View;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class CustomersExport implements FromCollection
+class CustomersExport implements FromView
 {
-    public function collection()
+    public function view(): View
     {
-        return Customer::all();
+        $customers = User::where('role', 'customer')->orderBy('lastname', 'ASC')->get();
+
+        return view('customer.exports.customers', [
+            'customers' => $customers
+        ]);
     }
 }
