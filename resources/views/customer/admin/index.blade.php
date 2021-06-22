@@ -23,6 +23,7 @@
                         </div>
                     </div>
                     <a href="{{ route('admin.customer.create') }}">Klant toevoegen</a>
+                    <a href="{{ route('admin.customer.export') }}">Klanten exporteren</a>
                 </div>
                 <div class="card-body">
                     <table class="table table-hover">

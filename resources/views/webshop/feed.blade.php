@@ -9,7 +9,7 @@
                 <item>
                     <g:id>{{ Str::slug($product->title ?? '' . ' ' . $product->categories->first()->title ?? '') }}</g:id>
                     <title>{{ $product->title ?? '' }}</title>
-                    <description>{{ $product->description }}</description>
+                    <description>{{ strip_tags($product->description) }}</description>
                     <link>{{ route('product', $product->slug) }}</link>
                     <g:price>{{ $product->price ? $product->price : '0,01' }} EUR</g:price>
                     <g:condition>new</g:condition>
